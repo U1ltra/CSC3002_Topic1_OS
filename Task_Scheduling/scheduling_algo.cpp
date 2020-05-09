@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -15,10 +16,10 @@ using namespace std;
 
 scheduling::scheduling(){
     selectAlgo();
-    if (algorithm == _FCFS) setFCFS();
-    Twait = 0;
-    TResp = 0;
-    TCy = 0;
+    getCondition();
+    Twait = AverWait = MaxWait = MinWait = 0;
+    TResp = AverResp = MaxResp = MinResp = 0;
+    TCy = AverCy = MaxCy = MinCy = 0;
 }
 
 bool scheduling::cmpArrivalq(task* a, task* b){
@@ -32,6 +33,7 @@ bool scheduling::cmpPriority(task* a, task* b){
 }
 
 bool scheduling::cmpArrivalt(task* a, task* b){
+    if (a->priority != b->priority)       return a->priority < b->priority;
     if (a->arrivaltime == b->arrivaltime) return a->pid < b->pid;
     return a->arrivaltime < b->arrivaltime;
 }
@@ -47,12 +49,17 @@ bool scheduling::cmpRemain(task* a, task* b){
 }
 
 bool scheduling::comparision(task * a, task * b){
+
     if (algorithm == 0) return cmpArrivalt(a, b);
 }
 
 void scheduling::enqueue(task * a){
+
+
     int position = pqueue.size();
+    cout << "..." << endl;
     pqueue.push_back(a);
+
     if (position == 0) return;
 
     task* parent = pqueue[(position-1)/2];
@@ -74,29 +81,63 @@ void scheduling::selectAlgo(){
     algorithm = (schedulingAlgos) index;
 }
 
-void scheduling::setFCFS(){
+void scheduling::getCondition(){
     int nPR; task *a; int buffer;
+    vector<int> timeDuration, arrivalt, priority;
     cout << "Please enter the total number of processes >>> ";
     cin >> nPR;
-    cout << "Process    Brust Time    Arrival Time (moment)" << endl;
-    cout << "-------    ----------    ---------------------" << endl;
-    for (int i=0; i<nPR; i++)                                   // set pid and brustime for each process
+
+    cout << "Process    Brust Time" << endl;
+    cout << "-------    ----------" << endl;
+    for (int i=0; i<nPR; i++)                                           // set pid and brustime for each process
     {
         a->pid = i;
-        cout << "   P" << i+1 << "          " << endl;
+        cout << "   P" << i+1 << "          ";
         cin >> buffer;
-        a->timeRemain = buffer;
-        cout << "                " << endl;
+        timeDuration.push_back(buffer);
+    }
+
+    cout << "Process    Arrival Time (moment)" << endl;
+    cout << "-------    ---------------------" << endl;
+    for (int i=0; i<nPR; i++)
+    {
+        a->pid = i;
+        cout << "   P" << i+1 << "                ";
         cin >> buffer;
-        a->arrivaltime = buffer;
+        arrivalt.push_back(buffer);
+    }
+
+    cout << "Process    Priority" << endl;
+    cout << "-------    --------" << endl;
+    for (int i=0; i<nPR; i++)
+    {
+        a->pid = i;
+        cout << "   P" << i+1 << "         ";
+        cin >> buffer;
+        priority.push_back(buffer);                                         // priority could be the same
+    }
+
+    for (int i=0; i<nPR; i++){
+        a->pid = i;
+        a->timeRemain = timeDuration[i];
+        a->arrivaltime = arrivalt[i];
+        a->priority = priority[i];
         enqueue(a);
     }
+
+
 }
 
-void scheduling::efficiency(){                                      // need to later change to make operations on individual task distributions
+void scheduling::efficiency(){                                      // need to later change to make operations on individual tasks/process attributes
     int max=-1, min=-1, maxC=-1, minC=-1;
-    for (size_t i=1; i<pqueue.size(); i++) {
-        if (pqueue[i]->arrivaltime < pqueue[i-1]->timeRemain){
+    set<task *> responsed;                                          // store tasks that has already being responsed to
+
+    // this is the first draft of <code>efficienvy</code> which, basically can just dealt with FIFS algorithm //
+    for (size_t i=0; i<exeQ.size(); i++) {                          // if this is a blank period placeholder, ignore it
+        if (exeQ[i]->pid == -1){                                    // when come across blank period, no waiting time or response time or cycling time required
+            continue;
+        }
+        if (pqueue[i]->arrivaltime < pqueue[i+1]->timeRemain){
             int waitTime = pqueue[i-1]->timeRemain - pqueue[i]->arrivaltime;
             Twait += waitTime;
             TCy += waitTime + pqueue[i]->timeRemain;                // total cycling time
@@ -116,52 +157,60 @@ void scheduling::efficiency(){                                      // need to l
 
 }
 
-int scheduling::FCFS(){
-    exeQ = pqueue;                              // for FCFS, the execution queue is jus the same as task queue sorted according to arriveq
-}
 
+int scheduling::FCFS(){                                             // it is also possible to get individual task's attributions here ////
+    for (size_t i=0; i<pqueue.size()-1; i++){
+        exeQ.push_back(pqueue[i]);                                  // push this task in
 
-
-
-
-
-/*
-int FCFS(){
-    int nPR; taskStuc a; int buffer; string press;
-    cout << "Please enter the total number of processes >>> ";
-    cin >> nPR;
-    cout << "Process    Brust Time" << endl;
-    cout << "-------    ----------" << endl;
-    for (int i=0; i<nPR; i++)                                   // set pid and brustime for each process
-    {
-        a.setAttributes("pid", i);
-        cout << "   P" << i+1 << "          " << endl;
-        cin >> buffer;
-        a.setAttributes("brustime", buffer);
-        PROCESSES.push_back(a);
-    }
-
-    cout << "Do you want to specify an arrival queue? (Y/N) >>> ";
-    cin >> press;
-    if (press == "Y" || press == "y"){
-        cout << "Process    Arrival Queue" << endl;
-        cout << "-------    -------------" << endl;
-        for (int i=0; i<nPR; i++){
-            cout << "   P" << i+1 << "            ";
-            cin >> buffer;
-            PROCESSES[i].setAttributes("arrivalq", buffer);
+        int this_end = pqueue[i]->arrivaltime+pqueue[i]->timeRemain;
+        if (this_end < pqueue[i+1]->arrivaltime){                   // check if there is any time blank in between this and the next
+            int blank = pqueue[i+1]->arrivaltime - this_end;
+            task * nope;                                            // create a nope task whose PID is -1 to indicate a blank period
+            nope->timeRemain = blank;
+            exeQ.push_back(nope);
         }
-        sort(PROCESSES.begin(), PROCESSES.end(), a);
     }
-
-    PROCESSES.clear();          // clear the global vector when one simulation is done
+    exeQ.push_back(pqueue[pqueue.size()-1]);                        // push in the last task
+    if (exeQ[0]->arrivaltime != 0){
+        task * blank;
+        blank->timeRemain = exeQ[0]->arrivaltime;
+        exeQ.insert(exeQ.begin(), blank);
+    }
 }
 
 
-int avgWaitingT(){
+int scheduling::SJF(){
+    for (size_t i=0; i<pqueue.size(); i++){
 
+    }
 }
-*/
+
+
+
+
+
+
+
+void scheduling::test(){
+    cout << "---------------------------------" << endl;
+    for (size_t i=0; i<pqueue.size(); i++){
+        cout << "P1:    ";
+        cout << "pid: " << pqueue[i]->pid;
+        cout << "time remain: " << pqueue[i]->timeRemain;
+        cout << "arrive time: " << pqueue[i]->arrivaltime;
+        cout << "priority: " << pqueue[i]->priority;
+    }
+    cout << "---------------------------------" << endl;
+    for (size_t i=0; i<exeQ.size(); i++){
+        cout << "P1:    ";
+        cout << "pid: " << exeQ[i]->pid;
+        cout << "time remain: " << exeQ[i]->timeRemain;
+        cout << "arrive time: " << exeQ[i]->arrivaltime;
+        cout << "priority: " << exeQ[i]->priority;
+    }
+}
+
+
 
 
 

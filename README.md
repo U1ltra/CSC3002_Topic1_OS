@@ -3,7 +3,7 @@
 # CSC3002_Topic1_Operateing_System #
 # ################################ #
 
-* 
+*   -----------------------------------------------------------------------------------  *
 *	Author  : Fangyu Li, Jiarui Li, Wei Wu, Jinru Yu, Shunri Zheng (alphabetical order)
 *	Course  : CSC3002 Programming Paradigms, 2019-2020 spring
 *	Faculty : Prof. Huang
@@ -25,7 +25,7 @@
 *			  [8] www.google.com
 *               
 *   >> Class Project, CSE, DS
-* 
+*   ------------------------------------------------------------------------------------  *
 
 This is a students corporate project.
 

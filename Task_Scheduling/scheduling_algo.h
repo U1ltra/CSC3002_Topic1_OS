@@ -36,7 +36,7 @@ public:
     scheduling(const scheduling &) = default;   // default for now
 
     // destructor //
-    ~scheduling() = default;                // release memory on heap -- later when dynamic array become the implementation of BST, for now just simply use vector //
+    ~scheduling() = default;                    // release memory on heap -- later when dynamic array become the implementation of BST, for now just simply use vector //
 
     /*
      * determine scheduling algo to be used
@@ -44,9 +44,17 @@ public:
     void selectAlgo();
 
     /*
+     * This function is used to get conditions inside terminal interaction.
+     * however, for now it is used to obtain the main attributes ### remember to delete ###
+     * part of the work of this function should be moved to set conditions.
+     */
+    void getCondition();
+
+    /*
      * set the tasks and their attributes to be scheduled, according
      * to the algorithm selected.
      */
+    void setCondition(int, std::vector<int>, std::vector<int>, std::vector<int>);
     void setFCFS();                         // maybe i should condition them inside one <code>set</code> instead //
     void setSJF();                          // leave it for now //
     void setSPN();
@@ -56,16 +64,25 @@ public:
     void setMFQ();
     void setFSS();
 
-
     /*
      * draw ganttchart
      */
     void gantt();
 
+    /*
+     * this is just a simple test function used to check the correctness of private field
+     */
+    void test();
 
     /////////////////////////////
     /// Scheduling Algorithms ///
     /////////////////////////////
+
+    /*
+     * Following algorithms functions will generate a execution queue which
+     * demonstrates the whole execution duration of processes of the given
+     * condition.
+     */
 
     // First-Come First-Served Scheduling //
     int FCFS();
@@ -113,6 +130,24 @@ private:
         bool IO;                // whether the task used I/O devices
         int CPUT;               // cpu time
         int IOT;                // I/O time
+
+
+        /*
+         * Constructor: task
+         * -----------------
+         * This function initializes a task object.
+         * By default <code>pid</code> negavtive number indicates
+         * that this is a null task, meaning a blank period.
+         */
+        task(){
+            pid = -1;
+            IO = false;
+            CPUT = IOT = 0;
+            timeRemain = priority = 0;
+            arrivalq = arrivaltime = 0;
+            waitT = cyclingT = responseT = 0;
+        }
+
     };
 
 
