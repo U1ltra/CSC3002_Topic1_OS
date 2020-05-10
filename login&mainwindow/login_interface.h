@@ -17,6 +17,7 @@ public:
     login_interface(QWidget *parent = nullptr);
     ~login_interface();
 
+
 private slots:
 
 
@@ -26,12 +27,16 @@ private slots:
 
     void on_login_btn_Shutdown_clicked();
 
+    void on_Password_returnPressed();
+
 private:
     Ui::Widget *ui;
     // Instance Variable //
     bool parentMode_active = true;
     QString password;
     QString username;
+
+
     QMap<QString,QString> ParentBook;
     QMap<QString,QString> ChildrenBook;
 

@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QLCDNumber>
+#include "digitalclock.h"
+#include "login_interface.h"
 namespace Ui {
 class MainWindow;
 }
@@ -14,9 +16,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 private slots:
-    void on_btn_clock_clicked();
+
 
     void on_btn_calc_clicked();
 
@@ -30,8 +31,14 @@ private slots:
 
     void on_btn_game_clicked();
 
+    void on_actionSleep_triggered();
+
+    void on_actionShutdown_triggered();
+
 private:
+    // Instance Variable //
     Ui::MainWindow *ui;
+    DigitalClock *clock_display;
 };
 
 #endif // MAINWINDOW_H

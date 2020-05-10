@@ -5,9 +5,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    login_interface w;
-    MainWindow mw;
-    w.show();
+    MainWindow w;
+    login_interface mw;
     mw.show();
+    w.show();
     return a.exec();
 }

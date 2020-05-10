@@ -1,6 +1,6 @@
 #include "login_interface.h"
 #include "mainwindow.h"
-#include "ui_widget.h"
+#include "ui_login_interface.h"
 #include <QString>
 #include <QDebug>
 #include <QMessageBox>
@@ -63,4 +63,9 @@ void login_interface::children_accept(){
 void login_interface::on_login_btn_Shutdown_clicked()
 {
     this->close();
+}
+
+void login_interface::on_Password_returnPressed()
+{
+    login_interface::on_login_btn_Login_clicked();
 }
