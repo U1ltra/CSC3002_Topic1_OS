@@ -18,7 +18,7 @@
  * ---------------------
  * This type respresents the eight scheduling algorithms.
  */
-enum schedulingAlgos {_FCFS, _SJF, _SPN, _SRT, _HRRN, _RR, _MFQ, _FSS};
+enum schedulingAlgos {_FCFS, _SJF, _SRT, _HRRN, _RR, _MFQ, _FSS};
 
 /*
  * Class: scheduling
@@ -38,31 +38,12 @@ public:
     // destructor //
     ~scheduling() = default;                    // release memory on heap -- later when dynamic array become the implementation of BST, for now just simply use vector //
 
-    /*
-     * determine scheduling algo to be used
-     */
-    void selectAlgo();
-
-    /*
-     * This function is used to get conditions inside terminal interaction.
-     * however, for now it is used to obtain the main attributes ### remember to delete ###
-     * part of the work of this function should be moved to set conditions.
-     */
-    void getCondition();
 
     /*
      * set the tasks and their attributes to be scheduled, according
      * to the algorithm selected.
      */
     void setCondition(int, std::vector<int>, std::vector<int>, std::vector<int>);
-    void setFCFS();                         // maybe i should condition them inside one <code>set</code> instead //
-    void setSJF();                          // leave it for now //
-    void setSPN();
-    void setSRT();
-    void setHRRN();
-    void setRR();
-    void setMFQ();
-    void setFSS();
 
     /*
      * draw ganttchart
@@ -90,10 +71,7 @@ public:
     // Shortest-Job First Scheduling //
     int SJF();
 
-    // Shortest-Process Next Scheduling //
-    int SPN();
-
-    // Shortest- Remaining Time Scheduling //
+    // Shortest-Remaining Time Scheduling //
     int SRT();
 
     // Highest-Response Ratio Next Scheduling //
@@ -121,7 +99,7 @@ private:
         int priority;           // priority of different tasks
 
         int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
-        int arrivalq;           // indicates the order of arrival of tasks, not considering the specific time of arrival. used for FCFS
+//        int arrivalq;           // indicates the order of arrival of tasks, not considering the specific time of arrival. used for FCFS
 
         int waitT;
         int cyclingT;
@@ -139,14 +117,10 @@ private:
          * By default <code>pid</code> negavtive number indicates
          * that this is a null task, meaning a blank period.
          */
-        task(){
-            pid = -1;
-            IO = false;
-            CPUT = IOT = 0;
-            timeRemain = priority = 0;
-            arrivalq = arrivaltime = 0;
-            waitT = cyclingT = responseT = 0;
-        }
+        task();
+        task(int, int);
+        task(task &) = default;
+        ~task() = default;
 
     };
 
@@ -180,24 +154,37 @@ private:
     // use a heap data structure to maintain the order of the task queue
     // call cmp when need to compare task attributesd individually -- readability
     // return whether task a has higher priority compared to task b
-    bool cmpArrivalq(task *, task *);
-    bool cmpRemain(task *, task *);
-    bool cmpArrivalt(task *, task *);
-    bool cmpPriority(task *, task *);
-    bool cmpwaitT(task *, task *);
+    static bool cmpArrivalq(task *, task *);                    // static since going to be used by <code>sort</code> func, has to be generalized static func
+    static bool cmpRemain(task *, task *);
+    static bool cmpArrivalt(task *, task *);
+    static bool cmpPriority(task *, task *);
+    static bool cmpwaitT(task *, task *);
+    bool comparision(task *, task *);                           // will make use of schedule object attribute <code>algorithm</code>, therefore cannot be static
 
-    bool comparision(task *, task *);
 
-
-    /*
-     * sort the pqueue in to partially ordered tree according to priority
-     */
-    void sortQueue();
 
     /*
-     * enqueue tasks while keep the partial ordered tree structure
+     * determine scheduling algo to be used
      */
-    void enqueue(task*);
+    void selectAlgo();
+
+    /*
+     * This function is used to get conditions inside terminal interaction.
+     * however, for now it is used to obtain the main attributes ### remember to delete ###
+     * part of the work of this function should be moved to set conditions.
+     */
+    void getCondition();
+
+    /*
+     * sort the pqueue in to partially ordered tree according to priority.
+     * return true any switch happened.
+     */
+    bool sortQueue(std::vector<task *>);
+
+    /*
+     * enqueue tasks while keeping the partial ordered tree structure           // revise to self defined array class later
+     */
+    void enqueue(std::vector<task *>, task *);
 
     /*
      * Average Waiting Time Calculation

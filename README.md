@@ -1,7 +1,7 @@
 
-# ################################ #
+####################################
 # CSC3002_Topic1_Operateing_System #
-# ################################ #
+####################################
 
 *   -----------------------------------------------------------------------------------  *
 *	Author  : Fangyu Li, Jiarui Li, Wei Wu, Jinru Yu, Shunri Zheng (alphabetical order)
@@ -32,4 +32,5 @@ This is a students corporate project.
 The project aims at constructing a operating system simulator.
 
 let's do something
+
 
