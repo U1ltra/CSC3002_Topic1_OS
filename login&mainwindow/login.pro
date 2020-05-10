@@ -17,16 +17,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     DigitalClock.cpp \
+    calculator.cpp \
     login_interface.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     DigitalClock.h \
+    calculator.h \
     login_interface.h \
     mainwindow.h
 
 FORMS += \
+    calculator.ui \
     login_interface.ui \
     mainwindow.ui
 

@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setStatusBar(stBar);
     clock_display = new DigitalClock();
     stBar->addPermanentWidget(clock_display);
-
+    this->setWindowTitle("Main Window");
 }
 
 MainWindow::~MainWindow()

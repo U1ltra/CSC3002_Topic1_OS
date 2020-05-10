@@ -13,7 +13,7 @@ login_interface::login_interface(QWidget *parent)
     ChildrenBook = QMap<QString,QString>();
     ParentBook.insert("parent","1");
     ChildrenBook.insert("child","1");
-
+    this->setWindowTitle("Login Page");
 }
 
 login_interface::~login_interface()
