@@ -1,10 +1,11 @@
 #include "calculator.h"
 #include "ui_calculator.h"
-#include <QDebug>
+
 Calculator::Calculator(QWidget *parent) :
-    QDialog(parent),
+    QWidget(parent),
     ui(new Ui::Calculator)
 {
+    ui->setupUi(this);
     ui->setupUi(this);
     number1 = 0.0;
     number2 = 0.0;
