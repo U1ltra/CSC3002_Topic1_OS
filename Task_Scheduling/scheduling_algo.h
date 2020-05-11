@@ -118,7 +118,7 @@ private:
          * that this is a null task, meaning a blank period.
          */
         task();
-        task(int, int);
+        task(int, int, int);
         task(task &) = default;
         ~task() = default;
 
@@ -164,7 +164,7 @@ private:
 
 
     /*
-     * determine scheduling algo to be used
+     * Determine scheduling algo to be used
      */
     void selectAlgo();
 
@@ -176,15 +176,15 @@ private:
     void getCondition();
 
     /*
-     * sort the pqueue in to partially ordered tree according to priority.
+     * Sort the pqueue in to partially ordered tree according to priority.
      * return true any switch happened.
      */
-    bool sortQueue(std::vector<task *>);
+    bool sortQueue(std::vector<task *> &);
 
     /*
-     * enqueue tasks while keeping the partial ordered tree structure           // revise to self defined array class later
+     * Enqueue tasks while keeping the partial ordered tree structure           // revise to self defined array class later
      */
-    void enqueue(std::vector<task *>, task *);
+    void enqueue(std::vector<task *> &, task * &);
 
     /*
      * Average Waiting Time Calculation
@@ -192,10 +192,15 @@ private:
     int avgWaitingT();
 
     /*
-     * calculate efficiency determinants based on execution queue generated
+     * Calculate efficiency determinants based on execution queue generated
      * by the selected scheduling algorithm
      */
     void efficiency();
+
+    /*
+     * Deep copy for the process queue
+     */
+    std::vector<task *> Qcopy(const std::vector<task *> &);
 
     /*
      * illegalize copying

@@ -21,13 +21,14 @@ scheduling::task::task(){
     waitT = cyclingT = responseT = 0;
 }
 
-scheduling::task::task(int p,int a){
+scheduling::task::task(int p,int a, int arr){
     pid = p;
     IO = false;
     CPUT = IOT = 0;
     timeRemain = a;
-    waitT = cyclingT = responseT = 0;
-    priority = arrivaltime = 0;
+    waitT = priority = 0;
+    cyclingT = responseT = 0;
+    arrivaltime = arr;
 }
 
 scheduling::scheduling(){
@@ -70,10 +71,9 @@ bool scheduling::comparision(task * a, task * b){
     return false; // uselesssssss
 }
 
-void scheduling::enqueue(vector<task *> Q, task * a){
+void scheduling::enqueue(vector<task *> & Q, task * & a){
     int position = Q.size();
     Q.push_back(a);
-
     if (position == 0) return;
 
     task* parent = Q[(position-1)/2];
@@ -88,15 +88,17 @@ void scheduling::enqueue(vector<task *> Q, task * a){
     }
 }
 
-bool scheduling::sortQueue(vector<task *> Q){
+bool scheduling::sortQueue(vector<task *> & Q){
     size_t position = 0;
     size_t newPosition = 0;
     while (position*2+1 < Q.size()){         // keep the queue in a heap structure of BST
         if (position*2+2 < Q.size()){        // always the highest priority task at the front
             newPosition = comparision(Q[position*2+1], Q[position*2+2]) ? position*2+1 : position*2+2;
+            newPosition = comparision(Q[position], Q[newPosition]) ? position : newPosition;
         }else {
             newPosition = comparision(Q[position], Q[position*2+1]) ? position : position*2+1;
         }
+
         if (newPosition == position) break;
         task * buffer = Q[position];
         Q[position] = Q[newPosition];
@@ -115,14 +117,14 @@ void scheduling::selectAlgo(){
 }
 
 void scheduling::getCondition(){
-    int nPR; int buffer;
+    int buffer;
     vector<int> timeDuration, arrivalt, priority;
     cout << "Please enter the total number of processes >>> ";
-    cin >> nPR;
+    cin >> Tprocess;
 
     cout << "Process    Brust Time" << endl;
     cout << "-------    ----------" << endl;
-    for (int i=0; i<nPR; i++)                                           // set pid and brustime for each process
+    for (int i=0; i<Tprocess; i++)                                           // set pid and brustime for each process
     {
         cout << "   P" << i+1 << "          ";
         cin >> buffer;
@@ -131,7 +133,7 @@ void scheduling::getCondition(){
 
     cout << "Process    Arrival Time (moment)" << endl;
     cout << "-------    ---------------------" << endl;
-    for (int i=0; i<nPR; i++)
+    for (int i=0; i<Tprocess; i++)
     {
         cout << "   P" << i+1 << "                ";
         cin >> buffer;
@@ -140,14 +142,14 @@ void scheduling::getCondition(){
 
     cout << "Process    Priority" << endl;
     cout << "-------    --------" << endl;
-    for (int i=0; i<nPR; i++)
+    for (int i=0; i<Tprocess; i++)
     {
         cout << "   P" << i+1 << "         ";
         cin >> buffer;
         priority.push_back(buffer);                                         // priority could be the same
     }
 
-    for (int i=0; i<nPR; i++){
+    for (int i=0; i<Tprocess; i++){
         task *a = new task;
         a->pid = i;
         a->timeRemain = timeDuration[i];
@@ -204,67 +206,116 @@ int scheduling::FCFS(){                                             // it is als
     }
     exeQ.push_back(pqueue[pqueue.size()-1]);                        // push in the last task
 
-    task * blank = new task(-1, exeQ[0]->arrivaltime);
+    task * blank = new task(-1, exeQ[0]->arrivaltime, 0);
     exeQ.insert(exeQ.begin(), blank);                               // always insert a blank task according to the starting time of the first process
 
     return 0;
 }
 
-
 int scheduling::SRT(){
-    int processStart = pqueue[0]->arrivaltime, clock = 0, pid;      // <code>processStart<code> is for recording the starting point of a process
-    bool isBlank;
     sort(pqueue.begin(), pqueue.end(), cmpArrivalt);
     vector<task*> copyQ(pqueue);
     vector<task*> runQ;                                             // queue of task that is under execution
     set<int> responsed;
     set<int> finished;
 
+    int startP = 0;                                                 // <code>processStart<code> is for recording the starting point of a process
+    int clock = 0, arrive, pid;
+
     while (finished.size()!=pqueue.size()){
-        clock++;
-        // blank period //
-        if (runQ.size()==0) isBlank = true;
-        if (!isBlank){
-            isBlank = false;
-            task * nope = new task(-1, clock-processStart);
-            processStart = clock;
-            exeQ.push_back(nope);
-        }
-        // process creation //
-        if (clock > copyQ[0]->arrivaltime && copyQ.size() != 0) {     // since erase will leave the last element at <code>vec[0]</code>
-            enqueue(runQ, copyQ[0]);                                  // shallow copy, therefore all changes to <code>runQ[i]</code>, will affect pqueue
-            copyQ.erase(copyQ.begin());
-        }
         // process execution //
         if (runQ.size()!=0){
             pid = runQ[0]->pid;
+            arrive = runQ[0]->arrivaltime;
             runQ[0]->timeRemain--;                                    // the highest priority task execute for one clock time
             responsed.insert(runQ[0]->pid);
+
             if (runQ[0]->timeRemain == 0) {
                 finished.insert(runQ[0]->pid);
                 runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
                 runQ.erase(runQ.begin());
+                if (runQ.size()!=0) runQ[0]->waitT++;
+                task * period = new task(pid, clock-startP, arrive);
+                startP = clock;
+                exeQ.push_back(period);
             }
         }
         // efficiency attributes //
         for (size_t i=0; i<runQ.size(); i++){                         // for every remaining tasks inside the task queue
-            if (runQ[i]->arrivaltime < clock){                        // if at the moment the task is created
-                if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
-                if (i != 0) pqueue[i]->waitT++;
-            }
+
+            if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
+            if (i != 0) runQ[i]->waitT++;
         }
         // reorder the execution queue //
         if (sortQueue(runQ)){
-            task * period = new task(pid, clock-processStart);        // if the running task changes, need to record the period execution
-            processStart = clock;
+            task * period = new task(pid, clock-startP, arrive);     // if the running task changes, need to record the period execution
+            startP = clock;
             exeQ.push_back(period);
         }
-
+        // process creation //
+        if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {    // since erase will leave the last element at <code>vec[0]</code>
+            enqueue(runQ, copyQ[0]);                                  // shallow copy, therefore all changes to <code>runQ[i]</code>, will affect pqueue
+            copyQ.erase(copyQ.begin());
+            if (runQ.size()==1){                                      // if last period is blank
+                task * nope = new task(-1, clock-startP, -1);
+                startP = clock;
+                exeQ.push_back(nope);
+            }
+        }
+        clock++;
     }
     return 0;
 }
 
 
+int scheduling::SJF(){
+    sort(pqueue.begin(), pqueue.end(), cmpArrivalt);
+    vector<task*> copyQ(pqueue);
+    vector<task*> runQ;                                             // queue of task that is under execution
+    set<int> responsed;
+    set<int> finished;
+
+    int pid, arrive;
+    int clock = 0, startP = 0;
+
+    while (finished.size()!=pqueue.size()){
+        // process execution //
+        if (runQ.size()!=0){
+            pid = runQ[0]->pid;
+            arrive = runQ[0]->arrivaltime;
+            runQ[0]->timeRemain--;                                    // the highest priority task execute for one clock time
+            responsed.insert(runQ[0]->pid);
+        }
+
+        // efficiency attributes //
+        for (size_t i=0; i<runQ.size(); i++){                         // for every remaining tasks inside the task queue
+            if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
+            if (i != 0) runQ[i]->waitT++;
+        }
+
+        // process termination //
+        if (runQ[0]->timeRemain == 0) {
+            finished.insert(runQ[0]->pid);
+            runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
+            runQ.erase(runQ.begin());
+            task * period = new task(pid, clock-startP, arrive);
+            startP = clock;
+            exeQ.push_back(period);
+        }
+
+        // process creation //
+        if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {
+            enqueue(runQ, copyQ[0]);
+            copyQ.erase(copyQ.begin());
+            if (runQ.size()==1){
+                task * nope = new task(-1, clock-startP, -1);
+                startP = clock;
+                exeQ.push_back(nope);
+            }
+        }
+        clock++;
+    }
+}
 
 
 
@@ -277,7 +328,10 @@ void scheduling::test(){
         cout << "pid: " << pqueue[i]->pid;
         cout << "   time remain: " << pqueue[i]->timeRemain;
         cout << "   arrive time: " << pqueue[i]->arrivaltime;
-        cout << "   priority: " << pqueue[i]->priority << endl;
+        cout << "   priority: " << pqueue[i]->priority;
+        cout << "   waitT: " << pqueue[i]->waitT;
+        cout << "   respT: " << pqueue[i]->responseT;
+        cout << "   cyT: " << pqueue[i]->cyclingT << endl;
     }
     cout << "-----------------------------------------------------------------" << endl;
     for (size_t i=0; i<exeQ.size(); i++){
@@ -285,11 +339,16 @@ void scheduling::test(){
         cout << "pid: " << exeQ[i]->pid;
         cout << "   time remain: " << exeQ[i]->timeRemain;
         cout << "   arrive time: " << exeQ[i]->arrivaltime;
+        cout << "   priority: " << exeQ[i]->priority;
         if (exeQ[i]->pid == -1) {
-            cout << "   priority: " << exeQ[i]->priority << endl;
+            cout << endl;
             continue;
         }
-        cout << "   priority: " << exeQ[i]->priority << endl;
+        cout << "   waitT: " << exeQ[i]->waitT;
+        cout << "   respT: " << exeQ[i]->responseT;
+        cout << "   cyT: " << exeQ[i]->cyclingT << endl;
+
+
     }
     cout << "-----------------------------------------------------------------" << endl;
 }
