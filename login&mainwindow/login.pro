@@ -16,20 +16,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Calculator.cpp \
     DigitalClock.cpp \
-    calculator.cpp \
     login_interface.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    Calculator.h \
     DigitalClock.h \
-    calculator.h \
     login_interface.h \
     mainwindow.h
 
 FORMS += \
-    calculator.ui \
+    Calculator.ui \
     login_interface.ui \
     mainwindow.ui
 

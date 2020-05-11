@@ -1,13 +1,13 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-#include <QDialog>
-#include <QString>
+#include <QWidget>
+
 namespace Ui {
 class Calculator;
 }
 
-class Calculator : public QDialog
+class Calculator : public QWidget
 {
     Q_OBJECT
 
@@ -57,5 +57,8 @@ private:
     bool after_equal; //if next_sign == true, next input would have to be a sign. If a number is clicked, next sign would be '+'.
     bool first_equation;// if first_equation == true, if means that this equation is the first equation.
 };
+
+
+
 
 #endif // CALCULATOR_H
