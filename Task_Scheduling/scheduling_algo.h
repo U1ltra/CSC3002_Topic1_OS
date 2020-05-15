@@ -92,11 +92,11 @@ private:
 
     // structure of a individual task/process created //
 
-    struct task{
+    struct task{                // PCB
         std::string taskName;
         int pid;                // identity of tasks, which is according to the creating order of the task. basically is just for reference
         int timeRemain;         // time needed for the task to finish running
-        int priority;           // priority of different tasks
+        double priority;           // priority of different tasks
 
         int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
 //        int arrivalq;           // indicates the order of arrival of tasks, not considering the specific time of arrival. used for FCFS
@@ -118,8 +118,20 @@ private:
          * that this is a null task, meaning a blank period.
          */
         task();
+
+        /*
+         *
+         */
         task(int, int, int);
+
+        /*
+         *
+         */
         task(task &) = default;
+
+        /*
+         *
+         */
         ~task() = default;
 
     };
@@ -154,12 +166,12 @@ private:
     // use a heap data structure to maintain the order of the task queue
     // call cmp when need to compare task attributesd individually -- readability
     // return whether task a has higher priority compared to task b
-    static bool cmpArrivalq(task *, task *);                    // static since going to be used by <code>sort</code> func, has to be generalized static func
-    static bool cmpRemain(task *, task *);
-    static bool cmpArrivalt(task *, task *);
-    static bool cmpPriority(task *, task *);
-    static bool cmpwaitT(task *, task *);
-    bool comparision(task *, task *);                           // will make use of schedule object attribute <code>algorithm</code>, therefore cannot be static
+    static bool cmpArrivalq(const task *, const task *);                    // static since going to be used by <code>sort</code> func, has to be generalized static func
+    static bool cmpRemain(const task *, const task *);
+    static bool cmpArrivalt(const task *, const task *);
+    static bool cmpPriority(const task *, const task *);
+    static bool cmpwaitT(const task *, const task *);
+    bool comparision(const task *, const task *);                           // will make use of schedule object attribute <code>algorithm</code>, therefore cannot be static
 
 
 
@@ -179,12 +191,17 @@ private:
      * Sort the pqueue in to partially ordered tree according to priority.
      * return true any switch happened.
      */
-    bool sortQueue(std::vector<task *> &);
+    bool sortQueue(std::vector<task *> &);                                      // could change into form of iterator
 
     /*
      * Enqueue tasks while keeping the partial ordered tree structure           // revise to self defined array class later
      */
     void enqueue(std::vector<task *> &, task * &);
+
+    /*
+     *
+     */
+    void calPriority(std::vector<task *>::iterator, std::vector<task *>::iterator);
 
     /*
      * Average Waiting Time Calculation

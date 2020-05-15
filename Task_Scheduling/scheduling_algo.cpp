@@ -39,36 +39,43 @@ scheduling::scheduling(){
     TResp = AverResp = MaxResp = MinResp = 0;
 }
 
-bool scheduling::cmpPriority(task* a, task* b){
+bool scheduling::cmpPriority(const task* a, const task* b){
     if (a->priority == b->priority) return a->pid < b->pid;
-    return a->priority < b->priority;
+    return a->priority > b->priority;
 }
 
-bool scheduling::cmpArrivalt(task* a, task* b){
+bool scheduling::cmpArrivalt(const task* a, const task* b){
     if (a->arrivaltime == b->arrivaltime) return a->pid < b->pid;
     return a->arrivaltime < b->arrivaltime;
 }
 
-bool scheduling::cmpwaitT(task* a, task* b){
+bool scheduling::cmpwaitT(const task* a, const task* b){
     if (a->waitT == b->waitT) return a->pid < b->pid;
     int ratio1 = (a->waitT + a->timeRemain) / a->timeRemain;
     int ratio2 = (b->waitT + b->timeRemain) / b->timeRemain;
     return ratio1 < ratio2;
 }
 
-bool scheduling::cmpRemain(task* a, task* b){
+bool scheduling::cmpRemain(const task* a, const task* b){
     if (a->timeRemain == b->timeRemain) return a->pid < b->pid;
     return a->timeRemain < b->timeRemain;
 }
 
-bool scheduling::comparision(task * a, task * b){
+bool scheduling::comparision(const task * a, const task * b){
     if      (algorithm == _FCFS)    return cmpArrivalt(a, b);
     else if (algorithm == _SJF)     return cmpRemain(a, b);
     else if (algorithm == _SRT)     return cmpRemain(a, b);
-    else if (algorithm == _HRRN)    return cmpwaitT(a, b);
+    else if (algorithm == _HRRN)    return cmpPriority(a, b);
 //    else if (algorithm == _RR)      return
 
     return false; // uselesssssss
+}
+
+void scheduling::calPriority(std::vector<task *>::iterator b, std::vector<task *>::iterator e){
+    while (b<e) {
+        (*b)->priority = ((*b)->waitT + (*b)->timeRemain) / (double) (*b)->timeRemain;
+        b++;
+    }
 }
 
 void scheduling::enqueue(vector<task *> & Q, task * & a){
@@ -223,7 +230,7 @@ int scheduling::SRT(){
     int clock = 0, pid = -1, arrive;
 
     while (finished.size()!=pqueue.size()){
-        cout << clock << endl;
+//        cout << clock << endl;
         // process execution //
         if (runQ.size()!=0){
             pid = runQ[0]->pid;
@@ -232,7 +239,7 @@ int scheduling::SRT(){
             responsed.insert(runQ[0]->pid);
 
             if (runQ[0]->timeRemain == 0) {
-                cout << "Termination: pid: " << runQ[0]->pid << endl;
+//                cout << "Termination: pid: " << runQ[0]->pid << endl;
                 finished.insert(runQ[0]->pid);
                 runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
                 runQ[0] = *(runQ.end()-1);
@@ -252,7 +259,7 @@ int scheduling::SRT(){
         }
         // reorder the execution queue //
         if (sortQueue(runQ)){                                        // sort the queue at every cycle
-            cout << "sort happens: " << " pid: " << pid << " arrive: " << arrive << endl;
+//            cout << "sort happens: " << " pid: " << pid << " arrive: " << arrive << endl;
             task * period = new task(pid, clock-startP, arrive);     // if the running task changes, need to record the period execution
             startP = clock;
             exeQ.push_back(period);
@@ -266,7 +273,7 @@ int scheduling::SRT(){
                 startP = clock;
                 exeQ.push_back(period);
             }
-            cout << "runQ[0]->pid" << runQ[0]->pid << endl;
+//            cout << "runQ[0]->pid" << runQ[0]->pid << endl;
             if (runQ.size()==1){                                      // if last period is blank
                 task * nope = new task(-1, clock-startP, -1);
                 startP = clock;
@@ -285,7 +292,7 @@ int scheduling::SJF(){
     vector<task*> runQ;                                             // queue of task that is under execution
     set<int> responsed;
     set<int> finished;
-    task * current;
+    task * current;                                                 // separate the executing task so that the rest of the vector can keep the structure of heap
 
     bool operation = false;
     int pid, arrive;
@@ -340,10 +347,123 @@ int scheduling::SJF(){
         }
         clock++;
     }
+    return 0;
 }
 
 
+int scheduling::HRRN(){
+    sort(pqueue.begin(), pqueue.end(), cmpArrivalt);
+    vector<task*> copyQ(pqueue);
+    vector<task*> runQ;                                             // queue of task that is under execution
+    set<int> responsed;
+    set<int> finished;
 
+    int pid, arrive;
+    int clock = 0, startP = 0;
+
+    while (finished.size()!=pqueue.size()) {
+        cout << clock << endl;
+        if (runQ.size()!=0){
+            pid = runQ[0]->pid;
+            arrive = runQ[0]->arrivaltime;
+            runQ[0]->timeRemain--;
+            responsed.insert(runQ[0]->pid);
+        }
+        for (size_t i=1; i<runQ.size(); i++){
+            if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
+            runQ[i]->waitT++;
+        }
+        if (runQ.size()!=0 && runQ[0]->timeRemain==0) {
+            finished.insert(runQ[0]->pid);
+            runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
+            task * period = new task(pid, clock-startP, arrive);
+            exeQ.push_back(period);                               // terminate and record the finished task
+            startP = clock;
+            runQ.erase(runQ.begin());
+            if (runQ.size()!=0){
+                calPriority(runQ.begin(), runQ.end());            // priority calculation only when a task finishes
+                sort(runQ.begin(), runQ.end(), cmpPriority);
+            }
+        }
+        if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {
+            cout << "arrive >> pid: " << copyQ[0]->pid << endl;
+            runQ.push_back(copyQ[0]);                             // just add to the end and wait for termination of the current task
+            copyQ.erase(copyQ.begin());
+            if (runQ.size()==1){                                  // meaning just now, there is a blank period
+                task * nope = new task(-1, clock-startP, -1);
+                exeQ.push_back(nope);
+
+                startP = clock;
+            }
+        }
+        clock++;
+    }
+    return 0;
+}
+
+int scheduling::RR(){
+
+}
+
+/*
+int scheduling::HRRN(){
+    sort(pqueue.begin(), pqueue.end(), cmpArrivalt);
+    vector<task*> copyQ(pqueue);
+    vector<task*> runQ;                                             // queue of task that is under execution
+    set<int> responsed;
+    set<int> finished;
+    task * current;
+
+    bool operation = false;
+    int pid, arrive;
+    int clock = 0, startP = 0;
+
+    while (finished.size()!=pqueue.size()) {
+        if (operation){
+            pid = current->pid;
+            arrive = current->arrivaltime;
+            current->timeRemain--;
+            responsed.insert(current->pid);
+        }
+        for (size_t i=0; i<runQ.size(); i++){
+            if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
+            runQ[i]->waitT++;
+        }
+        if (operation && runQ[0]->timeRemain==0) {
+            finished.insert(current->pid);
+            current->cyclingT = clock - current->arrivaltime;     // time from creating to completing
+            task * period = new task(pid, clock-startP, arrive);
+            exeQ.push_back(period);                               // terminate and record the finished task
+
+            startP = clock;
+
+            if (runQ.size()!=0){
+                current = runQ[0];
+                runQ.erase(runQ.begin());
+                calPriority(runQ.begin(), runQ.end());            // priority calculation only when a task finishes
+                sort(runQ.begin(), runQ.end(), cmpPriority);
+            }else operation = false;
+        }
+        if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {
+            runQ.push_back(copyQ[0]);                             // just add to the end and wait for termination of the current task
+            copyQ.erase(copyQ.begin());
+            if (!operation && runQ.size()==1){                    // meaning just now, there is a blank period
+                task * nope = new task(-1, clock-startP, -1);
+                exeQ.push_back(nope);
+
+                startP = clock;
+                operation = true;
+                current = runQ[0];                                // the current executing task
+                runQ.erase(runQ.begin());                         // leave the rest be in the BST order
+            }
+
+        }
+
+        clock++;
+    }
+    return 0;
+}
+*/
 
 
 void scheduling::test(){
