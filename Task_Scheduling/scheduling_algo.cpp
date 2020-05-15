@@ -151,7 +151,7 @@ void scheduling::getCondition(){
 
     for (int i=0; i<Tprocess; i++){
         task *a = new task;
-        a->pid = i;
+        a->pid = i+1;
         a->timeRemain = timeDuration[i];
         a->arrivaltime = arrivalt[i];
         a->priority = priority[i];
@@ -220,9 +220,10 @@ int scheduling::SRT(){
     set<int> finished;
 
     int startP = 0;                                                 // <code>processStart<code> is for recording the starting point of a process
-    int clock = 0, arrive, pid;
+    int clock = 0, pid = -1, arrive;
 
     while (finished.size()!=pqueue.size()){
+        cout << clock << endl;
         // process execution //
         if (runQ.size()!=0){
             pid = runQ[0]->pid;
@@ -231,23 +232,27 @@ int scheduling::SRT(){
             responsed.insert(runQ[0]->pid);
 
             if (runQ[0]->timeRemain == 0) {
+                cout << "Termination: pid: " << runQ[0]->pid << endl;
                 finished.insert(runQ[0]->pid);
                 runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
-                runQ.erase(runQ.begin());
+                runQ[0] = *(runQ.end()-1);
+                runQ.erase(runQ.end()-1);
                 if (runQ.size()!=0) runQ[0]->waitT++;
+
                 task * period = new task(pid, clock-startP, arrive);
-                startP = clock;
                 exeQ.push_back(period);
+
+                startP = clock;
             }
         }
         // efficiency attributes //
         for (size_t i=0; i<runQ.size(); i++){                         // for every remaining tasks inside the task queue
-
             if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
             if (i != 0) runQ[i]->waitT++;
         }
         // reorder the execution queue //
-        if (sortQueue(runQ)){
+        if (sortQueue(runQ)){                                        // sort the queue at every cycle
+            cout << "sort happens: " << " pid: " << pid << " arrive: " << arrive << endl;
             task * period = new task(pid, clock-startP, arrive);     // if the running task changes, need to record the period execution
             startP = clock;
             exeQ.push_back(period);
@@ -256,6 +261,12 @@ int scheduling::SRT(){
         if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {    // since erase will leave the last element at <code>vec[0]</code>
             enqueue(runQ, copyQ[0]);                                  // shallow copy, therefore all changes to <code>runQ[i]</code>, will affect pqueue
             copyQ.erase(copyQ.begin());
+            if (runQ[0]->pid!=pid && pid!=-1) {                       // if the currently executing task changed
+                task * period = new task(pid, clock-startP, arrive);
+                startP = clock;
+                exeQ.push_back(period);
+            }
+            cout << "runQ[0]->pid" << runQ[0]->pid << endl;
             if (runQ.size()==1){                                      // if last period is blank
                 task * nope = new task(-1, clock-startP, -1);
                 startP = clock;
@@ -274,43 +285,57 @@ int scheduling::SJF(){
     vector<task*> runQ;                                             // queue of task that is under execution
     set<int> responsed;
     set<int> finished;
+    task * current;
 
+    bool operation = false;
     int pid, arrive;
     int clock = 0, startP = 0;
 
+
     while (finished.size()!=pqueue.size()){
+        cout << clock << endl;
         // process execution //
-        if (runQ.size()!=0){
-            pid = runQ[0]->pid;
-            arrive = runQ[0]->arrivaltime;
-            runQ[0]->timeRemain--;                                    // the highest priority task execute for one clock time
-            responsed.insert(runQ[0]->pid);
+        if (operation){
+            pid = current->pid;
+            arrive = current->arrivaltime;
+            current->timeRemain--;                                    // the highest priority task execute for one clock time
+            responsed.insert(current->pid);
         }
 
         // efficiency attributes //
         for (size_t i=0; i<runQ.size(); i++){                         // for every remaining tasks inside the task queue
             if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
-            if (i != 0) runQ[i]->waitT++;
+            runQ[i]->waitT++;                                         // unlike SRT, the runQ now are all waiting tasks
         }
 
         // process termination //
-        if (runQ[0]->timeRemain == 0) {
-            finished.insert(runQ[0]->pid);
-            runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
-            runQ.erase(runQ.begin());
+        if (operation && current->timeRemain == 0) {
+            finished.insert(current->pid);
+            current->cyclingT = clock - current->arrivaltime;     // time from creating to completing
             task * period = new task(pid, clock-startP, arrive);
-            startP = clock;
-            exeQ.push_back(period);
+            exeQ.push_back(period);                               // terminate and record the finished task
+
+            startP = clock;                                       // start a new task
+            if (runQ.size()!=0){
+                current = runQ[0];
+                runQ[0] = *(runQ.end()-1);
+                runQ.erase(runQ.end()-1);
+                sortQueue(runQ);
+            }else operation = false;
         }
 
         // process creation //
         if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {
             enqueue(runQ, copyQ[0]);
             copyQ.erase(copyQ.begin());
-            if (runQ.size()==1){
+            if (!operation && runQ.size()==1){                    // meaning just now, there is a blank period
                 task * nope = new task(-1, clock-startP, -1);
-                startP = clock;
                 exeQ.push_back(nope);
+
+                startP = clock;
+                operation = true;
+                current = runQ[0];                                // the current executing task
+                runQ.erase(runQ.begin());                         // leave the rest be in the BST order
             }
         }
         clock++;

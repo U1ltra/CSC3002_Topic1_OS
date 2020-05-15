@@ -18,7 +18,7 @@
  * ---------------------
  * This type respresents the eight scheduling algorithms.
  */
-enum schedulingAlgos {_FCFS, _SJF, _SRT, _HRRN, _RR, _MFQ, _FSS};
+enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
 
 /*
  * Class: scheduling
