@@ -66,15 +66,28 @@ public:
      */
 
     // First-Come First-Served Scheduling //
+    /*
+     * schedule solely according to the arrive sequence
+     */
     int FCFS();
 
     // Shortest-Job First Scheduling //
+    /*
+     * execute the job with shortest execution time in the list
+     */
     int SJF();
 
     // Shortest-Remaining Time Scheduling //
+    /*
+     * execute the process with the shortest remaining time in the queue.
+     * allows race to control
+     */
     int SRT();
 
     // Highest-Response Ratio Next Scheduling //
+    /*
+     *
+     */
     int HRRN();
 
     // Round_Robin Scheduling //
@@ -140,6 +153,7 @@ private:
     // simulation info //
 
     int Tprocess;               // total number of tasks/processes
+    int slice;                  // time slice for RR -- i need to tear different algorithms apart
     schedulingAlgos algorithm;  // selected scheduling algorithm
     std::vector<task*> pqueue;  // contain all tasks
     std::vector<task*> exeQ;    // in the order of execution        // maybe not necessary
