@@ -1,0 +1,11 @@
+release/calculator.o
+release/digitalclock.o
+release/login_interface.o
+release/main.o
+release/mainwindow.o
+release/texteditor.o
+release/moc_calculator.o
+release/moc_digitalclock.o
+release/moc_login_interface.o
+release/moc_mainwindow.o
+release/moc_texteditor.o

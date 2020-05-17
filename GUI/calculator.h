@@ -2,7 +2,7 @@
 #define CALCULATOR_H
 
 #include <QWidget>
-
+#include <QString>
 namespace Ui {
 class Calculator;
 }
@@ -14,7 +14,8 @@ class Calculator : public QWidget
 public:
     explicit Calculator(QWidget *parent = nullptr);
     ~Calculator();
-
+    void setID(int id);
+    QString getID();
 private slots:
     void on_calc_btn_1_clicked();
 
@@ -56,6 +57,7 @@ private:
     bool last_number;// if last_number == true, last input is integer, otherwise, it is sign.
     bool after_equal; //if next_sign == true, next input would have to be a sign. If a number is clicked, next sign would be '+'.
     bool first_equation;// if first_equation == true, if means that this equation is the first equation.
+    int pid;
 };
 
 #endif // CALCULATOR_H

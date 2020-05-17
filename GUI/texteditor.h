@@ -15,7 +15,8 @@ class TextEditor : public QMainWindow
 public:
     explicit TextEditor(QWidget *parent = nullptr);
     ~TextEditor();
-
+    void setID(int id);
+    QString getID();
 private slots:
     void on_action_NewFile_triggered();
 
@@ -43,6 +44,7 @@ private:
     Ui::TextEditor *ui;
     bool isSaved;
     QString currFile;
+    int pid;
 
     void saveFile(QString filePath);
     void saveAsFile();

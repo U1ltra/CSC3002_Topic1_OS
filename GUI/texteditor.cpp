@@ -2,10 +2,10 @@
 #include "ui_texteditor.h"
 #include <QLabel>
 #include <QLineEdit>
-#include <QMessageBox>
-#include <QFileDialog>
+//#include <QMessageBox>
+//#include <QFileDialog>
 
-
+/*
 TextEditor::TextEditor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
@@ -135,3 +135,12 @@ void TextEditor::checkIfSaved() {
         }
     }
 }
+
+void TextEditor::setID(int id){
+    pid = id;
+}
+
+QString TextEditor::getID(){
+    return "TextEditor"+QString::number(pid);
+}
+*/

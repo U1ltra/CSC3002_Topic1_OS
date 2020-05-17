@@ -257,3 +257,11 @@ void Calculator::on_calc_btn_clean_clicked()
     sign=' ';
     after_equal = false;
 }
+
+void Calculator::setID(int id){
+    pid = id;
+}
+
+QString Calculator::getID(){
+    return "Calculator"+QString::number(pid);
+}
