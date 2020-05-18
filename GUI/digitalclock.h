@@ -12,11 +12,12 @@ class DigitalClock : public QLCDNumber
 
 public:
      DigitalClock();
-
+     void setID(int id);
+     QString getID();
 
 private:
      QTimer clock_timer;
-
+     int pid;
 private slots:
      void ontimeout();
 };

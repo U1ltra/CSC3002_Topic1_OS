@@ -2,7 +2,6 @@
 #include <QLCDNumber>
 #include <QTimer>
 #include <QDateTime>
-#include <QDebug>
 DigitalClock::DigitalClock():
     QLCDNumber()
 {
@@ -23,4 +22,10 @@ void DigitalClock::ontimeout(){
     this->display(datetime.toString("yyyy-MM-dd HH:mm:ss"));
 }
 
+void DigitalClock::setID(int id){
+    pid = id;
+}
 
+QString DigitalClock::getID(){
+    return "DigitalClock"+QString::number(pid);
+}
