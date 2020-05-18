@@ -31,29 +31,48 @@ enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
 class scheduling{
 public:
 
-    // constructors //
+    /* Constructor: scheduling
+     * -----------------------
+     * Initialize the private data
+     */
     scheduling();
-    scheduling(const scheduling &) = default;   // default for now
+    scheduling(const scheduling &) = default;
 
-    // destructor //
-    ~scheduling() = default;                    // release memory on heap -- later when dynamic array become the implementation of BST, for now just simply use vector //
+    /* Destructor: ~scheduling
+     * -----------------------
+     * Release <code>task</code> object created on heap
+     */
+    ~scheduling();
 
+
+    // function for widget-based interation //
 
     /*
-     * set the tasks and their attributes to be scheduled, according
-     * to the algorithm selected.
+     * Set the tasks and their attributes to be scheduled, according
+     * to the algorithm selected. This is the setting function interface
+     * for data inputted from the GUI.
      */
-    void setCondition(int, std::vector<int>, std::vector<int>, std::vector<int>);
+    void setCondition(int, std::vector<int>, std::vector<int>, std::vector<int>, int);
+
+
+    // functions for console-based interaction //
 
     /*
-     * draw ganttchart
+     * Determine scheduling algo to be used
      */
-    void gantt();
+    void selectAlgo();
 
     /*
-     * this is just a simple test function used to check the correctness of private field
+     * This function is used to get conditions inside terminal interaction.
      */
-    void test();
+    void getCondition();
+
+    /*
+     * This is just a simple test function used to check the correctness of
+     * private field in console
+     */
+    void check();
+
 
     /////////////////////////////
     /// Scheduling Algorithms ///
@@ -67,30 +86,34 @@ public:
 
     // First-Come First-Served Scheduling //
     /*
-     * schedule solely according to the arrive sequence
+     * Schedule solely according to the arrive sequence
      */
     int FCFS();
 
     // Shortest-Job First Scheduling //
     /*
-     * execute the job with shortest execution time in the list
+     * Execute the job with shortest execution time in the list
      */
     int SJF();
 
     // Shortest-Remaining Time Scheduling //
     /*
-     * execute the process with the shortest remaining time in the queue.
+     * Execute the process with the shortest remaining time in the queue.
      * allows race to control
      */
     int SRT();
 
     // Highest-Response Ratio Next Scheduling //
     /*
-     *
+     * Calculate the response ratio everytime when CPU finishes one task
      */
     int HRRN();
 
     // Round_Robin Scheduling //
+    /*
+     * Preeptive method. Check the priority at the end of every specified
+     * time slice.
+     */
     int RR();
 
     // Multipule-Feedback Queque Scheduling //
@@ -99,20 +122,50 @@ public:
     // Fair-Sharing Scheduling //
     int FSS();
 
+    /*
+     * Start the simulation
+     */
+    void simulation();
+
+    /*
+     * Get private data related to waiting time
+     */
+    int getWait(std::string);
+
+    /*
+     * Get private data related to response time
+     */
+    int getRes(std::string);
+
+    /*
+     * Get private data related to cycling time
+     */
+    int getCy(std::string);
+
+    /*
+     * Get execution queue
+     */
+    template<typename ValueType>
+    ValueType getExeQ();
+
+
 
 private:
 
+    //////////////////////////
+    /// private data field ///
+    //////////////////////////
 
     // structure of a individual task/process created //
 
     struct task{                // PCB
+
         std::string taskName;
         int pid;                // identity of tasks, which is according to the creating order of the task. basically is just for reference
         int timeRemain;         // time needed for the task to finish running
-        double priority;           // priority of different tasks
+        double priority;        // priority of different tasks
 
         int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
-//        int arrivalq;           // indicates the order of arrival of tasks, not considering the specific time of arrival. used for FCFS
 
         int waitT;
         int cyclingT;
@@ -133,17 +186,19 @@ private:
         task();
 
         /*
-         *
+         * Assignment constructor for task
          */
         task(int, int, int);
 
         /*
-         *
+         * Copying assignment
          */
         task(task &) = default;
 
         /*
-         *
+         * Destructor: ~task
+         * -----------------
+         * Default since no on heap memory is allocated in constructor
          */
         ~task() = default;
 
@@ -159,7 +214,8 @@ private:
     std::vector<task*> exeQ;    // in the order of execution        // maybe not necessary
 
     // user experience determinants //
-    int Twait;                  // total waiting time - not necessary
+
+    int Twait;                  // total waiting time
     int AverWait;               // averge waiting time
     int MaxWait;
     int MinWait;
@@ -173,33 +229,32 @@ private:
     int MinCy;
 
     // system efficiency determinants //
+
     float CPU_rate;             // percentage of time when cpu is occupied
     int throughput;             // tasks finished per unit time
 
 
-    // use a heap data structure to maintain the order of the task queue
-    // call cmp when need to compare task attributesd individually -- readability
-    // return whether task a has higher priority compared to task b
-    static bool cmpArrivalq(const task *, const task *);                    // static since going to be used by <code>sort</code> func, has to be generalized static func
+
+    ///////////////////////
+    /// private methods ///
+    ///////////////////////
+
+    /*
+     * Return whether task a has higher priority compared to task b.
+     * Static since going to be used by <code>sort</code> func,
+     * has to be generalized static func.
+     */
     static bool cmpRemain(const task *, const task *);
     static bool cmpArrivalt(const task *, const task *);
     static bool cmpPriority(const task *, const task *);
     static bool cmpwaitT(const task *, const task *);
-    bool comparision(const task *, const task *);                           // will make use of schedule object attribute <code>algorithm</code>, therefore cannot be static
-
-
 
     /*
-     * Determine scheduling algo to be used
+     * Select one of the <code>cmp</code> function to use, according to
+     * the chosen slgorithm. This is not a static function since it has
+     * to make use of <code>algorithm</code> private data.
      */
-    void selectAlgo();
-
-    /*
-     * This function is used to get conditions inside terminal interaction.
-     * however, for now it is used to obtain the main attributes ### remember to delete ###
-     * part of the work of this function should be moved to set conditions.
-     */
-    void getCondition();
+    bool comparision(const task *, const task *);
 
     /*
      * Sort the pqueue in to partially ordered tree according to priority.
@@ -213,14 +268,10 @@ private:
     void enqueue(std::vector<task *> &, task * &);
 
     /*
-     *
+     * Calculate response ratio of every remaining tasks.
+     * Used in HRRN.
      */
     void calPriority(std::vector<task *>::iterator, std::vector<task *>::iterator);
-
-    /*
-     * Average Waiting Time Calculation
-     */
-    int avgWaitingT();
 
     /*
      * Calculate efficiency determinants based on execution queue generated
@@ -239,6 +290,12 @@ private:
     scheduling & operator=(const scheduling &);
 };
 
+
+
+template<typename ValueType>
+ValueType scheduling::getExeQ(){
+    return exeQ;
+}
 
 
 #endif // SCHEDULING_ALGO_H
