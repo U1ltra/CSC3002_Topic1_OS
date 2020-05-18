@@ -4,7 +4,7 @@
 ####################################
 
 *   -----------------------------------------------------------------------------------  *
-*	Author  : Fangyu Li, Jiarui Li, Wei Wu, Jinru Yu, Shunri Zheng (alphabetical order)
+*	Author  : Fangyu Li, Jiarui Li, Wei Wu, Jinru Yu, Shunri Zheng, Zhixiang Zhou(alphabetical order)
 *	Course  : CSC3002 Programming Paradigms, 2019-2020 spring
 *	Faculty : Prof. Huang
 *	Topic   : Operating System simulation
