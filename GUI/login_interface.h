@@ -1,7 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-//#include <QWidget>
+#include <QWidget>
 #include <QString>
 #include <QMap>
 #include <QTimer>

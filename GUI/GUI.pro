@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     calculator.cpp \
-    calendar.cpp \
     digitalclock.cpp \
     login_interface.cpp \
     main.cpp \
@@ -26,7 +25,6 @@ SOURCES += \
 
 HEADERS += \
     calculator.h \
-    calendar.h \
     digitalclock.h \
     login_interface.h \
     mainwindow.h \
