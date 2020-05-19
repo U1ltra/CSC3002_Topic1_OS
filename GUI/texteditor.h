@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QString>
-
+#include <QLineEdit>
+#include "cpuMon.h"
+#include <QTimer>
 namespace Ui {
 class TextEditor;
 }
@@ -14,9 +16,10 @@ class TextEditor : public QMainWindow
 
 public:
     explicit TextEditor(QWidget *parent = nullptr);
+    void setPID(int pid);
+    void set_CPU(cpuMon*);
     ~TextEditor();
-    void setID(int id);
-    QString getID();
+
 private slots:
     void on_action_NewFile_triggered();
 
@@ -38,17 +41,36 @@ private slots:
 
     void on_action_Find_triggered();
 
-    void do_cursorChanged();
+    void findText();
+
+    void to_simple_Click();
+
+    void to_effect_Click();
+
+    void to_moving_around();
+
+    void back_to_fluctuation();
+
+    void texting();
 
 private:
     Ui::TextEditor *ui;
     bool isSaved;
+    bool hasPath;
     QString currFile;
-    int pid;
-
+    QLineEdit *findLine;
     void saveFile(QString filePath);
     void saveAsFile();
-    void checkIfSaved();
+    bool checkIfSaved();
+
+    int PID;
+    QTimer *system_timer;
+    cpuMon* CPU;
+    QTimer* sleeper;
+    void sleeping();
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
 };
 
 #endif // TEXTEDITOR_H

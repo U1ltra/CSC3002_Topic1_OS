@@ -1,6 +1,6 @@
 #include "calculator.h"
 #include "ui_calculator.h"
-
+#include <QTimer>
 Calculator::Calculator(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Calculator)
@@ -14,21 +14,29 @@ Calculator::Calculator(QWidget *parent) :
     after_equal = false;
     this->setWindowTitle("Calculator");
     connect(ui->calc_btn_clean,SIGNAL(clicked()),this,SLOT(on_calc_btn_clean_clicked()));
+
+    setMouseTracking(true);
+
+    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer->setSingleShot(true);
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
 }
 
 Calculator::~Calculator()
-{
+{   CPU->terminateP(PID);
     delete ui;
 }
 
 void Calculator::on_calc_btn_1_clicked()
-{
+{   to_effect_Click();
+    sleeping();
     if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="1";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+1;
     }else
@@ -38,13 +46,15 @@ void Calculator::on_calc_btn_1_clicked()
 }
 
 void Calculator::on_calc_btn_2_clicked()
-{
+{   to_effect_Click();
+    sleeping();
     if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="2";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+2;
     }else
@@ -54,13 +64,15 @@ void Calculator::on_calc_btn_2_clicked()
 }
 
 void Calculator::on_calc_btn_3_clicked()
-{
+{   to_effect_Click();
+    sleeping();
     if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="3";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+3;
     }else
@@ -70,12 +82,15 @@ void Calculator::on_calc_btn_3_clicked()
 }
 
 void Calculator::on_calc_btn_4_clicked()
-{    if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="4";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+4;
     }else
@@ -85,12 +100,15 @@ void Calculator::on_calc_btn_4_clicked()
 }
 
 void Calculator::on_calc_btn_5_clicked()
-{    if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="5";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+5;
     }else
@@ -100,12 +118,15 @@ void Calculator::on_calc_btn_5_clicked()
 }
 
 void Calculator::on_calc_btn_6_clicked()
-{    if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="6";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+6;
     }else
@@ -115,12 +136,15 @@ void Calculator::on_calc_btn_6_clicked()
 }
 
 void Calculator::on_calc_btn_7_clicked()
-{    if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="7";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+7;
     }else
@@ -130,12 +154,15 @@ void Calculator::on_calc_btn_7_clicked()
 }
 
 void Calculator::on_calc_btn_8_clicked()
-{    if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="8";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+8;
     }else
@@ -145,12 +172,15 @@ void Calculator::on_calc_btn_8_clicked()
 }
 
 void Calculator::on_calc_btn_9_clicked()
-{   if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="9";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10+9;
     }else
@@ -160,12 +190,15 @@ void Calculator::on_calc_btn_9_clicked()
 }
 
 void Calculator::on_calc_btn_0_clicked()
-{   if (after_equal){
+{   to_effect_Click();
+    sleeping();
+    if (after_equal){
         on_calc_btn_plus_clicked();
         after_equal = false;
     }
     S+="0";
     ui->screen->setText(S);
+    calculating();
     if(last_number){
      number1=number1*10;
     }else
@@ -175,7 +208,9 @@ void Calculator::on_calc_btn_0_clicked()
 }
 
 void Calculator::on_calc_btn_plus_clicked()
-{   if (number2 != 0.0){
+{   to_effect_Click();
+    sleeping();
+    if (number2 != 0.0){
         on_calc_btn_equal_clicked();
     }
     S+="+";
@@ -186,7 +221,9 @@ void Calculator::on_calc_btn_plus_clicked()
 }
 
 void Calculator::on_calc_btn_minus_clicked()
-{   if (number2 != 0.0){
+{   to_effect_Click();
+    sleeping();
+    if (number2 != 0.0){
     on_calc_btn_equal_clicked();
     }
     S+="-";
@@ -197,7 +234,9 @@ void Calculator::on_calc_btn_minus_clicked()
 }
 
 void Calculator::on_calc_btn_multipy_clicked()
-{   if (number2 != 0.0){
+{   to_effect_Click();
+    sleeping();
+    if (number2 != 0.0){
         on_calc_btn_equal_clicked();
     }
     S+="*";
@@ -208,7 +247,9 @@ void Calculator::on_calc_btn_multipy_clicked()
 }
 
 void Calculator::on_calc_btn_division_clicked()
-{   if (number2 != 0.0){
+{   to_effect_Click();
+    sleeping();
+    if (number2 != 0.0){
         on_calc_btn_equal_clicked();
     }
     S+="/";
@@ -219,8 +260,10 @@ void Calculator::on_calc_btn_division_clicked()
 }
 
 void Calculator::on_calc_btn_equal_clicked()
-{
+{   to_effect_Click();
+    sleeping();
     S+="=";
+    calculating();
     switch (sign) {
     case '+':
        result = number1 + number2;
@@ -247,7 +290,8 @@ void Calculator::on_calc_btn_equal_clicked()
 }
 
 void Calculator::on_calc_btn_clean_clicked()
-{
+{   to_effect_Click();
+    sleeping();
     S="";
     ui->screen->setText(S);
     last_number=true;
@@ -258,10 +302,57 @@ void Calculator::on_calc_btn_clean_clicked()
     after_equal = false;
 }
 
-void Calculator::setID(int id){
-    pid = id;
+void Calculator::set_CPU(cpuMon * cpu){
+    CPU=cpu;
+    CPU->createP(PID,"Calculator",user);
 }
 
-QString Calculator::getID(){
-    return "Calculator"+QString::number(pid);
+
+void Calculator::setPID(int pid){
+    PID=pid;
+}
+
+void Calculator::mousePressEvent(QMouseEvent *e){
+    to_simple_Click();
+    system_timer->start(100);
+}
+
+void Calculator::mouseMoveEvent(QMouseEvent *e)
+{
+    to_moving_around();
+    system_timer->start(100);
+}
+
+
+void Calculator::back_to_fluctuation(){
+    CPU->operationDet(PID,fluctuation);
+}
+
+
+void Calculator::to_effect_Click(){
+    CPU->operationDet(PID,effectClick);
+    system_timer->start(100);
+}
+
+void Calculator::to_simple_Click(){
+    CPU->operationDet(PID,simpleClick);
+    system_timer->start(100);
+}
+
+void Calculator::to_moving_around(){
+    CPU->operationDet(PID,movingAround);
+    system_timer->start(100);
+}
+
+void Calculator::calculating(){
+    CPU->operationDet(PID,calculation);
+    system_timer->start(100);
+}
+
+void Calculator::sleeping(){
+    if (CPU->isBusy()){
+    sleeper = new QTimer();
+    sleeper->setSingleShot(true);
+    sleeper->start(500);
+    }
 }

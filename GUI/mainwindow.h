@@ -5,8 +5,9 @@
 #include <QLCDNumber>
 #include "digitalclock.h"
 #include "calculator.h"
-#include "calendar.h"
-#include <QMap>
+#include "texteditor.h"
+#include "visualfilemanager.h"
+#include <QMouseEvent>
 namespace Ui {
 class MainWindow;
 }
@@ -20,6 +21,7 @@ public:
     ~MainWindow();
 
 private slots:
+
 
     void on_btn_calc_clicked();
 
@@ -37,17 +39,32 @@ private slots:
 
     void on_actionShutdown_triggered();
 
-    void delete_Program(QString pid);
-
+    void back_to_fluctuation();
 private:
     // Instance Variable //
+
     Ui::MainWindow *ui;
     DigitalClock *clock_display;
     Calculator *cal;
-    Calendar *calendar;
-    int Calculator_Count,Calendar_Count,FileSystem_Count,TaskManager_Count,
-    TextEditor_Counter,Game_Count,Clock_Count;
-    QMap<QString,QObject*>Programs;
+    TextEditor *text_editor;
+    VisualFileManager *vfm;
+    QTimer *system_timer;
+    int calculator_count = 1,
+    digial_clock_count = 1,
+    text_editor_count = 1,
+    calendar_count = 1;
+    int PID=0;
+    cpuMon* CPU;
+
+    void to_simple_Click();
+
+    void to_effect_Click();
+
+    void to_moving_around();
+
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
 };
 
 #endif // MAINWINDOW_H

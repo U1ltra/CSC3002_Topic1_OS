@@ -19,29 +19,44 @@ SOURCES += \
     calculator.cpp \
     calendar.cpp \
     digitalclock.cpp \
+    error.cpp \
     login_interface.cpp \
     main.cpp \
     mainwindow.cpp \
-    texteditor.cpp
+    texteditor.cpp \
+    visualfilemanager.cpp
 
 HEADERS += \
     calculator.h \
     calendar.h \
+    cpuMon.h \
     digitalclock.h \
+    error.h \
     login_interface.h \
     mainwindow.h \
     texteditor.h \
     ui_calculator.h \
     ui_login_interface.h \
-    ui_widget.h
+    ui_widget.h \
+    visualfilemanager.h
 
 FORMS += \
     calculator.ui \
+    error.ui \
     login_interface.ui \
     mainwindow.ui \
-    texteditor.ui
+    texteditor.ui \
+    visualfilemanager.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    .DS_Store \
+    File.jpg \
+    Menu.jpg
+
+RESOURCES += \
+    image.qrc
