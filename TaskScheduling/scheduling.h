@@ -31,15 +31,13 @@ enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
 class scheduling{
 public:
 
-    /* Constructor: scheduling
-     * -----------------------
+    /*
      * Initialize the private data
      */
     scheduling();
     scheduling(const scheduling &) = default;
 
-    /* Destructor: ~scheduling
-     * -----------------------
+    /*
      * Release <code>task</code> object created on heap
      */
     ~scheduling();
@@ -84,42 +82,42 @@ public:
      * condition.
      */
 
-    // First-Come First-Served Scheduling //
+    /// First-Come First-Served Scheduling ///
     /*
      * Schedule solely according to the arrive sequence
      */
     int FCFS();
 
-    // Shortest-Job First Scheduling //
+    /// Shortest-Job First Scheduling ///
     /*
      * Execute the job with shortest execution time in the list
      */
     int SJF();
 
-    // Shortest-Remaining Time Scheduling //
+    /// Shortest-Remaining Time Scheduling ///
     /*
      * Execute the process with the shortest remaining time in the queue.
      * allows race to control
      */
     int SRT();
 
-    // Highest-Response Ratio Next Scheduling //
+    /// Highest-Response Ratio Next Scheduling ///
     /*
      * Calculate the response ratio everytime when CPU finishes one task
      */
     int HRRN();
 
-    // Round_Robin Scheduling //
+    /// Round_Robin Scheduling ///
     /*
      * Preeptive method. Check the priority at the end of every specified
      * time slice.
      */
     int RR();
 
-    // Multipule-Feedback Queque Scheduling //
+    /// Multipule-Feedback Queque Scheduling ///
     int MFQ();
 
-    // Fair-Sharing Scheduling //
+    /// Fair-Sharing Scheduling ///
     int FSS();
 
     /*
@@ -149,7 +147,6 @@ public:
     ValueType getExeQ();
 
 
-
 private:
 
     //////////////////////////
@@ -163,9 +160,8 @@ private:
         std::string taskName;
         int pid;                // identity of tasks, which is according to the creating order of the task. basically is just for reference
         int timeRemain;         // time needed for the task to finish running
-        double priority;        // priority of different tasks
-
         int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
+        double priority;        // priority of different tasks
 
         int waitT;
         int cyclingT;
@@ -177,8 +173,6 @@ private:
 
 
         /*
-         * Constructor: task
-         * -----------------
          * This function initializes a task object.
          * By default <code>pid</code> negavtive number indicates
          * that this is a null task, meaning a blank period.
@@ -196,8 +190,6 @@ private:
         task(task &) = default;
 
         /*
-         * Destructor: ~task
-         * -----------------
          * Default since no on heap memory is allocated in constructor
          */
         ~task() = default;
@@ -240,9 +232,9 @@ private:
     ///////////////////////
 
     /*
-     * Return whether task a has higher priority compared to task b.
-     * Static since going to be used by <code>sort</code> func,
-     * has to be generalized static func.
+     * Return whether task a has higher execution priority compared to task b.
+     * Static since going to be used by <code>sort</code> func,has to be
+     * generalized static func.
      */
     static bool cmpRemain(const task *, const task *);
     static bool cmpArrivalt(const task *, const task *);
