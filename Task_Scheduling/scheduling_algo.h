@@ -18,7 +18,7 @@
  * ---------------------
  * This type respresents the eight scheduling algorithms.
  */
-enum schedulingAlgos {_FCFS, _SJF, _SPN, _SRT, _HRRN, _RR, _MFQ, _FSS};
+enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
 
 /*
  * Class: scheduling
@@ -31,48 +31,48 @@ enum schedulingAlgos {_FCFS, _SJF, _SPN, _SRT, _HRRN, _RR, _MFQ, _FSS};
 class scheduling{
 public:
 
-    // constructors //
+    /* Constructor: scheduling
+     * -----------------------
+     * Initialize the private data
+     */
     scheduling();
-    scheduling(const scheduling &) = default;   // default for now
+    scheduling(const scheduling &) = default;
 
-    // destructor //
-    ~scheduling() = default;                    // release memory on heap -- later when dynamic array become the implementation of BST, for now just simply use vector //
+    /* Destructor: ~scheduling
+     * -----------------------
+     * Release <code>task</code> object created on heap
+     */
+    ~scheduling();
+
+
+    // function for widget-based interation //
 
     /*
-     * determine scheduling algo to be used
+     * Set the tasks and their attributes to be scheduled, according
+     * to the algorithm selected. This is the setting function interface
+     * for data inputted from the GUI.
+     */
+    void setCondition(int, std::vector<int>, std::vector<int>, std::vector<int>, int);
+
+
+    // functions for console-based interaction //
+
+    /*
+     * Determine scheduling algo to be used
      */
     void selectAlgo();
 
     /*
      * This function is used to get conditions inside terminal interaction.
-     * however, for now it is used to obtain the main attributes ### remember to delete ###
-     * part of the work of this function should be moved to set conditions.
      */
     void getCondition();
 
     /*
-     * set the tasks and their attributes to be scheduled, according
-     * to the algorithm selected.
+     * This is just a simple test function used to check the correctness of
+     * private field in console
      */
-    void setCondition(int, std::vector<int>, std::vector<int>, std::vector<int>);
-    void setFCFS();                         // maybe i should condition them inside one <code>set</code> instead //
-    void setSJF();                          // leave it for now //
-    void setSPN();
-    void setSRT();
-    void setHRRN();
-    void setRR();
-    void setMFQ();
-    void setFSS();
+    void check();
 
-    /*
-     * draw ganttchart
-     */
-    void gantt();
-
-    /*
-     * this is just a simple test function used to check the correctness of private field
-     */
-    void test();
 
     /////////////////////////////
     /// Scheduling Algorithms ///
@@ -85,21 +85,35 @@ public:
      */
 
     // First-Come First-Served Scheduling //
+    /*
+     * Schedule solely according to the arrive sequence
+     */
     int FCFS();
 
     // Shortest-Job First Scheduling //
+    /*
+     * Execute the job with shortest execution time in the list
+     */
     int SJF();
 
-    // Shortest-Process Next Scheduling //
-    int SPN();
-
-    // Shortest- Remaining Time Scheduling //
+    // Shortest-Remaining Time Scheduling //
+    /*
+     * Execute the process with the shortest remaining time in the queue.
+     * allows race to control
+     */
     int SRT();
 
     // Highest-Response Ratio Next Scheduling //
+    /*
+     * Calculate the response ratio everytime when CPU finishes one task
+     */
     int HRRN();
 
     // Round_Robin Scheduling //
+    /*
+     * Preeptive method. Check the priority at the end of every specified
+     * time slice.
+     */
     int RR();
 
     // Multipule-Feedback Queque Scheduling //
@@ -108,20 +122,50 @@ public:
     // Fair-Sharing Scheduling //
     int FSS();
 
+    /*
+     * Start the simulation
+     */
+    void simulation();
+
+    /*
+     * Get private data related to waiting time
+     */
+    int getWait(std::string);
+
+    /*
+     * Get private data related to response time
+     */
+    int getRes(std::string);
+
+    /*
+     * Get private data related to cycling time
+     */
+    int getCy(std::string);
+
+    /*
+     * Get execution queue
+     */
+    template<typename ValueType>
+    ValueType getExeQ();
+
+
 
 private:
 
+    //////////////////////////
+    /// private data field ///
+    //////////////////////////
 
     // structure of a individual task/process created //
 
-    struct task{
+    struct task{                // PCB
+
         std::string taskName;
         int pid;                // identity of tasks, which is according to the creating order of the task. basically is just for reference
         int timeRemain;         // time needed for the task to finish running
-        int priority;           // priority of different tasks
+        double priority;        // priority of different tasks
 
         int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
-        int arrivalq;           // indicates the order of arrival of tasks, not considering the specific time of arrival. used for FCFS
 
         int waitT;
         int cyclingT;
@@ -139,14 +183,24 @@ private:
          * By default <code>pid</code> negavtive number indicates
          * that this is a null task, meaning a blank period.
          */
-        task(){
-            pid = -1;
-            IO = false;
-            CPUT = IOT = 0;
-            timeRemain = priority = 0;
-            arrivalq = arrivaltime = 0;
-            waitT = cyclingT = responseT = 0;
-        }
+        task();
+
+        /*
+         * Assignment constructor for task
+         */
+        task(int, int, int);
+
+        /*
+         * Copying assignment
+         */
+        task(task &) = default;
+
+        /*
+         * Destructor: ~task
+         * -----------------
+         * Default since no on heap memory is allocated in constructor
+         */
+        ~task() = default;
 
     };
 
@@ -154,12 +208,14 @@ private:
     // simulation info //
 
     int Tprocess;               // total number of tasks/processes
+    int slice;                  // time slice for RR -- i need to tear different algorithms apart
     schedulingAlgos algorithm;  // selected scheduling algorithm
     std::vector<task*> pqueue;  // contain all tasks
     std::vector<task*> exeQ;    // in the order of execution        // maybe not necessary
 
     // user experience determinants //
-    int Twait;                  // total waiting time - not necessary
+
+    int Twait;                  // total waiting time
     int AverWait;               // averge waiting time
     int MaxWait;
     int MinWait;
@@ -173,42 +229,60 @@ private:
     int MinCy;
 
     // system efficiency determinants //
+
     float CPU_rate;             // percentage of time when cpu is occupied
     int throughput;             // tasks finished per unit time
 
 
-    // use a heap data structure to maintain the order of the task queue
-    // call cmp when need to compare task attributesd individually -- readability
-    // return whether task a has higher priority compared to task b
-    bool cmpArrivalq(task *, task *);
-    bool cmpRemain(task *, task *);
-    bool cmpArrivalt(task *, task *);
-    bool cmpPriority(task *, task *);
-    bool cmpwaitT(task *, task *);
 
-    bool comparision(task *, task *);
-
+    ///////////////////////
+    /// private methods ///
+    ///////////////////////
 
     /*
-     * sort the pqueue in to partially ordered tree according to priority
+     * Return whether task a has higher priority compared to task b.
+     * Static since going to be used by <code>sort</code> func,
+     * has to be generalized static func.
      */
-    void sortQueue();
+    static bool cmpRemain(const task *, const task *);
+    static bool cmpArrivalt(const task *, const task *);
+    static bool cmpPriority(const task *, const task *);
+    static bool cmpwaitT(const task *, const task *);
 
     /*
-     * enqueue tasks while keep the partial ordered tree structure
+     * Select one of the <code>cmp</code> function to use, according to
+     * the chosen slgorithm. This is not a static function since it has
+     * to make use of <code>algorithm</code> private data.
      */
-    void enqueue(task*);
+    bool comparision(const task *, const task *);
 
     /*
-     * Average Waiting Time Calculation
+     * Sort the pqueue in to partially ordered tree according to priority.
+     * return true any switch happened.
      */
-    int avgWaitingT();
+    bool sortQueue(std::vector<task *> &);                                      // could change into form of iterator
 
     /*
-     * calculate efficiency determinants based on execution queue generated
+     * Enqueue tasks while keeping the partial ordered tree structure           // revise to self defined array class later
+     */
+    void enqueue(std::vector<task *> &, task * &);
+
+    /*
+     * Calculate response ratio of every remaining tasks.
+     * Used in HRRN.
+     */
+    void calPriority(std::vector<task *>::iterator, std::vector<task *>::iterator);
+
+    /*
+     * Calculate efficiency determinants based on execution queue generated
      * by the selected scheduling algorithm
      */
     void efficiency();
+
+    /*
+     * Deep copy for the process queue
+     */
+    std::vector<task *> Qcopy(const std::vector<task *> &);
 
     /*
      * illegalize copying
@@ -216,6 +290,12 @@ private:
     scheduling & operator=(const scheduling &);
 };
 
+
+
+template<typename ValueType>
+ValueType scheduling::getExeQ(){
+    return exeQ;
+}
 
 
 #endif // SCHEDULING_ALGO_H

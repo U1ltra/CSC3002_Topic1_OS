@@ -1,10 +1,10 @@
 
-# ################################ #
+####################################
 # CSC3002_Topic1_Operateing_System #
-# ################################ #
+####################################
 
 *   -----------------------------------------------------------------------------------  *
-*	Author  : Fangyu Li, Jiarui Li, Wei Wu, Jinru Yu, Shunri Zheng (alphabetical order)
+*	Author  : Fangyu Li, Jiarui Li, Wei Wu, Jinru Yu, Shunri Zheng, Zhixiang Zhou(alphabetical order)
 *	Course  : CSC3002 Programming Paradigms, 2019-2020 spring
 *	Faculty : Prof. Huang
 *	Topic   : Operating System simulation
@@ -32,4 +32,5 @@ This is a students corporate project.
 The project aims at constructing a operating system simulator.
 
 let's do something
+
 

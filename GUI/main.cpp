@@ -1,16 +1,16 @@
 #include "login_interface.h"
 #include "mainwindow.h"
-#include "Calculator.h"
+#include "calculator.h"
 #include <QApplication>
+#include "texteditor.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    login_interface mw;
-    //Calculator calc;
-    mw.show();
-    w.show();
-    //calc.show();
+    login_interface login;
+    TextEditor te;
+    te.show();
+    //login.show();
+
     return a.exec();
 }

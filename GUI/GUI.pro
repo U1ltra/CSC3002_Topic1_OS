@@ -16,22 +16,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Calculator.cpp \
-    DigitalClock.cpp \
+    calculator.cpp \
+    calendar.cpp \
+    digitalclock.cpp \
     login_interface.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    texteditor.cpp
 
 HEADERS += \
-    Calculator.h \
-    DigitalClock.h \
+    calculator.h \
+    calendar.h \
+    digitalclock.h \
     login_interface.h \
-    mainwindow.h
+    mainwindow.h \
+    texteditor.h \
+    ui_calculator.h \
+    ui_login_interface.h \
+    ui_widget.h
 
 FORMS += \
-    Calculator.ui \
+    calculator.ui \
     login_interface.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    texteditor.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

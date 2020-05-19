@@ -1,9 +1,11 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
+//#include <QWidget>
 #include <QString>
 #include <QMap>
+#include <QTimer>
+#include "mainwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -17,7 +19,6 @@ public:
     login_interface(QWidget *parent = nullptr);
     ~login_interface();
 
-
 private slots:
 
 
@@ -29,6 +30,8 @@ private slots:
 
     void on_Password_returnPressed();
 
+    void closeWindow();
+
 private:
     Ui::Widget *ui;
     // Instance Variable //
@@ -36,9 +39,10 @@ private:
     QString password;
     QString username;
 
-
     QMap<QString,QString> ParentBook;
     QMap<QString,QString> ChildrenBook;
+
+    MainWindow mw;
 
     void parent_accept();
     void children_accept();
