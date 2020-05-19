@@ -32,9 +32,8 @@ enum permission{root, user};
  * allocation
  */
 enum opType{simpleClick, effectClick, movingAround,
-            refreshing,calculation, textIn, fileMan,
+            refreshing, calculation, textIn, fileMan,
             fluctuation};
-
 
 /*
  * Class: cpuMon
@@ -62,7 +61,7 @@ public:
     /*
      * Create a process according the intruction given by GUI module
      */
-    void createP(int pid, std::string name, permission);
+    void createP(int pid, std::string name, permission per);
 
     /*
      * Terminate or remove the process specified by <code>pid</code>
@@ -81,8 +80,33 @@ public:
      * Simulate the fluctuation of the statistics when no operation
      * is conducted.
      */
-    void fluctuate();                   // iterate through all processes and call update functions to simulate fluctuation
+    void fluctuate();                       // iterate through all processes and call update functions to simulate fluctuation
 
+    /*
+     * Return the process queue
+     */
+    template<typename ValueType>
+    ValueType getQ();
+
+    /*
+     * Return true if total cpu percentage surpasses 75%
+     */
+    bool isBusy();
+
+    /*
+     * Return total percentage of cpu usage
+     */
+    int TcpuPer();
+
+    /*
+     * Return total number of threads
+     */
+    int Tthread();
+
+    /*
+     * Return total number of processes
+     */
+    int Tprocess();
 
 private:
 
@@ -96,6 +120,9 @@ private:
         int thread;
         int idle_wake;
         double cpuPer;
+
+        process();
+        ~process();
     };
 
     int cputemp;                        // cpu temperature
@@ -136,7 +163,12 @@ private:
     cpuMon(const cpuMon &);
     cpuMon & operator=(const cpuMon &);
 
-
 };
+
+
+template<typename ValueType>
+ValueType cpuMon::getQ(){
+    return processes;
+}
 
 #endif // CPU_H
