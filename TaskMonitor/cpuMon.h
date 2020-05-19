@@ -36,6 +36,25 @@ enum opType{simpleClick, effectClick, movingAround,
             fluctuation};
 
 /*
+ * Type: process
+ * -------------
+ * This type represents a created process
+ */
+struct process{
+    std::string name;
+    permission psion;
+    int pid;
+    int thread;
+    int idle_wake;
+    double cpuT;
+    double cpuPer;
+
+    process();
+    process(std::string, permission, int, int, int, int, double);
+    ~process() = default;
+};
+
+/*
  * Class: cpuMon
  * -------------
  * This class provide simulated statistic information about
@@ -78,15 +97,17 @@ public:
 
     /*
      * Simulate the fluctuation of the statistics when no operation
-     * is conducted.
+     * is conducted. This function makes use of <thread> lib so that
+     * it can consistently running in the background to simulate
+     * fluctuation of the statistics when no opeartion is given.
      */
     void fluctuate();                       // iterate through all processes and call update functions to simulate fluctuation
-
+                                            // use clk inside operationDet to slow down the changing of <code>operation</code>
+                                            // to simulate the periodical fluctuation
     /*
      * Return the process queue
      */
-    template<typename ValueType>
-    ValueType getQ();
+    std::vector<process*> getQ();
 
     /*
      * Return true if total cpu percentage surpasses 75%
@@ -112,19 +133,9 @@ private:
 
     // private data field //
 
-    struct process{
-        std::string name;
-        permission psion;
-        int pid;
-        int cpuT;
-        int thread;
-        int idle_wake;
-        double cpuPer;
-
-        process();
-        ~process();
-    };
-
+    int * mostRecent;
+    int TcpuPercentage;
+    int TThread;
     int cputemp;                        // cpu temperature
     bool operation;                     // indicate in current time slice, whether any operations happened
     std::vector<process*> processes;    // processes created and havenot terminated
@@ -136,19 +147,19 @@ private:
      * Update the <code>cpuT</code> of given process according to
      * the operation type
      */
-    void CPUT(process*, opType);
+    void CPUT(process* &, opType);
 
     /*
      * Update the <code>cpuPer</code> of gicen process considering
      * the specified operation
      */
-    void CPUPer(process*, opType);
+    void CPUPer(process* &, opType);
 
     /*
      * Update the <code>thread</code> number of given thread considering
      * the operation type
      */
-    void Thread(process*, opType);
+    void Thread(process* &, opType);
 
     /*
      * Update the <code>idle_wake</code> of given thread with regard
@@ -156,19 +167,61 @@ private:
      */
     void IDLE(process*, opType);
 
+    /*
+     * Simulate the resource usage behavior of kernel task
+     */
+    void kernel_task(opType);
+
+    /*
+     * Simulate the resource usage behavior of window_server
+     */
+    void window_server(opType);
+
+    /*
+     * Simulate the resource usage behavior of launchd
+     */
+    void launchd(opType);
+
+    /*
+     * Create kernel task with highest priority / <code>root</code>
+     * permission.
+     */
+    void createKernelT();
+
+    /*
+     * Create window_server process which simulates the process to
+     * maintaining the graphical interface in real operating system
+     */
+    void createWindowT();
+
+    /*
+     * Create launchd process which is the initial process created by
+     * kernel.
+     */
+    void createLaunchd();
+
+    /*
+     * Lower the process statistics of processes other than the current
+     * active process
+     */
+    void inactiveP(process *);
+
+    /*
+     * Adjuct the queue of most recent processes
+     */
+    void recentIn(process *);
+
+    /*
+     * Calculate the total statistics
+     */
+    void Tstatistics();
 
     /*
      * Disable copying constructor and copying assignment
      */
     cpuMon(const cpuMon &);
     cpuMon & operator=(const cpuMon &);
-
 };
 
-
-template<typename ValueType>
-ValueType cpuMon::getQ(){
-    return processes;
-}
 
 #endif // CPU_H
