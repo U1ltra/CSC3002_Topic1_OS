@@ -48,9 +48,10 @@ struct process{
     int idle_wake;
     double cpuT;
     double cpuPer;
+    double pre_cpuT;
 
     process();
-    process(std::string, permission, int, int, int, int, double);
+    process(std::string, permission, int, int, int, double, double);
     ~process() = default;
 };
 
@@ -71,6 +72,8 @@ public:
      * Intialize object
      */
     cpuMon();
+    cpuMon(const cpuMon &)=default;
+    cpuMon & operator=(const cpuMon &)=default;
 
     /*
      * Release process structures constructed on heap
@@ -96,15 +99,6 @@ public:
     void operationDet(int pid, opType);
 
     /*
-     * Simulate the fluctuation of the statistics when no operation
-     * is conducted. This function makes use of <thread> lib so that
-     * it can consistently running in the background to simulate
-     * fluctuation of the statistics when no opeartion is given.
-     */
-    void fluctuate();                       // iterate through all processes and call update functions to simulate fluctuation
-                                            // use clk inside operationDet to slow down the changing of <code>operation</code>
-                                            // to simulate the periodical fluctuation
-    /*
      * Return the process queue
      */
     std::vector<process*> getQ();
@@ -129,19 +123,43 @@ public:
      */
     int Tprocess();
 
+    /*
+     * Simulate statistics changing during leisure time
+     */
+    void leisure();
+
+    /*
+     * This a function for colsole interation and statistics checking
+     */
+    void check();
+
 private:
 
     // private data field //
 
     int * mostRecent;
-    int TcpuPercentage;
     int TThread;
-    int cputemp;                        // cpu temperature
+    int TIDLE;
+    double cputemp;                     // cpu temperature
+    double TcpuPercentage;
     bool operation;                     // indicate in current time slice, whether any operations happened
     std::vector<process*> processes;    // processes created and havenot terminated
 
 
     // private functions //
+
+    /*
+     * Update the monitoring statistics of the given process
+     */
+    void operationMon(process* &, opType);
+
+    /*
+     * Simulate the fluctuation of the statistics when no operation
+     * is conducted. This function makes use of <thread> lib so that
+     * it can consistently running in the background to simulate
+     * fluctuation of the statistics when no opeartion is given.
+     */
+    friend void fluctuate(cpuMon &);
 
     /*
      * Update the <code>cpuT</code> of given process according to
@@ -165,7 +183,23 @@ private:
      * Update the <code>idle_wake</code> of given thread with regard
      * to the given operation type
      */
-    void IDLE(process*, opType);
+    void IDLE(process* &, opType);
+
+    /*
+     * Update CPU temperature
+     */
+    void CPUTem();
+
+    /*
+     * Lower the process statistics of processes other than the current
+     * active process
+     */
+    void inactiveP(process *);
+
+    /*
+     * Adjuct the queue of most recent processes
+     */
+    void recentIn(process *);
 
     /*
      * Simulate the resource usage behavior of kernel task
@@ -201,26 +235,9 @@ private:
     void createLaunchd();
 
     /*
-     * Lower the process statistics of processes other than the current
-     * active process
-     */
-    void inactiveP(process *);
-
-    /*
-     * Adjuct the queue of most recent processes
-     */
-    void recentIn(process *);
-
-    /*
      * Calculate the total statistics
      */
     void Tstatistics();
-
-    /*
-     * Disable copying constructor and copying assignment
-     */
-    cpuMon(const cpuMon &);
-    cpuMon & operator=(const cpuMon &);
 };
 
 
