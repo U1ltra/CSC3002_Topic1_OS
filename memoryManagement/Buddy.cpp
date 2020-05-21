@@ -5,6 +5,7 @@
 #include <iostream>
 #include <math.h>
 #include <map>
+#include <m_task.h>
 
 using namespace std;
 
@@ -15,14 +16,16 @@ Buddy::Buddy(int s){
     arr[num].push_front(Pair(0,size-1));
 }
 
-void Buddy::allocate(int s){
+bool Buddy::allocate(m_task &current){
+    int s = current.memory;
     int num = (int) ceil(log(s) / log(2));
     if (arr[num].size() > 0){
         Pair tem = arr[num].back();
         arr[num].pop_back();
-        Bu_map[tem.lb] = tem.ub - tem.lb + 1;
+        current.starting_Address = tem.lb;
+        Bu_map[current] = tem.ub - tem.lb + 1;
         cout << "memory from " << tem.lb << " to " << tem.ub << " " << "allocated." << endl;
-        return;
+        return true;
     }
     int i;
     for (i = num+1; i < arr.size(); i++){
@@ -32,7 +35,7 @@ void Buddy::allocate(int s){
 
     if (i == arr.size()){
         cout << "Fail to allocate memory" << endl;
-        return;
+        return false;
     }
     Pair tem = arr[i].back();
     arr[i].pop_back();
@@ -45,23 +48,26 @@ void Buddy::allocate(int s){
         tem = arr[i].back();
         arr[i].pop_back();
     }
-    Bu_map[tem.lb] = tem.ub - tem.lb + 1;
+    current.starting_Address = tem.lb;
+    Bu_map[current] = tem.ub - tem.lb + 1;
     cout << "Memory from " << tem.lb << " to " << tem.ub << " allocated" << endl;
+    return true;
 }
 
 
 
-void Buddy::deallocate(int index){
-    if (!Bu_map.count(index)){
+bool Buddy::deallocate(m_task &current){
+    int index = current.starting_Address;
+    if (!Bu_map.count(current)){
         cout << "Sorry, invalid free request" << endl;
-        return;
+        return false;
     }
 
-    int num = (int) ceil(log(Bu_map[index] / log(2)));
+    int num = (int) ceil(log(Bu_map[current] / log(2)));
     int buddyNum, buddyAddress;
     arr[num].push_front(Pair(index, index + (int)pow(2,num) - 1));
     cout << "Memory from " << index << " to " << index + (int)pow(2,num) - 1 << " freed." << endl;
-    buddyNum = index / Bu_map[index];
+    buddyNum = index / Bu_map[current];
     if (buddyNum % 2 != 0)
         buddyAddress = index - (int) pow(2,num);
     else
@@ -84,5 +90,6 @@ void Buddy::deallocate(int index){
             break;
         }
     }
-    Bu_map.erase(index);
+    Bu_map.erase(current);
+    return true;
 }

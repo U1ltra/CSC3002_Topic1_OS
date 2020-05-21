@@ -36,26 +36,6 @@ enum opType{simpleClick, effectClick, movingAround,
             fluctuation};
 
 /*
- * Type: process
- * -------------
- * This type represents a created process
- */
-struct process{
-    std::string name;
-    permission psion;
-    int pid;
-    int thread;
-    int idle_wake;
-    double cpuT;
-    double cpuPer;
-    double pre_cpuT;
-
-    process();
-    process(std::string, permission, int, int, int, double, double);
-    ~process() = default;
-};
-
-/*
  * Class: cpuMon
  * -------------
  * This class provide simulated statistic information about
@@ -72,8 +52,6 @@ public:
      * Intialize object
      */
     cpuMon();
-    cpuMon(const cpuMon &)=default;
-    cpuMon & operator=(const cpuMon &)=default;
 
     /*
      * Release process structures constructed on heap
@@ -99,9 +77,16 @@ public:
     void operationDet(int pid, opType);
 
     /*
+     * Simulate the fluctuation of the statistics when no operation
+     * is conducted.
+     */
+    void fluctuate();                       // iterate through all processes and call update functions to simulate fluctuation
+
+    /*
      * Return the process queue
      */
-    std::vector<process*> getQ();
+    template<typename ValueType>
+    ValueType getQ();
 
     /*
      * Return true if total cpu percentage surpasses 75%
@@ -123,25 +108,24 @@ public:
      */
     int Tprocess();
 
-    /*
-     * Simulate statistics changing during leisure time
-     */
-    void leisure();
-
-    /*
-     * This a function for colsole interation and statistics checking
-     */
-    void check();
-
 private:
 
     // private data field //
 
-    int * mostRecent;
-    int TThread;
-    int TIDLE;
-    double cputemp;                     // cpu temperature
-    double TcpuPercentage;
+    struct process{
+        std::string name;
+        permission psion;
+        int pid;
+        int cpuT;
+        int thread;
+        int idle_wake;
+        double cpuPer;
+
+        process();
+        ~process();
+    };
+
+    int cputemp;                        // cpu temperature
     bool operation;                     // indicate in current time slice, whether any operations happened
     std::vector<process*> processes;    // processes created and havenot terminated
 
@@ -149,96 +133,42 @@ private:
     // private functions //
 
     /*
-     * Update the monitoring statistics of the given process
-     */
-    void operationMon(process* &, opType);
-
-    /*
-     * Simulate the fluctuation of the statistics when no operation
-     * is conducted. This function makes use of <thread> lib so that
-     * it can consistently running in the background to simulate
-     * fluctuation of the statistics when no opeartion is given.
-     */
-    friend void fluctuate(cpuMon &);
-
-    /*
      * Update the <code>cpuT</code> of given process according to
      * the operation type
      */
-    void CPUT(process* &, opType);
+    void CPUT(process*, opType);
 
     /*
      * Update the <code>cpuPer</code> of gicen process considering
      * the specified operation
      */
-    void CPUPer(process* &, opType);
+    void CPUPer(process*, opType);
 
     /*
      * Update the <code>thread</code> number of given thread considering
      * the operation type
      */
-    void Thread(process* &, opType);
+    void Thread(process*, opType);
 
     /*
      * Update the <code>idle_wake</code> of given thread with regard
      * to the given operation type
      */
-    void IDLE(process* &, opType);
+    void IDLE(process*, opType);
+
 
     /*
-     * Update CPU temperature
+     * Disable copying constructor and copying assignment
      */
-    void CPUTem();
+    cpuMon(const cpuMon &);
+    cpuMon & operator=(const cpuMon &);
 
-    /*
-     * Lower the process statistics of processes other than the current
-     * active process
-     */
-    void inactiveP(process *);
-
-    /*
-     * Adjuct the queue of most recent processes
-     */
-    void recentIn(process *);
-
-    /*
-     * Simulate the resource usage behavior of kernel task
-     */
-    void kernel_task(opType);
-
-    /*
-     * Simulate the resource usage behavior of window_server
-     */
-    void window_server(opType);
-
-    /*
-     * Simulate the resource usage behavior of launchd
-     */
-    void launchd(opType);
-
-    /*
-     * Create kernel task with highest priority / <code>root</code>
-     * permission.
-     */
-    void createKernelT();
-
-    /*
-     * Create window_server process which simulates the process to
-     * maintaining the graphical interface in real operating system
-     */
-    void createWindowT();
-
-    /*
-     * Create launchd process which is the initial process created by
-     * kernel.
-     */
-    void createLaunchd();
-
-    /*
-     * Calculate the total statistics
-     */
-    void Tstatistics();
 };
 
+
+template<typename ValueType>
+ValueType cpuMon::getQ(){
+    return processes;
+}
 
 #endif // CPU_H
