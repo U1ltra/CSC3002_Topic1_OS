@@ -13,12 +13,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     CPU = new cpuMon();
     CPU->fluctuate();
-    CPU->createP(0,"MainWindow",root);//Default PID for mainwindow is 0.
+    CPU->createP(10,"MainWindow",root);//Default PID for mainwindow is 10.
 
     QStatusBar *stBar = statusBar();
     setStatusBar(stBar);
     clock_display = new DigitalClock();
-    clock_display->setPID(1);//Default PID for clock is 1.
+    clock_display->setPID(11);//Default PID for clock is 11.
     clock_display->set_CPU(CPU);
     stBar->addPermanentWidget(clock_display);
 
@@ -41,6 +41,7 @@ void MainWindow::on_btn_calc_clicked()
 {   to_effect_Click();
     cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
+    CPU->createP(calculator_count*100000+100,"Calculator",user);
     cal->set_CPU(CPU);
     calculator_count++;
     cal->show();
@@ -50,6 +51,7 @@ void MainWindow::on_btn_Calendar_clicked()
 {   to_effect_Click();
     Calendar *calendar = new Calendar();
     calendar->setPID(calendar_count*100000+200);
+    CPU->createP(calendar_count*100000+200,"Calendar",user);
     calendar->set_CPU(CPU);
     calendar_count++;
     calendar->show();
@@ -58,7 +60,8 @@ void MainWindow::on_btn_Calendar_clicked()
 void MainWindow::on_btn_FileSystem_clicked()
 {   to_effect_Click();
     vfm = new VisualFileManager();
-    vfm->setPID(2); //Default PID for VFM is 2.
+    vfm->setPID(file_system_count*100000+300);
+    CPU->createP(calendar_count*100000+300,"FileSystem",user);
     vfm->set_CPU(CPU);
     vfm->show();
 
@@ -72,7 +75,7 @@ void MainWindow::on_btn_TaskManager_clicked()
 void MainWindow::on_btn_TextEditor_clicked()
 {   to_effect_Click();
     text_editor = new TextEditor();
-    text_editor->setPID(text_editor_count*100000+300);
+    text_editor->setPID(text_editor_count*100000+400);
     text_editor->set_CPU(CPU);
     text_editor_count++;
     text_editor->show();

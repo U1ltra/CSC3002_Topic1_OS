@@ -21,6 +21,6 @@ int main(){
     a.operationDet(4, refreshing);
     a.operationDet(4, refreshing);
     a.operationDet(4, fluctuation);
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    this_thread::sleep_for(chrono::milliseconds(2000));
 }
 

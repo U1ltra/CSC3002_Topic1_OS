@@ -2,16 +2,18 @@
 /*
  * File: schedule_algo.h
  * ---------------------
- * This file exports a sheduling simulation class where several traditional
- * task scheduling algorithms are defined.
+ * This file exports a sheduling simulation class where several
+ * traditional task scheduling algorithms are defined.
  */
 
 #ifndef SCHEDULING_ALGO_H
 #define SCHEDULING_ALGO_H
 
 #include <string>
-#include <vector>                           // use vector for now -- remember to revise to dynamic array
+#include <vector>
 
+
+extern const int PID_BLANK;                    // pid for blank period
 
 /*
  * Type: schedulingAlgos
@@ -19,6 +21,44 @@
  * This type respresents the eight scheduling algorithms.
  */
 enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
+
+/*
+ * Type: task
+ * ----------
+ * Structure of a individual task/process created
+ */
+struct task{                // PCB
+
+    std::string taskName;
+    int pid;                // identity of tasks, which is according to the creating order of the task. basically is just for reference
+    int timeRemain;         // time needed for the task to finish running
+    int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
+    double priority;        // priority of different tasks
+    int waitT;
+    int cyclingT;
+    int responseT;
+    bool IO;                // whether the task used I/O devices
+    int CPUT;               // cpu time
+    int IOT;                // I/O time
+
+    /*
+     * This function initializes a task object.
+     * By default <code>pid</code> negavtive number indicates
+     * that this is a null task, meaning a blank period.
+     */
+    task();
+
+    /*
+     * Assignment constructor for task
+     */
+    task(int, int, int);
+
+    /*
+     * Default since no on heap memory is allocated in constructor
+     */
+    ~task() = default;
+};
+
 
 /*
  * Class: scheduling
@@ -35,6 +75,10 @@ public:
      * Initialize the private data
      */
     scheduling();
+
+    /*
+     * Default copying constructor, since no on heap memory is used
+     */
     scheduling(const scheduling &) = default;
 
     /*
@@ -143,8 +187,12 @@ public:
     /*
      * Get execution queue
      */
-    template<typename ValueType>
-    ValueType getExeQ();
+    std::vector<task*> getExeQ();
+
+    /*
+     * Get pqueue
+     */
+    std::vector<task*> getPqueue();
 
 
 private:
@@ -152,49 +200,6 @@ private:
     //////////////////////////
     /// private data field ///
     //////////////////////////
-
-    // structure of a individual task/process created //
-
-    struct task{                // PCB
-
-        std::string taskName;
-        int pid;                // identity of tasks, which is according to the creating order of the task. basically is just for reference
-        int timeRemain;         // time needed for the task to finish running
-        int arrivaltime;        // determine the time of arrival of the given task, which will affect the remaining time of other tasks
-        double priority;        // priority of different tasks
-
-        int waitT;
-        int cyclingT;
-        int responseT;
-
-        bool IO;                // whether the task used I/O devices
-        int CPUT;               // cpu time
-        int IOT;                // I/O time
-
-
-        /*
-         * This function initializes a task object.
-         * By default <code>pid</code> negavtive number indicates
-         * that this is a null task, meaning a blank period.
-         */
-        task();
-
-        /*
-         * Assignment constructor for task
-         */
-        task(int, int, int);
-
-        /*
-         * Copying assignment
-         */
-        task(task &) = default;
-
-        /*
-         * Default since no on heap memory is allocated in constructor
-         */
-        ~task() = default;
-
-    };
 
 
     // simulation info //
@@ -240,6 +245,7 @@ private:
     static bool cmpArrivalt(const task *, const task *);
     static bool cmpPriority(const task *, const task *);
     static bool cmpwaitT(const task *, const task *);
+    static bool cmpPID(const task *, const task *);
 
     /*
      * Select one of the <code>cmp</code> function to use, according to
@@ -272,22 +278,15 @@ private:
     void efficiency();
 
     /*
-     * Deep copy for the process queue
+     * Shallow copy for the process queue
      */
-    std::vector<task *> Qcopy(const std::vector<task *> &);
+    void SQcopy();
 
     /*
      * illegalize copying
      */
     scheduling & operator=(const scheduling &);
 };
-
-
-
-template<typename ValueType>
-ValueType scheduling::getExeQ(){
-    return exeQ;
-}
 
 
 #endif // SCHEDULING_ALGO_H
