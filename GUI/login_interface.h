@@ -42,7 +42,7 @@ private:
     QMap<QString,QString> ParentBook;
     QMap<QString,QString> ChildrenBook;
 
-    MainWindow mw;
+    MainWindow* mw;
 
     void parent_accept();
     void children_accept();
