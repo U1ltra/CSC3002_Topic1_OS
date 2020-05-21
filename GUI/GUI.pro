@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     calculator.cpp \
     calendar.cpp \
+    cpuMon.cpp \
     digitalclock.cpp \
     error.cpp \
     login_interface.cpp \

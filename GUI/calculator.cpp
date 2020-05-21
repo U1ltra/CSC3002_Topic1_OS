@@ -1,6 +1,7 @@
 #include "calculator.h"
 #include "ui_calculator.h"
 #include <QTimer>
+#include <windows.h>
 Calculator::Calculator(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Calculator)
@@ -351,8 +352,6 @@ void Calculator::calculating(){
 
 void Calculator::sleeping(){
     if (CPU->isBusy()){
-    sleeper = new QTimer();
-    sleeper->setSingleShot(true);
-    sleeper->start(500);
+        Sleep(500);
     }
 }

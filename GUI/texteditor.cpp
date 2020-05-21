@@ -7,7 +7,7 @@
 #include <QPushButton>
 #include <QLayout>
 #include <QMouseEvent>
-
+#include <windows.h>
 TextEditor::TextEditor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
@@ -238,8 +238,6 @@ void TextEditor::texting(){
 
 void TextEditor::sleeping(){
     if (CPU->isBusy()){
-    sleeper = new QTimer();
-    sleeper->setSingleShot(true);
-    sleeper->start(500);
+        Sleep(500);
     }
 }

@@ -66,7 +66,6 @@ private:
     int PID;
     QTimer *system_timer;
     cpuMon* CPU;
-    QTimer* sleeper;
     void sleeping();
 protected:
     void mousePressEvent(QMouseEvent *e);
