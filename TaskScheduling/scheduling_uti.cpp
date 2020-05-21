@@ -11,15 +11,16 @@
 using namespace std;
 
 
-scheduling::task::task(){
-    pid = -1;
+
+task::task(){
+    pid = PID_BLANK;
     IO = false;
     CPUT = IOT = 0;
     arrivaltime = timeRemain = priority = 0;
     waitT = cyclingT = responseT = 0;
 }
 
-scheduling::task::task(int p,int a, int arr){
+task::task(int p,int a, int arr){
     pid = p;
     IO = false;
     CPUT = IOT = 0;
@@ -30,8 +31,8 @@ scheduling::task::task(int p,int a, int arr){
 }
 
 scheduling::scheduling(){
-//    selectAlgo();
-//    getCondition();
+    selectAlgo();
+    getCondition();
     TCy = AverCy =  0;
     Twait = AverWait =  0;
     TResp = AverResp =  0;
@@ -43,6 +44,8 @@ scheduling::scheduling(){
 scheduling::~scheduling(){
     for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) delete *i;
     for (vector<task*>::iterator i=exeQ.begin(); i<exeQ.end(); i++) delete *i;
+    pqueue.clear();
+    exeQ.clear();
 }
 
 bool scheduling::cmpPriority(const task* a, const task* b){
@@ -72,7 +75,11 @@ bool scheduling::comparision(const task * a, const task * b){
     else if (algorithm == _SJF)     return cmpRemain(a, b);
     else if (algorithm == _SRT)     return cmpRemain(a, b);
     else if (algorithm == _HRRN)    return cmpPriority(a, b);
-    return false; // uselesssssss
+    else                            return cmpPID(a, b);
+}
+
+bool scheduling::cmpPID(const task * a, const task * b){
+    return a->pid<b->pid;
 }
 
 void scheduling::calPriority(std::vector<task *>::iterator b, std::vector<task *>::iterator e){
@@ -170,7 +177,16 @@ int scheduling::getCy(std::string name){
     return -1;
 }
 
-void scheduling::setCondition(int index, std::vector<int> bq, std::vector<int> aq, std::vector<int> pq, int sliceT=-1){
+vector<task*> scheduling::getExeQ(){
+    return exeQ;
+}
+
+vector<task*> scheduling::getPqueue(){
+    sort(pqueue.begin(), pqueue.end(), cmpPID);
+    return pqueue;
+}
+
+void scheduling::setCondition(int index, std::vector<int> bq, std::vector<int> aq, std::vector<int> pq, int sliceT=4){
     algorithm = (schedulingAlgos) index;
     if (algorithm == _RR) slice = sliceT;
 

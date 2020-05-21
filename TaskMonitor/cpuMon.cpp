@@ -349,14 +349,16 @@ void cpuMon::operationMon(process * & P, opType op){                    // this 
             P->idle_wake = rand()%3;
             P->pre_cpuT = periodCPUT;
             break;
+
         case fileMan:
-            periodCPUT = (100+rand()%300)/double(1000);                 // around 5%-20%
+            periodCPUT = (100+rand()%250)/double(1000);                 // around 5%-17.5%
             P->cpuT = P->cpuT+periodCPUT;
             P->cpuPer = periodCPUT/REFRESHING_SLICE;
             P->thread = rand()%10+1;
             P->idle_wake = rand()%5;
             P->pre_cpuT = periodCPUT;
             break;
+
         case fluctuation:                                               // left for <code>fluctuation to deal with
             break;
     }

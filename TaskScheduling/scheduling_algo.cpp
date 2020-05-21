@@ -13,6 +13,8 @@
 using namespace std;
 
 
+const int PID_BLANK = -1;
+
 int scheduling::FCFS(){                                             // it is also possible to get individual task's attributions here ////
     sort(pqueue.begin(), pqueue.end(), cmpArrivalt);
     int clock=pqueue[0]->arrivaltime;
@@ -23,16 +25,15 @@ int scheduling::FCFS(){                                             // it is als
         clock = clock+pqueue[i]->timeRemain;
         exeQ.push_back(pqueue[i]);                                  // push this task in
 
-        if (i!=pqueue.size()-1 && clock < pqueue[i+1]->arrivaltime){                   // check if there is any time blank in between this and the next
+        if (i!=pqueue.size()-1 && clock < pqueue[i+1]->arrivaltime){// check if there is any time blank in between this and the next
             int blank = pqueue[i+1]->arrivaltime - clock;
-            task * nope = new task;                                 // create a nope task whose PID is -1 to indicate a blank period
-            nope->timeRemain = blank;
+            task * nope = new task(PID_BLANK, blank, clock);        // create a nope task whose PID is -1 to indicate a blank period
             exeQ.push_back(nope);
             clock = clock + blank;
         }
     }
 
-    task * blank = new task(-1, exeQ[0]->arrivaltime, 0);
+    task * blank = new task(PID_BLANK, exeQ[0]->arrivaltime, 0);
     exeQ.insert(exeQ.begin(), blank);                               // always insert a blank task according to the starting time of the first process
 
     return 0;
@@ -53,12 +54,12 @@ int scheduling::SRT(){
         if (runQ.size()!=0){
             pid = runQ[0]->pid;
             arrive = runQ[0]->arrivaltime;
-            runQ[0]->timeRemain--;                                    // the highest priority task execute for one clock time
+            runQ[0]->timeRemain--;                                  // the highest priority task execute for one clock time
             responsed.insert(runQ[0]->pid);
 
             if (runQ[0]->timeRemain == 0) {
                 finished.insert(runQ[0]->pid);
-                runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
+                runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;   // time from creating to completing
                 runQ[0] = *(runQ.end()-1);
                 runQ.erase(runQ.end()-1);
                 if (runQ.size()!=0) runQ[0]->waitT++;
@@ -70,27 +71,27 @@ int scheduling::SRT(){
             }
         }
         // efficiency attributes //
-        for (size_t i=0; i<runQ.size(); i++){                         // for every remaining tasks inside the task queue
+        for (size_t i=0; i<runQ.size(); i++){                       // for every remaining tasks inside the task queue
             if (responsed.find(runQ[i]->pid) == responsed.end()) runQ[i]->responseT++;
             if (i != 0) runQ[i]->waitT++;
         }
         // reorder the execution queue //
-        if (sortQueue(runQ)){                                        // sort the queue at every cycle
-            task * period = new task(pid, clock-startP, arrive);     // if the running task changes, need to record the period execution
+        if (sortQueue(runQ)){                                       // sort the queue at every cycle
+            task * period = new task(pid, clock-startP, arrive);    // if the running task changes, need to record the period execution
             startP = clock;
             exeQ.push_back(period);
         }
         // process creation //
-        if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {    // since erase will leave the last element at <code>vec[0]</code>
-            enqueue(runQ, copyQ[0]);                                  // shallow copy, therefore all changes to <code>runQ[i]</code>, will affect pqueue
+        if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {   // since erase will leave the last element at <code>vec[0]</code>
+            enqueue(runQ, copyQ[0]);                                 // shallow copy, therefore all changes to <code>runQ[i]</code>, will affect pqueue
             copyQ.erase(copyQ.begin());
-            if (runQ[0]->pid!=pid && pid!=-1) {                       // if the currently executing task changed
+            if (runQ[0]->pid!=pid && pid!=-1) {                      // if the currently executing task changed
                 task * period = new task(pid, clock-startP, arrive);
                 startP = clock;
                 exeQ.push_back(period);
             }
-            if (runQ.size()==1){                                      // if last period is blank
-                task * nope = new task(-1, clock-startP, -1);
+            if (runQ.size()==1){                                     // if last period is blank
+                task * nope = new task(PID_BLANK, clock-startP, -1);
                 startP = clock;
                 exeQ.push_back(nope);
             }
@@ -149,7 +150,7 @@ int scheduling::SJF(){
             enqueue(runQ, copyQ[0]);
             copyQ.erase(copyQ.begin());
             if (!operation && runQ.size()==1){                    // meaning just now, there is a blank period
-                task * nope = new task(-1, clock-startP, -1);
+                task * nope = new task(PID_BLANK, clock-startP, -1);
                 exeQ.push_back(nope);
 
                 startP = clock;
@@ -200,7 +201,7 @@ int scheduling::HRRN(){
             runQ.push_back(copyQ[0]);                             // just add to the end and wait for termination of the current task
             copyQ.erase(copyQ.begin());
             if (runQ.size()==1){                                  // meaning just now, there is a blank period
-                task * nope = new task(-1, clock-startP, -1);
+                task * nope = new task(PID_BLANK, clock-startP, -1);
                 exeQ.push_back(nope);
 
                 startP = clock;
@@ -235,18 +236,18 @@ int scheduling::RR(){
         }
         if (runQ.size()!=0 && runQ[0]->timeRemain==0) {
             finished.insert(runQ[0]->pid);
-            runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;     // time from creating to completing
+            runQ[0]->cyclingT = clock - runQ[0]->arrivaltime;       // time from creating to completing
             task * period = new task(pid, pSlice+1, arrive);
-            exeQ.push_back(period);                               // terminate and record the finished task
+            exeQ.push_back(period);                                 // terminate and record the finished task
             runQ.erase(runQ.begin());
             pSlice = -1;
             if (runQ.size()==0) startP = clock;
         }
         if (clock == copyQ[0]->arrivaltime && copyQ.size() != 0) {
-            runQ.push_back(copyQ[0]);                             // just add to the end and wait for termination of the current task
+            runQ.push_back(copyQ[0]);                               // just add to the end and wait for termination of the current task
             copyQ.erase(copyQ.begin());
-            if (runQ.size()==1){                                  // meaning just now, there is a blank period
-                task * nope = new task(-1, clock-startP, -1);
+            if (runQ.size()==1){                                    // meaning just now, there is a blank period
+                task * nope = new task(PID_BLANK, clock-startP, -1);
                 exeQ.push_back(nope);
                 startP = clock;
                 pSlice = -1;
