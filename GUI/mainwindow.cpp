@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     CPU = new cpuMon();
+    CPU->fluctuate();
     CPU->createP(0,"MainWindow",root);//Default PID for mainwindow is 0.
 
     QStatusBar *stBar = statusBar();
