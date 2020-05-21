@@ -13,8 +13,8 @@ public:
     vector<list<Pair>> arr;
     map<m_task,int> Bu_map;
     Buddy(int s);
-    void allocate(m_task &current);
-    void deallocate(m_task &current);
+    bool allocate(m_task &current);
+    bool deallocate(m_task &current);
 };
 
 #endif // BUDDY_H
