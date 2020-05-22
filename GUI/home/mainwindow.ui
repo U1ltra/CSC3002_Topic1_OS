@@ -20,9 +20,15 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
      <widget class="QPushButton" name="btn_Calendar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -31,8 +37,8 @@
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
-        <height>200</height>
+        <width>100</width>
+        <height>100</height>
        </size>
       </property>
       <property name="sizeIncrement">
@@ -42,37 +48,28 @@
        </size>
       </property>
       <property name="text">
-       <string>Calendar</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../image.qrc">
+        <normaloff>:/image/images/Calendar.jpg</normaloff>:/image/images/Calendar.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
-    <item row="0" column="5">
-     <widget class="QPushButton" name="btn_FileSystem">
-      <property name="minimumSize">
-       <size>
-        <width>50</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>200</height>
-       </size>
-      </property>
-      <property name="sizeIncrement">
-       <size>
-        <width>1</width>
-        <height>1</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>FileSystem</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
+    <item>
      <widget class="QPushButton" name="btn_calc">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -81,8 +78,8 @@
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
-        <height>200</height>
+        <width>100</width>
+        <height>100</height>
        </size>
       </property>
       <property name="sizeIncrement">
@@ -92,12 +89,28 @@
        </size>
       </property>
       <property name="text">
-       <string>Calculator</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../image.qrc">
+        <normaloff>:/image/images/Calculator.jpg</normaloff>:/image/images/Calculator.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
-    <item row="0" column="9">
-     <widget class="QPushButton" name="btn_game">
+    <item>
+     <widget class="QPushButton" name="btn_FileSystem">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -106,8 +119,8 @@
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
-        <height>200</height>
+        <width>100</width>
+        <height>100</height>
        </size>
       </property>
       <property name="sizeIncrement">
@@ -117,12 +130,28 @@
        </size>
       </property>
       <property name="text">
-       <string>Game</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../image.qrc">
+        <normaloff>:/image/images/FileSystem.jpg</normaloff>:/image/images/FileSystem.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
-    <item row="0" column="6">
+    <item>
      <widget class="QPushButton" name="btn_TaskManager">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -131,8 +160,8 @@
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
-        <height>200</height>
+        <width>100</width>
+        <height>100</height>
        </size>
       </property>
       <property name="sizeIncrement">
@@ -142,12 +171,28 @@
        </size>
       </property>
       <property name="text">
-       <string>TaskManager</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../image.qrc">
+        <normaloff>:/image/images/TaskManager.jpg</normaloff>:/image/images/TaskManager.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
-    <item row="0" column="7">
+    <item>
      <widget class="QPushButton" name="btn_TextEditor">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -156,8 +201,8 @@
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
-        <height>200</height>
+        <width>100</width>
+        <height>100</height>
        </size>
       </property>
       <property name="sizeIncrement">
@@ -167,7 +212,58 @@
        </size>
       </property>
       <property name="text">
-       <string>TextEditor</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../image.qrc">
+        <normaloff>:/image/images/TextEditor.jpg</normaloff>:/image/images/TextEditor.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_game">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>1</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../image.qrc">
+        <normaloff>:/image/images/Game.jpg</normaloff>:/image/images/Game.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -179,7 +275,7 @@
      <x>0</x>
      <y>0</y>
      <width>888</width>
-     <height>29</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSystem">
@@ -208,6 +304,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../image.qrc"/>
+ </resources>
  <connections/>
 </ui>
