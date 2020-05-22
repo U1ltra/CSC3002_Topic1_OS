@@ -102,35 +102,39 @@ public:
     /*
      * Return the process queue
      */
-    std::vector<process*> getQ();
+    std::vector<process*> getQ() const;
 
     /*
      * Return the Qvariant queue of processes names or pids or
      * threads or idle_wakes or cpuT or cpuPer or permission so
      * that they can be organized into a QStandardItemModle.
      */
-    template<typename ValueType>
-    std::vector<ValueType> getAttributesQ(ValueType);
+    std::vector<const QVariant> getAttributesQ(QVariant);
 
     /*
      * Return true if total cpu percentage surpasses 75%
      */
-    bool isBusy();
+    bool isBusy() const ;
 
     /*
      * Return total percentage of cpu usage
      */
-    int TcpuPer();
+    int TcpuPer() const;
 
     /*
      * Return total number of threads
      */
-    int Tthread();
+    int Tthread() const;
 
     /*
      * Return total number of processes
      */
-    int Tprocess();
+    int Tprocess() const;
+
+    /*
+     * Return the nuber of attributes
+     */
+    int TAttr() const;
 
     /*
      * Simulate statistics changing during leisure time
@@ -153,7 +157,7 @@ private:
     double TcpuPercentage;
     bool operation;                     // indicate in current time slice, whether any operations happened
     std::vector<process*> processes;    // processes created and havenot terminated
-    std::vector<QVariant> name_of_attrs;// store PID, cpuT, cpuPer, thread, idle_wake, permission such names in QVariant
+    std::vector<const QVariant> name_of_attrs;// store PID, cpuT, cpuPer, thread, idle_wake, permission such names in QVariant
 
 
     // private functions //
@@ -250,61 +254,6 @@ private:
     void Tstatistics();
 };
 
-
-template<typename ValueType>
-std::vector<ValueType> cpuMon::getAttributesQ(ValueType attr){
-    std::vector<ValueType> vec;
-    std::vector<process*>::iterator it;
-    it = processes.begin();
-
-    if (attr == "Attr_name") return name_of_attrs;                  // name of attributes
-
-    else if (attr == "Process_name")
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->name);
-            it++;
-        }
-    } else if (attr == .1)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->cpuT);
-            it++;
-        }
-    } else if (attr == .2)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->cpuPer);
-            it++;
-        }
-    } else if (attr == 1)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->thread);
-            it++;
-        }
-    } else if (attr == 2)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->idle_wake);
-            it++;
-        }
-    } else if (attr == 3)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->pid);
-            it++;
-        }
-    } else if (attr == root)
-    {
-        while (it!=processes.end())
-        {
-            vec.push_back((*it)->psion);
-            it++;
-        }
-    }
-    return vec;
-}
 
 
 #endif // CPU_H

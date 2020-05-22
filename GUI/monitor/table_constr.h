@@ -26,7 +26,7 @@ public:
 
     stdTable(int, int);
 
-    ~stdTable();
+    ~stdTable() = default;
 
     /*
      * Set the row and column title of the table according to the
@@ -34,14 +34,13 @@ public:
      * Use template in order to match definition of <code>getAttributes</code>
      * in cpuMon class.
      */
-    int setTitle(std::vector<QVariant>, std::vector<QVariant>);
+    int setTitle(std::vector<const QVariant>, std::vector<const QVariant>);
 
     /*
      * Change the whole column with index <code>col</code> according
      * to the values specified by the given vector
      */
-    template<typename ValueType>
-    int tableChange(int col, std::vector<ValueType> values);
+    int tableChange(int col, std::vector<const QVariant> values);
 
     /*
      * This function fills in the statistics of given <code>cpuMon</code>
@@ -57,11 +56,16 @@ public:
      */
     int game2table();
 
+    /*
+     * Return the pointer the the constructed standerd table
+     */
+    QStandardItemModel * getTable();
+
 private:
 
-    QStandardItemModel * table;         // the modle object of the table
-    QStandardItem ** items;             // two dimensional array storing the items
-    cpuMon * CPU;                       // if no need to support scheduling, i could add a cpuMon here
+    std::vector<std::vector<QStandardItem*>> * items;   // all items
+    QStandardItemModel * table;                         // the modle object of the table
+    cpuMon * CPU;                                       // if no need to support scheduling, i could add a cpuMon here
     int rows;
     int cols;
 
@@ -72,68 +76,6 @@ private:
     stdTable(stdTable &);
 
 };
-
-
-template<typename ValueType>
-int setTitle(std::vector<ValueType> rowNames, std::vector<ValueType> colNames){
-
-}
-
-
-
-//// function prototype //
-
-///*
-// * Construct a M * N table. Set row and column names
-// */
-//template<typename ValueType>
-//QStandardItemModel * tableConstr(int,int,std::vector<QVariant>, std::vector<QVariant>);
-
-///*
-// * Update the data in the given table using the given vector
-// */
-//template<typename ValueType>
-//QStandardItemModel * tableChange(QStandardItemModel*,std::vector<ValueType>);
-
-///*
-// * Return the reference to the standard table of current cpu
-// * usage statistics
-// */
-//QStandardItemModel * cpuMon2Table(QStandardItemModel *, cpuMon *);
-
-
-
-//// function definition //
-
-//template<typename ValueType>
-//QStandardItemModel * tableConstr(std::vector<QVariant> v1, std::vector<QVariant> v2){
-//    QStandardItemModel * model = new QStandardItemModel;
-//    model->setRowCount(v1.size());
-//    model->setColumnCount(v2.size());
-//    for (std::vector<QVariant>::size_type i=0; i<v1.size(); i++){
-//        model->setHeaderData(i, Qt::Vertical, v1[i]);
-//    }
-//    for (int i=0; i<v2.size(); i++){
-//        model->setHeaderData(i, Qt::Horizontal, v2[i]);
-//    }
-//    return model;
-//}
-
-//template<typename ValueType>
-//QStandardItem ** tableChange(int rowN, int colN, QStandardItemModel* model, std::vector<ValueType> queue){
-//    QStandardItem ** nest = new QStandardItem* [colN];
-//    for (int i=0; i<row; i++){                              // write vertically a time
-//        model->setItem(i, col, queue[i]);
-//    }
-//    return model;
-//}
-
-//QStandardItemModel * cpuMon2Table(QStandardItemModel * table, cpuMon * CPU){
-//    QStandardItemModel * table1 = tableConstr(CPU->Tprocess(), 7,
-//                                             CPU->getAttributesQ("Process_name"), CPU->getAttributesQ("Attr_name"));
-//    tableChange(0, CPU->Tprocess(), table, CPU->getAttributesQ(.1));
-
-//}
 
 
 #endif // TABLE_CONSTR_H
