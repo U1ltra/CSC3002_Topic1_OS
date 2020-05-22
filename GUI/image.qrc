@@ -3,14 +3,4 @@
         <file>Menu.jpg</file>
         <file>File.jpg</file>
     </qresource>
-    <qresource prefix="/">
-        <file>images/Calculator.jpg</file>
-        <file>images/Calendar.jpg</file>
-        <file>images/File.jpg</file>
-        <file>images/FileSystem.jpg</file>
-        <file>images/Game.jpg</file>
-        <file>images/Menu.jpg</file>
-        <file>images/TaskManager.jpg</file>
-        <file>images/TextEditor.jpg</file>
-    </qresource>
 </RCC>
