@@ -1,9 +1,11 @@
-#include "mainwindow.h"
+#include "home/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "calculator.h"
-#include "calendar.h"
+#include "app/calculator.h"
+#include "app/calendar.h"
 #include <QStatusBar>
-#include "digitalclock.h"
+#include "app/digitalclock.h"
+#include "cpuMon.h"
+#include <QDebug>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -12,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     CPU = new cpuMon();
-    CPU->fluctuate();
+    fluctuate(*CPU);
     CPU->createP(10,"MainWindow",root);//Default PID for mainwindow is 10.
 
     QStatusBar *stBar = statusBar();
@@ -98,14 +100,16 @@ void MainWindow::on_actionShutdown_triggered()
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e){
+//    qDebug() << "here?" << PID;
     to_simple_Click();
-    system_timer->start(100);
+    system_timer->start(200);
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *e)
 {
+//    qDebug() << "dragged?";
     to_moving_around();
-    system_timer->start(100);
+    system_timer->start(200);
 }
 
 
@@ -116,15 +120,16 @@ void MainWindow::back_to_fluctuation(){
 
 void MainWindow::to_effect_Click(){
     CPU->operationDet(PID,effectClick);
-    system_timer->start(100);
+    system_timer->start(200);
 }
 
-void MainWindow::to_simple_Click(){
+void MainWindow::to_simple_Click(){ 
     CPU->operationDet(PID,simpleClick);
-    system_timer->start(100);
+//    qDebug() << "simple_click";
+    system_timer->start(200);
 }
 
 void MainWindow::to_moving_around(){
     CPU->operationDet(PID,movingAround);
-    system_timer->start(100);
+    system_timer->start(200);
 }

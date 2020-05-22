@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 #include <QLCDNumber>
-#include "digitalclock.h"
-#include "calculator.h"
-#include "texteditor.h"
-#include "visualfilemanager.h"
+#include "app/digitalclock.h"
+#include "app/calculator.h"
+#include "app/texteditor.h"
+#include "filesys/visualfilemanager.h"
 #include <QMouseEvent>
 namespace Ui {
 class MainWindow;
@@ -54,7 +54,7 @@ private:
     text_editor_count = 1,
     calendar_count = 1,
     file_system_count=1;
-    int PID=0;
+    int PID=10;
     cpuMon* CPU;
 
     void to_simple_Click();

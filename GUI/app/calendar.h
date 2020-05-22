@@ -5,7 +5,7 @@
 #include <QAbstractItemModel>
 #include <QCalendarWidget>
 #include <QTimer>
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 class Calendar : public QCalendarWidget
 {
     Q_OBJECT

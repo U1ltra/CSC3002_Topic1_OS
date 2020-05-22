@@ -16,38 +16,58 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    calculator.cpp \
-    calendar.cpp \
-    cpuMon.cpp \
-    digitalclock.cpp \
-    error.cpp \
-    login_interface.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    texteditor.cpp \
-    visualfilemanager.cpp
+    app/calculator.cpp \
+    app/calendar.cpp \
+    app/digitalclock.cpp \
+    app/texteditor.cpp \
+    \
+    monitor/cpuMon.cpp \
+    \
+    filesys/visualfilemanager.cpp \
+    \
+    home/login_interface.cpp \
+    home/mainwindow.cpp \
+    home/main.cpp \
+    \
+    monitor/table_constr.cpp \
+    uti/error.cpp
 
 HEADERS += \
-    calculator.h \
-    calendar.h \
-    cpuMon.h \
-    digitalclock.h \
-    error.h \
-    login_interface.h \
-    mainwindow.h \
-    texteditor.h \
-    ui_calculator.h \
-    ui_login_interface.h \
-    ui_widget.h \
-    visualfilemanager.h
+    app/calculator.h \
+    app/calendar.h \
+    app/digitalclock.h \
+    app/texteditor.h \
+#    app/ui_calculator.h \
+    \
+    filesys/visualfilemanager.h \
+    \
+    home/login_interface.h \
+#    home/ui_login_interface.h \
+    home/mainwindow.h \
+#    home/ui_widget.h \
+    \
+    monitor/cpuMon.h \
+    monitor/table_constr.h \
+    \
+    uti/error.h
 
 FORMS += \
-    calculator.ui \
-    error.ui \
-    login_interface.ui \
-    mainwindow.ui \
-    texteditor.ui \
-    visualfilemanager.ui
+    app/calculator.ui \
+    app/texteditor.ui \
+    \
+    filesys/visualfilemanager.ui \
+    \
+    home/login_interface.ui \
+    home/mainwindow.ui
+    \
+    uti/error.ui
+
+INCLUDEPATH += \
+    app \
+    filesys \
+    home \
+    monitor \
+    uti
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -56,8 +76,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     .DS_Store \
-    File.jpg \
-    Menu.jpg
+    images/File.jpg \
+    images/Menu.jpg \
+    images/Calculator.jpg \
+    images/Calendar.jpg \
+    images/FileSystem.jpg \
+    images/Game.jpg \
+    images/TaskManager/jpg \
+    images/TextEditor.jpg
 
 RESOURCES += \
     image.qrc

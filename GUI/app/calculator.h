@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QMouseEvent>
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 
 namespace Ui {
 class Calculator;

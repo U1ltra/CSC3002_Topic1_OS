@@ -1,6 +1,6 @@
-#include "login_interface.h"
-#include "mainwindow.h"
-#include "calculator.h"
+#include "home/login_interface.h"
+#include "home/mainwindow.h"
+#include "app/calculator.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QString>
 #include <QLineEdit>
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 #include <QTimer>
 namespace Ui {
 class TextEditor;

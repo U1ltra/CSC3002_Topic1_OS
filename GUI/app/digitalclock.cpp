@@ -1,4 +1,4 @@
-#include "digitalclock.h"
+#include "app/digitalclock.h"
 #include <QLCDNumber>
 #include <QTimer>
 #include <QDateTime>

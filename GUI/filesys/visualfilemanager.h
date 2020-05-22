@@ -5,9 +5,9 @@
 #include <QProcess>
 #include <QDir>
 #include <QListWidget>
-#include "error.h"
+#include "uti/error.h"
 #include <QMouseEvent>
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class VisualFileManager; }
 QT_END_NAMESPACE

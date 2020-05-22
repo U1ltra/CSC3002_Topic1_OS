@@ -1,8 +1,9 @@
-#include "visualfilemanager.h"
+#include "filesys/visualfilemanager.h"
 #include "ui_visualfilemanager.h"
 #include <QDebug>
 #include <QTimer>
-#include <windows.h>
+//#include <windows.h>
+#include <unistd.h>
 VisualFileManager::VisualFileManager(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::VisualFileManager)
@@ -338,6 +339,6 @@ void VisualFileManager::FileManaging(){
 
 void VisualFileManager::sleeping(){
     if (CPU->isBusy()){
-        Sleep(500);
+        sleep(1);
     }
 }

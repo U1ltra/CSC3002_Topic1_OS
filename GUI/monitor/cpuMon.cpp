@@ -5,7 +5,7 @@
  * This file implements the cpu monitor class.
  */
 
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 #include <cmath>
 #include <ctime>
 #include <chrono>
@@ -14,6 +14,8 @@
 #include <string>
 #include <cstdlib>
 #include <iomanip>
+#include <QDebug>
+#include <QVariant>
 #include <iostream>
 
 using namespace std;
@@ -27,6 +29,13 @@ const int INITIAL_IDLE = 5;
 const int INITIAL_THREAD = 5;
 const double INITIAL_CPUT = .2;
 const double INITIAL_CPUPER = .1;
+const QVariant PID = "PID";
+const QVariant USER = "User";
+const QVariant CPUPER = "CPU %";
+const QVariant THREAD = "Thread";
+const QVariant CPUTIME = "CPU Time";
+const QVariant IDLEW = "Idle wake ups";
+const QVariant PNAME = "Process Name";
 
 
 process::process(){
@@ -36,7 +45,7 @@ process::process(){
     psion = user;
 }
 
-process::process(string Pname, permission per,
+process::process(QVariant Pname, permission per,
                  int id, int threadN, int idle, double cpu_t, double cpu_p){
     name = Pname;
     psion = per;
@@ -56,6 +65,14 @@ cpuMon::cpuMon(){
     for (int i=0; i<3; i++){
         mostRecent[i] = 0;
     }
+
+    name_of_attrs.push_back(PNAME);
+    name_of_attrs.push_back(CPUTIME);
+    name_of_attrs.push_back(CPUPER);
+    name_of_attrs.push_back(THREAD);
+    name_of_attrs.push_back(IDLEW);
+    name_of_attrs.push_back(PID);
+    name_of_attrs.push_back(USER);
 
     createKernelT();            // create three initial system process
     createLaunchd();
@@ -86,7 +103,7 @@ void cpuMon::createLaunchd(){
     createP(launchd_pid, "launchd", root);
 }
 
-void cpuMon::createP(int pid, std::string name, permission per){
+void cpuMon::createP(int pid, QVariant name, permission per){
     process * P = new process(name, per, pid,
                               INITIAL_THREAD, INITIAL_IDLE, INITIAL_CPUT, INITIAL_CPUPER);
     processes.push_back(P);
@@ -125,7 +142,7 @@ vector<process*> cpuMon::getQ(){
 void cpuMon::recentIn(process * P){
     mostRecent[2] = mostRecent[1];
     mostRecent[1] = mostRecent[0];
-    mostRecent[2] = P->pid;
+    mostRecent[0] = P->pid;
 }
 
 void cpuMon::Tstatistics(){
@@ -135,6 +152,7 @@ void cpuMon::Tstatistics(){
         TThread = TThread + (*i)->thread;
         TIDLE = TIDLE + (*i)->idle_wake;
     }
+    if (TcpuPercentage>1) TcpuPercentage=1;
 }
 
 void cpuMon::operationDet(int pid, opType op){  // whenever GUI detect a kind of operation, this is the function invoke the resource usage simulation
@@ -157,8 +175,9 @@ void cpuMon::operationDet(int pid, opType op){  // whenever GUI detect a kind of
     launchd(op);
     window_server(op);
 
-    recentIn(*it);                              // record the most recent processes
-    inactiveP(*it);                             // update processes that is not currently updated
+//    cout << "hhhhhhhcrushed?" << endl;
+    recentIn(*(it));                          // record the most recent processes
+    inactiveP(*(it));                         // update processes that is not currently updated
     Tstatistics();                              // calculate statistics
     CPUTem();                                   // update cpu temperature
     check();
@@ -178,18 +197,19 @@ void cpuMon::kernel_task(opType op){
         initial = false;
     } else{
 
-        if (cputemp>50) {                                               // when CPU is functioning in high temperature
+        if (cputemp>70) {                                               // when CPU is functioning in high temperature
             periodCPUT = (950+rand()%100)/double(1000);
             processes[0]->cpuT = processes[0]->cpuT+periodCPUT;         // kernel task will automatically rise and slow down the CPU usage
             processes[0]->cpuPer = periodCPUT/REFRESHING_SLICE;
             processes[0]->thread = 70+rand()%20;
             processes[0]->idle_wake = 100+rand()%20;
-            if (op==fluctuation) cputemp-=4;                            // when nothing is under execution, tem will decrease sharper
+            if (op==fluctuation) cputemp-=5;                            // when nothing is under execution, tem will decrease sharper
             cputemp-=2;                                                 // lower the temperature
             return;
         }
         switch (op) {
         case simpleClick: case movingAround: case fluctuation:          // as far as kernel is concern, these three are having little effect
+            cout << "i'm here!!!!!!!!!!!!!" << endl;
             periodCPUT = (300+rand()%500) / double(10000);              // around 1.5-4% of the %CPU
             processes[0]->cpuT = processes[0]->cpuT+periodCPUT;
             processes[0]->cpuPer = periodCPUT/REFRESHING_SLICE;
@@ -257,7 +277,7 @@ void cpuMon::window_server(opType op){
                 break;
 
             case movingAround: case refreshing:                             // graph in game case or refreshing cursor
-                periodCPUT = (400+rand()%200)/double(1000);                 // around 20%-30%
+                periodCPUT = (300+rand()%200)/double(1000);                 // around 20%-30%
                 processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
                 processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
                 processes[2]->thread = 10+rand()%10;
@@ -282,10 +302,10 @@ void cpuMon::launchd(opType op){                                            // l
             case refreshing:  case calculation:
             case textIn:      case fileMan:
             case fluctuation:
-                periodCPUT = (rand()%100)/double(10000);                    // around 0-0.5%
+                periodCPUT = (10+rand()%100)/double(10000);                 // around 0-0.5%
                 processes[1]->cpuT = processes[1]->cpuT+periodCPUT;
                 processes[1]->cpuPer = periodCPUT/REFRESHING_SLICE;
-                processes[1]->thread = rand()%10;
+                processes[1]->thread = 1+rand()%10;
                 processes[1]->idle_wake = rand()%3;
                 if (processes[1]->thread<3) processes[1]->thread=3;
                 break;
@@ -306,12 +326,12 @@ void cpuMon::operationMon(process * & P, opType op){                    // this 
     double periodCPUT;                                                  // in, reasonable updates are performed on statistics of the give process
     switch (op) {
         case simpleClick: case movingAround:                            // during the three type of condition, current process attributes is low
-            periodCPUT = (200+rand()%200)/double(10000);                // around 1%-2%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = rand()%7+1;
-            P->idle_wake = rand()%2;
-            P->pre_cpuT = periodCPUT;
+//            periodCPUT = (200+rand()%200)/double(10000);                // around 1%-2%
+//            P->cpuT = P->cpuT+periodCPUT;
+//            P->cpuPer = periodCPUT/REFRESHING_SLICE;
+//            P->thread = rand()%7+1;
+//            P->idle_wake = rand()%2;
+//            P->pre_cpuT = periodCPUT;
             break;
 
         case effectClick:
@@ -374,7 +394,7 @@ void cpuMon::inactiveP(process * active){
             (*it)->idle_wake = rand()%2;
 
             if (periodCPUT<0) periodCPUT=0;                             // when period cpu time is less than 0, meaning the process is completely waiting
-            if ((*it)->thread<0) (*it)->thread=rand()%3+1;              // thread number can not be smaller than or equal to zero
+            if ((*it)->thread<=0) (*it)->thread=rand()%3+1;             // thread number can not be smaller than or equal to zero
 
             (*it)->cpuT = (*it)->cpuT+periodCPUT;                       // update the inactive process according to the period cpu time
             (*it)->cpuPer = periodCPUT / REFRESHING_SLICE;
@@ -387,9 +407,9 @@ void cpuMon::inactiveP(process * active){
 
 void cpuMon::CPUTem(){
     srand(((int) time(NULL))+TThread+TIDLE);
-    if      (TcpuPercentage>.8) cputemp+=(250+rand()%300)/double(100);
-    else if (TcpuPercentage>.6) cputemp+=(100+rand()%300)/double(100);
-    else if (TcpuPercentage>.4) cputemp+=(rand()%300)/double(100);      // when 50% of real cpu time is used up, temperature goes up
+    if      (TcpuPercentage>.8) cputemp+=(200+rand()%300)/double(100);
+    else if (TcpuPercentage>.6) cputemp+=(100+rand()%250)/double(100);
+    else if (TcpuPercentage>.4) cputemp+=(rand()%200)/double(100);      // when 50% of real cpu time is used up, temperature goes up
     else if (TcpuPercentage>.2) cputemp-=(rand()%200)/double(100);
     else                        cputemp-=(rand()%1000)/double(1000);
 
@@ -416,7 +436,7 @@ void fluctuate(cpuMon & monitor){                               // OS gradually 
         monitor.check();
         cout << "fl print" << endl;
     }
-    this_thread::sleep_for(chrono::milliseconds(50));           // call oneself again after the sleep, making this function a parallel thread
+    this_thread::sleep_for(chrono::milliseconds(100));           // call oneself again after the sleep, making this function a parallel thread
     thread next(ref(fluctuate), ref(monitor));                  // detach to allow the resources of this function been collected
     next.detach();
 
@@ -428,8 +448,8 @@ void cpuMon::check(){
     cout << "  Process name        cpuT         cpuPer       thread      idle_wake_up      permission" << endl;
     cout << "  ------------      --------      --------      ------      ------------      ----------" << endl;
     while (it!=processes.end()){
-        cout << "  " << left << fixed;
-        cout << setw(12) << (*it)->name << ":     ";
+        cout << "                    " << left << fixed;
+//        qDebug() << (*it)->name.toString() << ":     ";
         cout << setprecision(4);
         cout << setw(8) << (*it)->cpuT << "      ";
         cout << setw(7) << (*it)->cpuPer*100 << "%       ";

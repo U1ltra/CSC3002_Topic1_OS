@@ -6,7 +6,7 @@
 #include <QLCDNumber>
 #include <QTimer>
 #include <QDateTime>
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 class DigitalClock : public QLCDNumber
 {
     Q_OBJECT
@@ -25,7 +25,7 @@ private:
 private slots:
      void ontimeout();
 
-    void back_to_fluctuation();
+     void back_to_fluctuation();
 };
 
 #endif // DIGITALCLOCK_H

@@ -1,4 +1,4 @@
-#include "texteditor.h"
+#include "app/texteditor.h"
 #include "ui_texteditor.h"
 #include <QLabel>
 #include <QLineEdit>
@@ -7,7 +7,9 @@
 #include <QPushButton>
 #include <QLayout>
 #include <QMouseEvent>
-#include <windows.h>
+//#include <windows.h>
+#include <unistd.h>
+
 TextEditor::TextEditor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
@@ -238,6 +240,6 @@ void TextEditor::texting(){
 
 void TextEditor::sleeping(){
     if (CPU->isBusy()){
-        Sleep(500);
+        sleep(1);
     }
 }

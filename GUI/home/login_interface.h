@@ -5,7 +5,7 @@
 #include <QString>
 #include <QMap>
 #include <QTimer>
-#include "mainwindow.h"
+#include "home/mainwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -42,7 +42,7 @@ private:
     QMap<QString,QString> ParentBook;
     QMap<QString,QString> ChildrenBook;
 
-    MainWindow* mw;
+    MainWindow mw;
 
     void parent_accept();
     void children_accept();
