@@ -23,12 +23,6 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
      <widget class="QPushButton" name="btn_Calendar">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -48,28 +42,12 @@
        </size>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../image.qrc">
-        <normaloff>:/images/Calendar.jpg</normaloff>:/images/Calendar.jpg</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
+       <string>Calendar</string>
       </property>
      </widget>
     </item>
     <item row="0" column="5">
      <widget class="QPushButton" name="btn_FileSystem">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -89,28 +67,12 @@
        </size>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../image.qrc">
-        <normaloff>:/images/FileSystem.jpg</normaloff>:/images/FileSystem.jpg</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
+       <string>FileSystem</string>
       </property>
      </widget>
     </item>
     <item row="0" column="2">
      <widget class="QPushButton" name="btn_calc">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -130,28 +92,12 @@
        </size>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../image.qrc">
-        <normaloff>:/images/Calculator.jpg</normaloff>:/images/Calculator.jpg</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
+       <string>Calculator</string>
       </property>
      </widget>
     </item>
     <item row="0" column="9">
      <widget class="QPushButton" name="btn_game">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -171,28 +117,12 @@
        </size>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../image.qrc">
-        <normaloff>:/images/Game.jpg</normaloff>:/images/Game.jpg</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
+       <string>Game</string>
       </property>
      </widget>
     </item>
     <item row="0" column="6">
      <widget class="QPushButton" name="btn_TaskManager">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -212,28 +142,12 @@
        </size>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../image.qrc">
-        <normaloff>:/images/TaskManager.jpg</normaloff>:/images/TaskManager.jpg</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
+       <string>TaskManager</string>
       </property>
      </widget>
     </item>
     <item row="0" column="7">
      <widget class="QPushButton" name="btn_TextEditor">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -253,17 +167,7 @@
        </size>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../image.qrc">
-        <normaloff>:/images/TextEditor.jpg</normaloff>:/images/TextEditor.jpg</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
+       <string>TextEditor</string>
       </property>
      </widget>
     </item>
@@ -275,7 +179,7 @@
      <x>0</x>
      <y>0</y>
      <width>888</width>
-     <height>21</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSystem">
@@ -283,6 +187,7 @@
      <string>System</string>
     </property>
     <addaction name="actionShutdown"/>
+    <addaction name="actionSleep"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -303,8 +208,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="../image.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
