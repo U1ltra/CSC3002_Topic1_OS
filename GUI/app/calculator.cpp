@@ -3,6 +3,7 @@
 #include <QTimer>
 //#include <windows.h>
 #include <unistd.h>
+#include <QMessageBox>
 
 Calculator::Calculator(QWidget *parent) :
     QWidget(parent),
@@ -23,10 +24,11 @@ Calculator::Calculator(QWidget *parent) :
     system_timer = new QTimer();  // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 }
 
 Calculator::~Calculator()
-{   CPU->terminateP(PID);
+{
     delete ui;
 }
 
@@ -355,5 +357,24 @@ void Calculator::calculating(){
 void Calculator::sleeping(){
     if (CPU->isBusy()){
         sleep(1);
+    }
+}
+
+void Calculator::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+
+void Calculator::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
     }
 }

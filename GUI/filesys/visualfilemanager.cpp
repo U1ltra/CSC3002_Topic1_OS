@@ -4,6 +4,7 @@
 #include <QTimer>
 //#include <windows.h>
 #include <unistd.h>
+#include <QMessageBox>
 VisualFileManager::VisualFileManager(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::VisualFileManager)
@@ -292,7 +293,7 @@ void VisualFileManager::showError() {
 
 void VisualFileManager::set_CPU(cpuMon * cpu){
     CPU=cpu;
-    CPU->createP(PID,"Calculator",user);
+    CPU->createP(PID,"VisualFileManager",user);
 }
 
 
@@ -340,5 +341,23 @@ void VisualFileManager::FileManaging(){
 void VisualFileManager::sleeping(){
     if (CPU->isBusy()){
         sleep(1);
+    }
+}
+
+void VisualFileManager::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+void VisualFileManager::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
     }
 }

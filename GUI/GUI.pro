@@ -21,6 +21,9 @@ SOURCES += \
     app/digitalclock.cpp \
     app/texteditor.cpp \
     \
+    memory/Buddy.cpp \
+    memory/Pair.cpp \
+    memory/m_task.cpp \
     monitor/cpuMon.cpp \
     \
     filesys/visualfilemanager.cpp \
@@ -46,6 +49,9 @@ HEADERS += \
     home/mainwindow.h \
 #    home/ui_widget.h \
     \
+    memory/Buddy.h \
+    memory/m_task.h \
+    memory/pair.h \
     monitor/cpuMon.h \
     monitor/table_constr.h \
     \
