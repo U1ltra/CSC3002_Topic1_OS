@@ -33,6 +33,10 @@ SOURCES += \
     home/main.cpp \
     \
     monitor/table_constr.cpp \
+    schedule/mythread.cpp \
+    schedule/scheduling_algo.cpp \
+    schedule/scheduling_uti.cpp \
+    schedule/widget.cpp \
     uti/error.cpp
 
 HEADERS += \
@@ -55,6 +59,9 @@ HEADERS += \
     monitor/cpuMon.h \
     monitor/table_constr.h \
     \
+    schedule/mythread.h \
+    schedule/scheduling.h \
+    schedule/widget.h \
     uti/error.h
 
 FORMS += \

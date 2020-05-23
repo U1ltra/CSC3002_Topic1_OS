@@ -10,6 +10,9 @@
 #include<QImage>
 #include<ctime>
 #include<QTimer>
+#include <unistd.h>
+#include <QMessageBox>
+#include "monitor/cpuMon.h"
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -21,10 +24,12 @@ Widget::Widget(QWidget *parent) :
 
     ui->mygraph->installEventFilter(this);//在label上安装事件过滤器，this指针指定当事件发生时调用当前类中的事件过滤器进行处理
 
+    setMouseTracking(true);
 
-
-
-
+    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer->setSingleShot(true);
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 }
 
 Widget::~Widget()
@@ -170,7 +175,7 @@ void Widget::on_comboBox_activated(const QString &arg1)
     if(arg1 =="Round_Robin"){
         algo_sign = 5;
         }
-    cout<<"algo sign is:"<<algo_sign<<endl;;
+    cout<<"algo sign is:"<<algo_sign<<endl;
 
 }
 
@@ -195,5 +200,76 @@ void Widget::inittable(){
         for(int j =0;j<8;j++){
             ui->table_of_process->setItem(i,j,new QTableWidgetItem());
         }
+    }
+}
+
+void Widget::set_CPU(cpuMon * cpu){
+    CPU=cpu;
+    CPU->createP(PID,"Schdedule",root);
+}
+
+
+void Widget::setPID(int pid){
+    PID=pid;
+}
+
+void Widget::mousePressEvent(QMouseEvent *e){
+    to_simple_Click();
+    system_timer->start(100);
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *e)
+{
+    to_moving_around();
+    system_timer->start(100);
+}
+
+void Widget::back_to_fluctuation(){
+    CPU->operationDet(PID,fluctuation);
+}
+
+
+void Widget::to_effect_Click(){
+    CPU->operationDet(PID,effectClick);
+    system_timer->start(100);
+}
+
+void Widget::to_simple_Click(){
+    CPU->operationDet(PID,simpleClick);
+    system_timer->start(100);
+}
+
+void Widget::to_moving_around(){
+    CPU->operationDet(PID,movingAround);
+    system_timer->start(100);
+}
+
+void Widget::refresh(){
+    CPU->operationDet(PID,refreshing);
+    system_timer->start(100);
+}
+
+void Widget::sleeping(){
+    if (CPU->isBusy()){
+        sleep(1);
+    }
+}
+
+void Widget::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+
+void Widget::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
     }
 }

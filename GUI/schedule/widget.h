@@ -9,7 +9,8 @@
 #include<string>
 #include<QDebug>
 #include "scheduling.h"
-
+#include "monitor/cpuMon.h"
+#include "memory/Buddy.h"
 using namespace std;
 namespace Ui {
 class Widget;
@@ -21,6 +22,9 @@ class Widget : public QWidget
 
 public:
     explicit Widget(QWidget *parent = 0);
+    void setPID(int pid);
+    void set_CPU(cpuMon*);
+    void set_memory(Buddy* memory);
     ~Widget();
 
 private slots:
@@ -35,8 +39,21 @@ private slots:
     void initcolorvec();
     void inittable();
 
+    void to_simple_Click();
+
+    void to_effect_Click();
+
+    void to_moving_around();
+
+    void back_to_fluctuation();
+
+    void refresh();
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::Widget *ui;
     //颜色选择
@@ -59,6 +76,14 @@ private:
     std::vector<task*> execQ;
 
     vector<QColor*> colorvec;
+
+    int PID;
+    QTimer *system_timer;
+    cpuMon* CPU;
+    Buddy* memory;
+    bool created = false;
+    int memory_size=1;
+    void sleeping();
 };
 
 #endif // WIDGET_H
