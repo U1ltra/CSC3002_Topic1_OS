@@ -13,10 +13,11 @@ Buddy::Buddy(int s){
     size = s;
     int num = (int) ceil(log(s) / log(2));
     arr = vector<list<Pair>>(num + 1);
+    //cout<<"arr size"<<arr.size();
     arr[num].push_front(Pair(0,size-1));
 }
 
-bool Buddy::allocate(m_task &current){
+void Buddy::allocate(m_task &current){
     int s = current.memory;
     int num = (int) ceil(log(s) / log(2));
     if (arr[num].size() > 0){
@@ -25,7 +26,7 @@ bool Buddy::allocate(m_task &current){
         current.starting_Address = tem.lb;
         Bu_map[current] = tem.ub - tem.lb + 1;
         cout << "memory from " << tem.lb << " to " << tem.ub << " " << "allocated." << endl;
-        return true;
+        return;
     }
     int i;
     for (i = num+1; i < arr.size(); i++){
@@ -35,7 +36,7 @@ bool Buddy::allocate(m_task &current){
 
     if (i == arr.size()){
         cout << "Fail to allocate memory" << endl;
-        return false;
+        return;
     }
     Pair tem = arr[i].back();
     arr[i].pop_back();
@@ -51,16 +52,15 @@ bool Buddy::allocate(m_task &current){
     current.starting_Address = tem.lb;
     Bu_map[current] = tem.ub - tem.lb + 1;
     cout << "Memory from " << tem.lb << " to " << tem.ub << " allocated" << endl;
-    return true;
 }
 
 
 
-bool Buddy::deallocate(m_task &current){
-    int index = current.starting_Address;
+void Buddy::deallocate(m_task &current){
+    index = current.starting_Address;
     if (!Bu_map.count(current)){
         cout << "Sorry, invalid free request" << endl;
-        return false;
+        return;
     }
 
     int num = (int) ceil(log(Bu_map[current] / log(2)));
@@ -91,5 +91,8 @@ bool Buddy::deallocate(m_task &current){
         }
     }
     Bu_map.erase(current);
-    return true;
+}
+
+int Buddy::getsize(){
+    return size;
 }
