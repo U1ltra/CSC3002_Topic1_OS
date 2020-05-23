@@ -19,6 +19,8 @@ SOURCES += \
     app/calculator.cpp \
     app/calendar.cpp \
     app/digitalclock.cpp \
+    app/openfile.cpp \
+    app/saveaslist.cpp \
     app/texteditor.cpp \
     \
     monitor/cpuMon.cpp \
@@ -36,6 +38,8 @@ HEADERS += \
     app/calculator.h \
     app/calendar.h \
     app/digitalclock.h \
+    app/openfile.h \
+    app/saveaslist.h \
     app/texteditor.h \
 #    app/ui_calculator.h \
     \
@@ -53,6 +57,8 @@ HEADERS += \
 
 FORMS += \
     app/calculator.ui \
+    app/openfile.ui \
+    app/saveaslist.ui \
     app/texteditor.ui \
     \
     filesys/visualfilemanager.ui \

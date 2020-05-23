@@ -1,5 +1,5 @@
-#include "login_interface.h"
-#include "mainwindow.h"
+#include "home/login_interface.h"
+#include "home/mainwindow.h"
 #include "ui_login_interface.h"
 #include <QString>
 #include <QDebug>
@@ -16,6 +16,9 @@ login_interface::login_interface(QWidget *parent):
     ParentBook.insert("parent","1");
     ChildrenBook.insert("child","1");
     this->setWindowTitle("Login Page");
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/back.jpg")));
+    this->setPalette(pal);
 }
 
 login_interface::~login_interface()
@@ -56,13 +59,14 @@ void login_interface::on_Parent_Mode_clicked()
 void login_interface::parent_accept(){
     //qDebug()<<"parent_accept"<<endl;
     this->close();
-    mw.show();
+    //mw.show();
+    mw.showFullScreen();
 }
 
 void login_interface::children_accept(){
     //qDebug()<<"children_accept"<<endl;
     this->close();
-    mw.show();
+    mw.showFullScreen();
     QTimer::singleShot(15*60000, this, SLOT(closeWindow()));
 }
 

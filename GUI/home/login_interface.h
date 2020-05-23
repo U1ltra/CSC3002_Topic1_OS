@@ -5,7 +5,7 @@
 #include <QString>
 #include <QMap>
 #include <QTimer>
-#include "mainwindow.h"
+#include "home/mainwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }

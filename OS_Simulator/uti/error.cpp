@@ -1,0 +1,14 @@
+#include "uti/error.h"
+#include "ui_error.h"
+
+Error::Error(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Error)
+{
+    ui->setupUi(this);
+}
+
+Error::~Error()
+{
+    delete ui;
+}

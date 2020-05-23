@@ -18,9 +18,22 @@ DigitalClock::DigitalClock():
 }
 
 
+void DigitalClock::set_CPU(cpuMon * cpu){
+    CPU=cpu;
+    CPU->createP(PID,"DigitalClock",user);
+}
+
+
+void DigitalClock::setPID(int pid){
+    PID=pid;
+}
+
 void DigitalClock::ontimeout(){
     QDateTime datetime = QDateTime::currentDateTime();
     this->display(datetime.toString("yyyy-MM-dd HH:mm:ss"));
 }
 
+void DigitalClock::back_to_fluctuation(){
+    CPU->operationDet(PID,fluctuation);
+}
 
