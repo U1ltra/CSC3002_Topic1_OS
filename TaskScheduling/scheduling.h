@@ -14,14 +14,6 @@
 
 
 extern const int PID_BLANK;                    // pid for blank period
-
-/*
- * Type: schedulingAlgos
- * ---------------------
- * This type respresents the eight scheduling algorithms.
- */
-enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
-
 /*
  * Type: task
  * ----------
@@ -58,6 +50,13 @@ struct task{                // PCB
      */
     ~task() = default;
 };
+/*
+ * Type: schedulingAlgos
+ * ---------------------
+ * This type respresents the eight scheduling algorithms.
+ */
+enum schedulingAlgos {_FCFS, _SRT, _SJF, _HRRN, _RR, _MFQ, _FSS};
+
 
 
 /*
@@ -114,6 +113,8 @@ public:
      * private field in console
      */
     void check();
+
+
 
 
     /////////////////////////////
@@ -286,6 +287,10 @@ private:
      * illegalize copying
      */
     scheduling & operator=(const scheduling &);
+    /*
+     *
+     */
+    friend class Widget;
 };
 
 

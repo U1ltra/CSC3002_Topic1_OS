@@ -1,6 +1,6 @@
 #ifndef WIDGET_H
 #define WIDGET_H
-#include"graph.h"
+
 #include <QWidget>
 #include<vector>
 #include<iostream>
@@ -9,6 +9,7 @@
 #include<string>
 #include<QDebug>
 #include "scheduling.h"
+
 using namespace std;
 namespace Ui {
 class Widget;
@@ -41,7 +42,7 @@ private:
     //颜色选择
     QColor color;
     map<string, QColor*> color_map;
-
+    friend class scheduling;
 
     int number_of_process;
     int returnprocessnum();
@@ -55,7 +56,7 @@ private:
     vector<int> bq;
     vector<int> pq;
     vector<int> aq;
-    vector<scheduling::task*> execQ;
+    std::vector<task*> execQ;
 
     vector<QColor*> colorvec;
 };

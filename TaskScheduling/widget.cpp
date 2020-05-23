@@ -8,8 +8,8 @@
 #include<QBrush>
 #include<QPainter>
 #include<QImage>
-
-
+#include<ctime>
+#include<QTimer>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -20,6 +20,9 @@ Widget::Widget(QWidget *parent) :
 
 
     ui->mygraph->installEventFilter(this);//在label上安装事件过滤器，this指针指定当事件发生时调用当前类中的事件过滤器进行处理
+
+
+
 
 
 }
@@ -34,6 +37,7 @@ Widget::~Widget()
 void Widget::on_spinBox_valueChanged(int arg1)
 {
     //设置进程数
+
     number_of_process = arg1;
     ui->table_of_process->setRowCount(number_of_process);
     s.Tprocess = number_of_process;
@@ -52,6 +56,7 @@ void Widget::on_spinBox_valueChanged(int arg1)
 void Widget::on_simulate_clicked(){
     flag = 1;
     printcolor_map();
+
     //设置表格内容
     //PID
     for(int i = 0; i<number_of_process;i++){
@@ -79,10 +84,21 @@ void Widget::on_simulate_clicked(){
     //模拟
     s.setCondition(algo_sign,bq,aq,pq,0);
     s.simulation();
-    //s.efficiency();
+    s.efficiency();
 //    s.check();
     execQ = s.exeQ;
-    //绘图
+    //打印表格
+    for(int i = 0; i< number_of_process;++i){
+        ui->table_of_process->setItem(i,4,new QTableWidgetItem());
+        ui->table_of_process->setItem(i,5,new QTableWidgetItem());
+        ui->table_of_process->setItem(i,6,new QTableWidgetItem());
+        //ui->table_of_process->item(i,4)->setText();
+    }
+//    //绘图
+//    QTimer* t = new QTimer(ui->mygraph);
+//    t->start(1000);
+//    t->setInterval(1000);
+//    connect(t,SIGNAL(timeout()),this,SLOT(update()));
     update();
 }
 /*
@@ -95,6 +111,7 @@ void Widget::on_clear_clicked()
     ui->table_of_process->setColumnCount(0);
     ui->table_of_process->setRowCount(0);
     number_of_process = 0;
+    ui->mygraph->clearMask();
 }
 /*
 *Function usage:return process number
@@ -108,17 +125,26 @@ int Widget::returnprocessnum(){
 bool Widget::eventFilter(QObject *watched, QEvent *event)
  {
 
+
     if(watched == ui->mygraph && event->type() == QEvent::Paint && flag == 1)
        {
         QPainter painter(ui->mygraph);
         painter.setPen(Qt::black);
-        painter.setBrush(Qt::yellow);
         cout<<"exec length:"<<execQ.size()<<endl;
-        for(int i = 1;i< execQ.size();i++){
-            //QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid]);
-            cout<<"pid is"<<(execQ[i])->pid<<endl;
-            painter.setBrush(QBrush(*colorvec[(execQ[i])->pid-1]));
-            painter.drawRect(10*i,10,10,100);
+        for(int i = 0;i< execQ.size();i++){
+
+            if(execQ[i]->pid!= -1){
+               QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
+                cout<<"pid is"<<(execQ[i])->pid<<endl;
+                painter.setBrush(*brush);
+
+                painter.drawRect(100+10*i,40,10,100);
+            }
+            else{
+                painter.setBrush(Qt::GlobalColor::color0);
+                painter.drawRect(100+10*i,40,10,100);
+            }
+
         }}
        return QWidget::eventFilter(watched,event);
  }

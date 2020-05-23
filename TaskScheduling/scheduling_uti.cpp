@@ -31,8 +31,8 @@ task::task(int p,int a, int arr){
 }
 
 scheduling::scheduling(){
-    selectAlgo();
-    getCondition();
+//    selectAlgo();
+//    getCondition();
     TCy = AverCy =  0;
     Twait = AverWait =  0;
     TResp = AverResp =  0;
