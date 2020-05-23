@@ -6,7 +6,9 @@
 #include "app/digitalclock.h"
 #include "cpuMon.h"
 #include <QDebug>
-
+#include "memory/m_task.h"
+#include "memory/Buddy.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,14 +17,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     CPU = new cpuMon();
     fluctuate(*CPU);
-    CPU->createP(10,"MainWindow",root);//Default PID for mainwindow is 10.
+    CPU->createP(PID,"MainWindow",root);//Default PID for mainwindow is 10.
+    memory = new Buddy(10000);
+    set_up_memory();
 
     QStatusBar *stBar = statusBar();
     setStatusBar(stBar);
     clock_display = new DigitalClock();
     clock_display->setPID(11);//Default PID for clock is 11.
     clock_display->set_CPU(CPU);
+    clock_display->set_memory(memory);
     stBar->addPermanentWidget(clock_display);
+
 
     this->setWindowTitle("Main Window");
     setMouseTracking(true);
@@ -33,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow()
-{   CPU->terminateP(0);
+{
     delete ui;
 }
 
@@ -43,7 +49,6 @@ void MainWindow::on_btn_calc_clicked()
 {   to_effect_Click();
     cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
-    CPU->createP(calculator_count*100000+100,"Calculator",user);
     cal->set_CPU(CPU);
     calculator_count++;
     cal->show();
@@ -63,7 +68,6 @@ void MainWindow::on_btn_FileSystem_clicked()
 {   to_effect_Click();
     vfm = new VisualFileManager();
     vfm->setPID(file_system_count*100000+300);
-    CPU->createP(calendar_count*100000+300,"FileSystem",user);
     vfm->set_CPU(CPU);
     vfm->show();
 
@@ -86,7 +90,6 @@ void MainWindow::on_btn_TextEditor_clicked()
 
 void MainWindow::on_btn_game_clicked()
 {   to_effect_Click();
-
 }
 
 void MainWindow::on_actionSleep_triggered()
@@ -132,4 +135,22 @@ void MainWindow::to_simple_Click(){
 void MainWindow::to_moving_around(){
     CPU->operationDet(PID,movingAround);
     system_timer->start(200);
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+void MainWindow::set_up_memory(){
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
+    }
 }

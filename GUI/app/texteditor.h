@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include "monitor/cpuMon.h"
 #include <QTimer>
+#include <QCloseEvent>
+#include "memory/Buddy.h"
 namespace Ui {
 class TextEditor;
 }
@@ -18,6 +20,7 @@ public:
     explicit TextEditor(QWidget *parent = nullptr);
     void setPID(int pid);
     void set_CPU(cpuMon*);
+    void set_memory(Buddy* memory);
     ~TextEditor();
 
 private slots:
@@ -53,6 +56,7 @@ private slots:
 
     void texting();
 
+
 private:
     Ui::TextEditor *ui;
     bool isSaved;
@@ -66,10 +70,14 @@ private:
     int PID;
     QTimer *system_timer;
     cpuMon* CPU;
+    Buddy* memory;
+    bool created = false;
+    int memory_size=1;
     void sleeping();
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // TEXTEDITOR_H

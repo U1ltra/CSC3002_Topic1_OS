@@ -8,6 +8,9 @@
 #include "app/texteditor.h"
 #include "filesys/visualfilemanager.h"
 #include <QMouseEvent>
+#include <QCloseEvent>
+#include "memory/Buddy.h"
+#include "memory/m_task.h"
 namespace Ui {
 class MainWindow;
 }
@@ -40,6 +43,7 @@ private slots:
     void on_actionShutdown_triggered();
 
     void back_to_fluctuation();
+
 private:
     // Instance Variable //
 
@@ -56,16 +60,20 @@ private:
     file_system_count=1;
     int PID=10;
     cpuMon* CPU;
-
+    Buddy* memory;
+    bool created = false;
+    int memory_size=1;
     void to_simple_Click();
 
     void to_effect_Click();
 
     void to_moving_around();
 
+    void set_up_memory();
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent*event);
 };
 
 #endif // MAINWINDOW_H

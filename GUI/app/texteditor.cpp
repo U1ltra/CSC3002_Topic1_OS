@@ -193,7 +193,7 @@ void TextEditor::findText() {
 
 void TextEditor::set_CPU(cpuMon * cpu){
     CPU=cpu;
-    CPU->createP(PID,"Calculator",user);
+    CPU->createP(PID,"TextEditor",user);
 }
 
 
@@ -241,5 +241,25 @@ void TextEditor::texting(){
 void TextEditor::sleeping(){
     if (CPU->isBusy()){
         sleep(1);
+    }
+}
+
+
+void TextEditor::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+
+}
+
+void TextEditor::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
     }
 }
