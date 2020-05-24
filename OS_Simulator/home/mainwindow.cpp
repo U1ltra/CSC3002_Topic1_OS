@@ -7,6 +7,7 @@
 #include "cpuMon.h"
 #include <QDebug>
 #include <QToolButton>
+#include "monitor/monitor.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -93,8 +94,12 @@ void MainWindow::on_btn_FileSystem_clicked()
 }
 
 void MainWindow::on_btn_TaskManager_clicked()
-{   to_effect_Click();
-
+{
+    to_effect_Click();
+    taskMonitor = new monitor(CPU);
+    taskMonitor->setPID(task_monitor_count*100000+500);
+    task_monitor_count++;
+    taskMonitor->show();
 }
 
 void MainWindow::on_btn_TextEditor_clicked()

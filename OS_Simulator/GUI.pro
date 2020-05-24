@@ -23,14 +23,14 @@ SOURCES += \
     app/saveaslist.cpp \
     app/texteditor.cpp \
     \
-    monitor/cpuMon.cpp \
-    \
     filesys/visualfilemanager.cpp \
     \
     home/login_interface.cpp \
     home/mainwindow.cpp \
     home/main.cpp \
     \
+    monitor/cpuMon.cpp \
+    monitor/monitor.cpp \
     monitor/table_constr.cpp
 
 HEADERS += \
@@ -50,6 +50,7 @@ HEADERS += \
 #    home/ui_widget.h \
     \
     monitor/cpuMon.h \
+    monitor/monitor.h \
     monitor/table_constr.h
 
 
