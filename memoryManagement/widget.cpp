@@ -55,31 +55,23 @@ bool Widget::eventFilter(QObject *watched, QEvent *event){
        {
     QPainter painter(ui->scrollAreaWidgetContents);
     painter.setPen(Qt::color0);
-    painter.setBrush(Qt::white);
+    painter.setBrush(Qt::gray);
     int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
     int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
     painter.drawRect(0,0,my_width,my_height);
-    std::cout<<"hhhhhhhh"<<my_height<<std::endl;
+    //std::cout<<"hhhhhhhh"<<my_height<<std::endl;
     for (int i = 0; i <bd->arr.size() ; i++){
         //painter.drawRect(0,0,100,i*10);
 
         vector<list<Pair>> temp = (*bd).arr;
-        vector<int> vector_of_lastub;
         for (list<Pair>::iterator it = temp[i].begin();it!=temp[i].end();it++){
-
-            cout<<(bd->getsize())<<endl;
             cout<<"ub"<<it->ub<<endl;
             cout<<"lb"<<it->lb<<endl;
-            cout<<my_height<<endl;
-            painter.setBrush(QBrush(Qt::gray,Qt::Dense3Pattern));
-            if(vector_of_lastub.empty()){
-                painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub - it->lb))/(bd->getsize())*my_height);
-            }
-            else{
-                int j = vector_of_lastub.size();
-                 painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height-1,my_width,double((it->ub - it->lb))/(bd->getsize())*my_height+1);
-            }
-            vector_of_lastub.push_back(it->ub);
+            painter.setBrush(QBrush(Qt::white,Qt::Dense3Pattern));
+            /*if(it->ub == bd->getsize()-1){
+                painter.drawRect(0,(double((it->lb)))/(bd->getsize())*my_height,my_width,double((it->ub)+1)/(bd->getsize())*my_height);
+            }*/
+            painter.drawRect(0,double((it->lb))/(bd->getsize())*(my_height),my_width,double((it->ub)+1)/(bd->getsize())*(my_height));
         }
     }
   }
