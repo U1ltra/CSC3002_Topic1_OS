@@ -55,7 +55,7 @@ bool Widget::eventFilter(QObject *watched, QEvent *event){
        {
     QPainter painter(ui->scrollAreaWidgetContents);
     painter.setPen(Qt::color0);
-    painter.setBrush(Qt::yellow);
+    painter.setBrush(Qt::white);
     int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
     int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
     painter.drawRect(0,0,my_width,my_height);
@@ -71,7 +71,7 @@ bool Widget::eventFilter(QObject *watched, QEvent *event){
             cout<<"ub"<<it->ub<<endl;
             cout<<"lb"<<it->lb<<endl;
             cout<<my_height<<endl;
-            painter.setBrush(QBrush(Qt::magenta,Qt::Dense3Pattern));
+            painter.setBrush(QBrush(Qt::gray,Qt::Dense3Pattern));
             if(vector_of_lastub.empty()){
                 painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub - it->lb))/(bd->getsize())*my_height);
             }

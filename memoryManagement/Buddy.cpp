@@ -42,7 +42,7 @@ void Buddy::allocate(m_task &current){
     arr[i].pop_back();
     i--;
     for (; i >= num; i--){
-        Pair newpair = Pair(tem.lb, tem.lb + (tem.ub - tem.lb)/2);
+        Pair newpair = Pair(tem.lb, tem.lb + (tem.ub - tem.lb)/2+1);
         Pair newpair2= Pair(tem.lb + (tem.ub - tem.lb) / 2 + 1, tem.ub);
         arr[i].push_front(newpair);
         arr[i].push_front(newpair2);
