@@ -5,7 +5,6 @@
 #include <QProcess>
 #include <QDir>
 #include <QListWidget>
-#include "uti/error.h"
 #include <QMouseEvent>
 #include "monitor/cpuMon.h"
 QT_BEGIN_NAMESPACE
@@ -29,6 +28,7 @@ public:
             this->Path = Path;
         }
     } *copiedfile;
+    bool copyFileExist;
 
     explicit VisualFileManager(QWidget *parent = 0);
     ~VisualFileManager();
@@ -63,6 +63,7 @@ protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
 protected slots:
+    void Init();
     void Root();
     void Copy();
     void Paste();

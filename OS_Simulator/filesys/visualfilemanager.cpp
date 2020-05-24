@@ -10,7 +10,7 @@ VisualFileManager::VisualFileManager(QWidget *parent):
     ui(new Ui::VisualFileManager)
 {
     ui->setupUi(this);
-    connect(this, SIGNAL(initialize()), this, SLOT(Root()));
+    connect(this, SIGNAL(initialize()), this, SLOT(Init()));
     connect(ui->lwt_File, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(doubleClicked(QListWidgetItem*)));
     connect(ui->btn_Root,SIGNAL(clicked()),this,SLOT(Root()));
     connect(ui->btn_Copy, SIGNAL(clicked()), this, SLOT (Copy()));
@@ -74,6 +74,7 @@ void VisualFileManager::getFileCopy() {
     // if no file is selected, then return
     if (ui->lwt_File->selectedItems().count() <= 0) return;
     copiedfile = new copiedFile(ui->lwt_File->selectedItems().first()->text(), directoryPath);
+    copyFileExist = true;
 }
 
 void VisualFileManager::filePaste(QString oldFile, QString newFile) {
@@ -142,37 +143,49 @@ void VisualFileManager::execute() {
     }
 }
 
+void VisualFileManager::Init() {
+    pathChange("/");
+    showFileInfoList(dir);
+}
+
 void VisualFileManager::Root() {
+    to_effect_Click();
+    sleeping();
     pathChange("/");
     showFileInfoList(dir);
 }
 
 void VisualFileManager::Copy() {
     to_effect_Click();
-     sleeping();
+    sleeping();
     getFileCopy();
 }
 
 void VisualFileManager::Paste() {
     to_effect_Click();
-     sleeping();
-    if (copiedfile->Path == "/")
-        copiedfile->Path = "";
-    if (directoryPath == "/")
-        directoryPath = "";
+    sleeping();
+    if (copyFileExist == true) {
+        if (copiedfile->Path == "/")
+            copiedfile->Path = "";
+        if (directoryPath == "/")
+            directoryPath = "";
 
-    QString oldFilePath, newFilePath;
-    oldFilePath = copiedfile->Path +"/" + copiedfile->Name;
-    newFilePath = directoryPath + "/" + copiedfile->Name;
-    filePaste(oldFilePath, newFilePath);
+        QString oldFilePath, newFilePath;
+        oldFilePath = copiedfile->Path +"/" + copiedfile->Name;
+        newFilePath = directoryPath + "/" + copiedfile->Name;
+        filePaste(oldFilePath, newFilePath);
 
-    if (copiedfile->Path == "/")
-        copiedfile->Path = "";
-    if (directoryPath == "/")
-        directoryPath = "";
+        if (copiedfile->Path == "/")
+            copiedfile->Path = "";
+        if (directoryPath == "/")
+            directoryPath = "";
 
-    dir.setPath(directoryPath);
-    showFileInfoList(dir);
+        dir.setPath(directoryPath);
+        showFileInfoList(dir);
+    }
+    else {
+        QMessageBox::warning(this, "Error", "Copied file does not exist!");
+    }
 }
 
 void VisualFileManager::Create() {

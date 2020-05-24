@@ -31,8 +31,7 @@ SOURCES += \
     home/mainwindow.cpp \
     home/main.cpp \
     \
-    monitor/table_constr.cpp \
-    uti/error.cpp
+    monitor/table_constr.cpp
 
 HEADERS += \
     app/calculator.h \
@@ -51,9 +50,8 @@ HEADERS += \
 #    home/ui_widget.h \
     \
     monitor/cpuMon.h \
-    monitor/table_constr.h \
-    \
-    uti/error.h
+    monitor/table_constr.h
+
 
 FORMS += \
     app/calculator.ui \
