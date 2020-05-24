@@ -23,16 +23,22 @@ SOURCES += \
     app/saveaslist.cpp \
     app/texteditor.cpp \
     \
-    monitor/cpuMon.cpp \
-    \
     filesys/visualfilemanager.cpp \
     \
     home/login_interface.cpp \
     home/mainwindow.cpp \
     home/main.cpp \
     \
+    memory/Buddy.cpp \
+    memory/Pair.cpp \
+    memory/m_task.cpp \
+    monitor/cpuMon.cpp \
+    monitor/monitor.cpp \
     monitor/table_constr.cpp \
-    uti/error.cpp
+    schedule/mythread.cpp \
+    schedule/scheduling_algo.cpp \
+    schedule/scheduling_uti.cpp \
+    schedule/widget.cpp
 
 HEADERS += \
     app/calculator.h \
@@ -50,10 +56,16 @@ HEADERS += \
     home/mainwindow.h \
 #    home/ui_widget.h \
     \
+    memory/Buddy.h \
+    memory/m_task.h \
+    memory/pair.h \
     monitor/cpuMon.h \
+    monitor/monitor.h \
     monitor/table_constr.h \
-    \
-    uti/error.h
+    schedule/mythread.h \
+    schedule/scheduling.h \
+    schedule/widget.h
+
 
 FORMS += \
     app/calculator.ui \

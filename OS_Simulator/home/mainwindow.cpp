@@ -7,7 +7,8 @@
 #include "cpuMon.h"
 #include <QDebug>
 #include <QToolButton>
-
+#include "monitor/monitor.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     CPU = new cpuMon();
     fluctuate(*CPU);
-    CPU->createP(10,"MainWindow",root);//Default PID for mainwindow is 10.
+    CPU->createP(PID,"MainWindow",root);//Default PID for mainwindow is 10.
+    memory = new Buddy(10000);
+    set_up_memory();
 
     QStatusBar *stBar = statusBar();
     setStatusBar(stBar);
@@ -66,7 +69,6 @@ void MainWindow::on_btn_calc_clicked()
 {   to_effect_Click();
     cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
-    CPU->createP(calculator_count*100000+100,"Calculator",user);
     cal->set_CPU(CPU);
     calculator_count++;
     cal->show();
@@ -76,7 +78,6 @@ void MainWindow::on_btn_Calendar_clicked()
 {   to_effect_Click();
     Calendar *calendar = new Calendar();
     calendar->setPID(calendar_count*100000+200);
-    CPU->createP(calendar_count*100000+200,"Calendar",user);
     calendar->set_CPU(CPU);
     calendar_count++;
     calendar->show();
@@ -86,21 +87,25 @@ void MainWindow::on_btn_FileSystem_clicked()
 {   to_effect_Click();
     vfm = new VisualFileManager();
     vfm->setPID(file_system_count*100000+300);
-    CPU->createP(calendar_count*100000+300,"FileSystem",user);
     vfm->set_CPU(CPU);
     vfm->show();
 
 }
 
 void MainWindow::on_btn_TaskManager_clicked()
-{   to_effect_Click();
-
+{
+    to_effect_Click();
+    taskMonitor = new monitor(CPU);
+    taskMonitor->setPID(task_monitor_count*100000+400);
+    taskMonitor->set_CPU(CPU);
+    task_monitor_count++;
+    taskMonitor->show();
 }
 
 void MainWindow::on_btn_TextEditor_clicked()
 {   to_effect_Click();
     text_editor = new TextEditor();
-    text_editor->setPID(text_editor_count*100000+400);
+    text_editor->setPID(text_editor_count*100000+500);
     text_editor->set_CPU(CPU);
     text_editor_count++;
     text_editor->show();
@@ -119,20 +124,16 @@ void MainWindow::on_actionSleep_triggered()
 
 void MainWindow::on_actionShutdown_triggered()
 {   to_effect_Click();
-    this->close();
+    close();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e){
-//    qDebug() << "here?" << PID;
     to_simple_Click();
-    system_timer->start(200);
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *e)
 {
-//    qDebug() << "dragged?";
     to_moving_around();
-    system_timer->start(200);
 }
 
 
@@ -156,3 +157,21 @@ void MainWindow::to_moving_around(){
     CPU->operationDet(PID,movingAround);
     system_timer->start(200);
 }
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+void MainWindow::set_up_memory(){
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
+    }
+}
+
