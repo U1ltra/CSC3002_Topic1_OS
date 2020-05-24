@@ -307,14 +307,11 @@ void VisualFileManager::setPID(int pid){
 
 void VisualFileManager::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
-    system_timer->start(100);
 }
 
 void VisualFileManager::mouseMoveEvent(QMouseEvent *e)
 {
-    qDebug() << "invokeddddddd";
     to_moving_around();
-    system_timer->start(100);
 }
 
 
@@ -346,5 +343,23 @@ void VisualFileManager::FileManaging(){
 void VisualFileManager::sleeping(){
     if (CPU->isBusy()){
         sleep(1);
+    }
+}
+
+void VisualFileManager::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+void VisualFileManager::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
     }
 }

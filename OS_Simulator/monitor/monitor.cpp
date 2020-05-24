@@ -17,7 +17,9 @@
 #include <thread>
 #include "monitor/monitor.h"
 #include "monitor/table_constr.h"
-
+#include <unistd.h>
+#include <QCloseEvent>
+#include <QMessageBox>
 const QFont NOM_FONT = QFont("Times New Roman", 16);
 const QFont TITLE_FONT = QFont("Helvatica", 25);
 const QVariant ATTRIBUTES = "ATTR";
@@ -70,11 +72,17 @@ monitor::monitor(cpuMon * cpu, QWidget *parent) :
 //    monitorRefreshT->setInterval(1000);
 //    monitorRefreshT->start();
 
+    setMouseTracking(true);
+
+    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer->setSingleShot(true);
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
+
 }
 
 monitor::~monitor()
 {
-    CPU->terminateP(PID);
 
     delete SystemT;
     delete UserT;
@@ -89,15 +97,6 @@ monitor::~monitor()
     delete bottomRight;
     delete bottomStack;
     delete mainLayout;
-}
-
-void monitor::setPID(int pid){
-    PID = pid;
-    CPU->createP(PID, "Task Monitor", user);
-}
-
-void monitor::set_CPU(cpuMon * cpu){
-    CPU = cpu;
 }
 
 void monitor::initTable(){
@@ -184,4 +183,75 @@ void refresh(monitor * mon){
     mon->CPUTem->update();
     std::thread next(refresh, mon);
     next.detach();
+}
+
+
+void monitor::set_CPU(cpuMon * cpu){
+    CPU=cpu;
+    CPU->createP(PID,"monitor",user);
+}
+
+
+void monitor::setPID(int pid){
+    PID=pid;
+}
+
+void monitor::mousePressEvent(QMouseEvent *e){
+    to_simple_Click();
+}
+
+void monitor::mouseMoveEvent(QMouseEvent *e)
+{
+    to_moving_around();
+}
+
+
+void monitor::back_to_fluctuation(){
+    CPU->operationDet(PID,fluctuation);
+}
+
+
+void monitor::to_effect_Click(){
+    CPU->operationDet(PID,effectClick);
+    system_timer->start(100);
+}
+
+void monitor::to_simple_Click(){
+    CPU->operationDet(PID,simpleClick);
+    system_timer->start(100);
+}
+
+void monitor::to_moving_around(){
+    CPU->operationDet(PID,movingAround);
+    system_timer->start(100);
+}
+
+void monitor::_refreshing(){
+    CPU->operationDet(PID,refreshing);
+    system_timer->start(100);
+}
+
+void monitor::sleeping(){
+    if (CPU->isBusy()){
+        sleep(1);
+    }
+}
+
+void monitor::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
+
+
+void monitor::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
+    }
 }

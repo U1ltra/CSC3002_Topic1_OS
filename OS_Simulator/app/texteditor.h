@@ -8,7 +8,7 @@
 #include <QTimer>
 #include "saveaslist.h"
 #include "openfile.h"
-
+#include "memory/Buddy.h"
 namespace Ui {
 class TextEditor;
 }
@@ -21,6 +21,7 @@ public:
     explicit TextEditor(QWidget *parent = nullptr);
     void setPID(int pid);
     void set_CPU(cpuMon*);
+    void set_memory(Buddy* memory);
     ~TextEditor();
 
 private slots:
@@ -73,6 +74,9 @@ private:
     int PID;
     QTimer *system_timer;
     cpuMon* CPU;
+    Buddy* memory;
+    bool created = false;
+    int memory_size=1;
     void sleeping();
 protected:
     void mousePressEvent(QMouseEvent *e);

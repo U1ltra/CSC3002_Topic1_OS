@@ -18,7 +18,7 @@
 #include <QStandardItemModel>
 #include <monitor/cpuMon.h>
 #include <monitor/table_constr.h>
-
+#include "memory/Buddy.h"
 
 ////namespace Ui {
 ////class monitor;
@@ -31,6 +31,7 @@ class monitor : public QWidget
 public:
 
     explicit monitor(cpuMon * cpu, QWidget *parent = nullptr);
+
 
     ~monitor();
 
@@ -69,7 +70,10 @@ public:
      */
     friend void refresh(monitor *);
 
-
+    /*
+     * Pass in the memeory class in the System.
+     */
+    void set_memory(Buddy* memory);
 
 private:
 ////    Ui::monitor *ui;
@@ -94,6 +98,27 @@ private:
     QHBoxLayout * bottomStack;
     QVBoxLayout * mainLayout;
 
+    QTimer *system_timer;
+    Buddy* memory;
+    bool created = false;
+    int memory_size=1;
+    void sleeping();
+
+private slots:
+    void to_simple_Click();
+
+    void to_effect_Click();
+
+    void to_moving_around();
+
+    void back_to_fluctuation();
+
+    void _refreshing();
+
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MONITOR_H
