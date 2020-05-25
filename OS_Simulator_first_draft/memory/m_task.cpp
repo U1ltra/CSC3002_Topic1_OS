@@ -1,11 +1,4 @@
-
-/*
- * File: m_task.cpp
- * ----------------
- * This file implements
- */
-
-#include "memory/m_task.h"
+#include <m_task.h>
 
 m_task::m_task(int ID, int size){
     PID = ID;
