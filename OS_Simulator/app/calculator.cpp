@@ -3,7 +3,6 @@
 #include <QTimer>
 //#include <windows.h>
 #include <unistd.h>
-#include <QMessageBox>
 
 Calculator::Calculator(QWidget *parent) :
     QWidget(parent),
@@ -18,17 +17,19 @@ Calculator::Calculator(QWidget *parent) :
     after_equal = false;
     this->setWindowTitle("Calculator");
     connect(ui->calc_btn_clean,SIGNAL(clicked()),this,SLOT(on_calc_btn_clean_clicked()));
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/back.jpg")));
+    this->setPalette(pal);
 
     setMouseTracking(true);
 
     system_timer = new QTimer();  // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
-    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 }
 
 Calculator::~Calculator()
-{
+{   CPU->terminateP(PID);
     delete ui;
 }
 
@@ -319,11 +320,13 @@ void Calculator::setPID(int pid){
 
 void Calculator::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
+    system_timer->start(100);
 }
 
 void Calculator::mouseMoveEvent(QMouseEvent *e)
 {
     to_moving_around();
+    system_timer->start(100);
 }
 
 
@@ -355,24 +358,5 @@ void Calculator::calculating(){
 void Calculator::sleeping(){
     if (CPU->isBusy()){
         sleep(1);
-    }
-}
-
-void Calculator::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
-    if (created){
-    memory->deallocate(PID,memory_size);
-    }
-    event->accept();
-}
-
-
-void Calculator::set_memory(Buddy *Memory){
-    memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else{
-        created = true;
     }
 }

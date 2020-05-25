@@ -29,14 +29,13 @@ const int INITIAL_IDLE = 5;
 const int INITIAL_THREAD = 5;
 const double INITIAL_CPUT = .2;
 const double INITIAL_CPUPER = .1;
-const QVariant ATTRIBUTES = "ATTR";
 const QVariant PID = "PID";
 const QVariant USER = "User";
 const QVariant CPUPER = "CPU %";
 const QVariant THREAD = "Thread";
 const QVariant CPUTIME = "CPU Time";
-const QVariant PNAME = "Process Name";
 const QVariant IDLEW = "Idle wake ups";
+const QVariant PNAME = "Process Name";
 
 
 process::process(){
@@ -120,57 +119,23 @@ void cpuMon::terminateP(int pid){
     }
 }
 
-bool cpuMon::isBusy() const{
+bool cpuMon::isBusy(){
     return TcpuPercentage > .75;
 }
 
-double cpuMon::TsysPer(){
-    double total = 0;
-    vector<process*>::iterator it;
-    it = processes.begin();
-    while (it!=processes.end()){
-        if ((*it)->psion==root){
-            total = total + (*it)->cpuPer;
-        }
-        it++;
-    }
-    return total;
-}
-
-double cpuMon::TuserPer(){
-    double total = 0;
-    vector<process*>::iterator it;
-    it = processes.begin();
-    while (it!=processes.end()) {
-        if ((*it)->psion==user){
-            total = total + (*it)->cpuPer;
-        }
-        it++;
-    }
-    return  total;
-}
-
-double cpuMon::TcpuPer() const{
+int cpuMon::TcpuPer(){
     return TcpuPercentage;
 }
 
-int cpuMon::Tthread() const{
+int cpuMon::Tthread(){
     return TThread;
 }
 
-int cpuMon::Tprocess() const {
+int cpuMon::Tprocess(){
     return processes.size();
 }
 
-double cpuMon::currentTem(){
-    return cputemp;
-}
-
-int cpuMon::TAttr() const{
-    return name_of_attrs.size();
-}
-
-vector<process*> cpuMon::getQ() const{
+vector<process*> cpuMon::getQ(){
     return processes;
 }
 
@@ -210,11 +175,12 @@ void cpuMon::operationDet(int pid, opType op){  // whenever GUI detect a kind of
     launchd(op);
     window_server(op);
 
+//    cout << "hhhhhhhcrushed?" << endl;
     recentIn(*(it));                          // record the most recent processes
     inactiveP(*(it));                         // update processes that is not currently updated
     Tstatistics();                              // calculate statistics
     CPUTem();                                   // update cpu temperature
-//    check();
+    check();
     cout << "op princt" << endl;
 }
 
@@ -360,12 +326,12 @@ void cpuMon::operationMon(process * & P, opType op){                    // this 
     double periodCPUT;                                                  // in, reasonable updates are performed on statistics of the give process
     switch (op) {
         case simpleClick: case movingAround:                            // during the three type of condition, current process attributes is low
-            periodCPUT = (200+rand()%200)/double(10000);                // around 1%-2%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = rand()%7+1;
-            P->idle_wake = rand()%2;
-            P->pre_cpuT = periodCPUT;
+//            periodCPUT = (200+rand()%200)/double(10000);                // around 1%-2%
+//            P->cpuT = P->cpuT+periodCPUT;
+//            P->cpuPer = periodCPUT/REFRESHING_SLICE;
+//            P->thread = rand()%7+1;
+//            P->idle_wake = rand()%2;
+//            P->pre_cpuT = periodCPUT;
             break;
 
         case effectClick:
@@ -470,67 +436,11 @@ void fluctuate(cpuMon & monitor){                               // OS gradually 
 //        monitor.check();
         cout << "fl print" << endl;
     }
-    this_thread::sleep_for(chrono::milliseconds(100));          // call oneself again after the sleep, making this function a parallel thread
+    this_thread::sleep_for(chrono::milliseconds(100));           // call oneself again after the sleep, making this function a parallel thread
     thread next(ref(fluctuate), ref(monitor));                  // detach to allow the resources of this function been collected
     next.detach();
 
 }
-
-vector<const QVariant> cpuMon::getAttributesQ(QVariant attr){
-    vector<const QVariant> vec;
-    vector<process*>::iterator it;
-    it = processes.begin();
-
-    if (attr == ATTRIBUTES) return name_of_attrs;               // name of attributes
-
-    else if (attr == PNAME)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->name);
-            it++;
-        }
-    } else if (attr == CPUTIME)
-    {
-        while (it!=processes.end()){
-            vec.push_back(QString::number((*it)->cpuT, 'f', 2));
-            it++;
-        }
-    } else if (attr == CPUPER)
-    {
-        while (it!=processes.end()){
-            vec.push_back(QString::number((*it)->cpuPer*100, 'f', 2));
-            it++;
-        }
-    } else if (attr == THREAD)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->thread);
-            it++;
-        }
-    } else if (attr == IDLEW)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->idle_wake);
-            it++;
-        }
-    } else if (attr == PID)
-    {
-        while (it!=processes.end()){
-            vec.push_back((*it)->pid);
-            it++;
-        }
-    } else if (attr == USER)
-    {
-        while (it!=processes.end())
-        {
-            vec.push_back((*it)->psion);
-            it++;
-        }
-    }
-    return vec;
-}
-
-
 
 void cpuMon::check(){
     vector<process*>::iterator it;
@@ -539,7 +449,7 @@ void cpuMon::check(){
     cout << "  ------------      --------      --------      ------      ------------      ----------" << endl;
     while (it!=processes.end()){
         cout << "                    " << left << fixed;
-        qDebug() << (*it)->name.toString() << ":     ";
+//        qDebug() << (*it)->name.toString() << ":     ";
         cout << setprecision(4);
         cout << setw(8) << (*it)->cpuT << "      ";
         cout << setw(7) << (*it)->cpuPer*100 << "%       ";

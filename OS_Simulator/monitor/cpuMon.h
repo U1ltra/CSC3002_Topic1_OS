@@ -102,54 +102,35 @@ public:
     /*
      * Return the process queue
      */
-    std::vector<process*> getQ() const;
+    std::vector<process*> getQ();
 
     /*
      * Return the Qvariant queue of processes names or pids or
      * threads or idle_wakes or cpuT or cpuPer or permission so
      * that they can be organized into a QStandardItemModle.
      */
-    std::vector<const QVariant> getAttributesQ(QVariant);
+    template<typename ValueType>
+    std::vector<ValueType> getAttributesQ(ValueType);
 
     /*
      * Return true if total cpu percentage surpasses 75%
      */
-    bool isBusy() const ;
-
-    /*
-     * Return total cpu percentage used up by system processes
-     */
-    double TsysPer();
-
-    /*
-     * Return totel cpu percentage used up by user processes
-     */
-    double TuserPer();
+    bool isBusy();
 
     /*
      * Return total percentage of cpu usage
      */
-    double TcpuPer() const;
+    int TcpuPer();
 
     /*
      * Return total number of threads
      */
-    int Tthread() const;
+    int Tthread();
 
     /*
      * Return total number of processes
      */
-    int Tprocess() const;
-
-    /*
-     * Return current temperature of the simulated cpu
-     */
-    double currentTem();
-
-    /*
-     * Return the nuber of attributes
-     */
-    int TAttr() const;
+    int Tprocess();
 
     /*
      * Simulate statistics changing during leisure time
@@ -172,7 +153,7 @@ private:
     double TcpuPercentage;
     bool operation;                     // indicate in current time slice, whether any operations happened
     std::vector<process*> processes;    // processes created and havenot terminated
-    std::vector<const QVariant> name_of_attrs;// store PID, cpuT, cpuPer, thread, idle_wake, permission such names in QVariant
+    std::vector<QVariant> name_of_attrs;// store PID, cpuT, cpuPer, thread, idle_wake, permission such names in QVariant
 
 
     // private functions //
@@ -269,6 +250,61 @@ private:
     void Tstatistics();
 };
 
+
+template<typename ValueType>
+std::vector<ValueType> cpuMon::getAttributesQ(ValueType attr){
+    std::vector<ValueType> vec;
+    std::vector<process*>::iterator it;
+    it = processes.begin();
+
+    if (attr == "Attr_name") return name_of_attrs;                  // name of attributes
+
+    else if (attr == "Process_name")
+    {
+        while (it!=processes.end()){
+            vec.push_back((*it)->name);
+            it++;
+        }
+    } else if (attr == .1)
+    {
+        while (it!=processes.end()){
+            vec.push_back((*it)->cpuT);
+            it++;
+        }
+    } else if (attr == .2)
+    {
+        while (it!=processes.end()){
+            vec.push_back((*it)->cpuPer);
+            it++;
+        }
+    } else if (attr == 1)
+    {
+        while (it!=processes.end()){
+            vec.push_back((*it)->thread);
+            it++;
+        }
+    } else if (attr == 2)
+    {
+        while (it!=processes.end()){
+            vec.push_back((*it)->idle_wake);
+            it++;
+        }
+    } else if (attr == 3)
+    {
+        while (it!=processes.end()){
+            vec.push_back((*it)->pid);
+            it++;
+        }
+    } else if (attr == root)
+    {
+        while (it!=processes.end())
+        {
+            vec.push_back((*it)->psion);
+            it++;
+        }
+    }
+    return vec;
+}
 
 
 #endif // CPU_H
