@@ -5,9 +5,9 @@
 #include <QProcess>
 #include <QDir>
 #include <QListWidget>
+#include "uti/error.h"
 #include <QMouseEvent>
 #include "monitor/cpuMon.h"
-#include "memory/Buddy.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class VisualFileManager; }
 QT_END_NAMESPACE
@@ -29,7 +29,6 @@ public:
             this->Path = Path;
         }
     } *copiedfile;
-    bool copyFileExist;
 
     explicit VisualFileManager(QWidget *parent = 0);
     ~VisualFileManager();
@@ -50,8 +49,6 @@ public:
 
     void set_CPU(cpuMon*);
 
-    void set_memory(Buddy* memory);
-
 signals:
     void initialize();
     void fileNotExist();
@@ -61,16 +58,11 @@ private:
     int PID;
     QTimer *system_timer;
     cpuMon* CPU;
-    Buddy* memory;
-    bool created = false;
-    int memory_size=1;
     void sleeping();
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
-    void closeEvent(QCloseEvent* event);
 protected slots:
-    void Init();
     void Root();
     void Copy();
     void Paste();

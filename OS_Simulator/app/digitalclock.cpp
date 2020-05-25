@@ -3,7 +3,6 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QDebug>
-#include <QMessageBox>
 DigitalClock::DigitalClock():
     QLCDNumber()
 {
@@ -38,12 +37,3 @@ void DigitalClock::back_to_fluctuation(){
     CPU->operationDet(PID,fluctuation);
 }
 
-void DigitalClock::set_memory(Buddy *Memory){
-    memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else{
-        created = true;
-    }
-}
