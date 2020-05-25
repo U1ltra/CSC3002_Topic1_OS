@@ -1,21 +1,17 @@
 #include "app/calendar.h"
 #include <QCalendarWidget>
 #include <QMessageBox>
-Calendar::Calendar():
-    QCalendarWidget()
+
+Calendar::Calendar(QMainWindow *parent) :
+    QCalendarWidget(parent)
 {
     setMouseTracking(true);
 
     system_timer = new QTimer();  // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    connect(this,SIGNAL(clicked()),this,SLOT(to_effect_Click()));
 }
-
-Calendar::~Calendar()
-{   CPU->terminateP(PID);
-}
-
-
 
 void Calendar::set_CPU(cpuMon * cpu){
     CPU=cpu;
@@ -60,7 +56,7 @@ void Calendar::to_moving_around(){
 void Calendar::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
-    memory->deallocate(PID,memory_size);
+        memory->deallocate(PID,memory_size);
     }
     event->accept();
 }

@@ -19,7 +19,7 @@
 #include "monitor/cpuMon.h"
 #include "monitor/table_constr.h"
 #include "memory/Buddy.h"
-
+#include <QMainWindow>
 ////namespace Ui {
 ////class monitor;
 ////}
@@ -30,7 +30,7 @@ class monitor : public QWidget
 
 public:
 
-    explicit monitor(cpuMon * cpu, QWidget *parent = nullptr);
+    explicit monitor(cpuMon * cpu, QMainWindow *parent = nullptr);
 
 
     ~monitor();

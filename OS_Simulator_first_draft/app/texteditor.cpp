@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 
-TextEditor::TextEditor(QWidget *parent) :
+TextEditor::TextEditor(QMainWindow *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
 {

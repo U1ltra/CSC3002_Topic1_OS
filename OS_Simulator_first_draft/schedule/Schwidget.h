@@ -1,16 +1,23 @@
+#ifndef WIDGET_H
+#define WIDGET_H
 
-/*
- * File: schedule_algo.h
- * ---------------------
- * This file exports a sheduling simulation class where several
- * traditional task scheduling algorithms are defined.
- */
-
-#ifndef SCHEDULING_ALGO_H
-#define SCHEDULING_ALGO_H
-
+#include <QWidget>
+#include <vector>
+#include <iostream>
+#include <QPixmap>
+#include <map>
+#include <string>
+#include <QDebug>
+//#include "scheduling.h"
+#include <QMainWindow>
 #include <string>
 #include <vector>
+
+
+using namespace std;
+namespace Ui {
+class SchWidget;
+}
 
 
 extern const int PID_BLANK;                    // pid for blank period
@@ -204,7 +211,7 @@ private:
 
 
     // simulation info //
-
+    friend class SchWidget;
     int Tprocess;               // total number of tasks/processes
     int slice;                  // time slice for RR -- i need to tear different algorithms apart
     schedulingAlgos algorithm;  // selected scheduling algorithm
@@ -293,5 +300,60 @@ private:
     friend class Widget;
 };
 
+class SchWidget : public QWidget
+{
+    Q_OBJECT
 
-#endif // SCHEDULING_ALGO_H
+public:
+    explicit SchWidget(QMainWindow *parent = nullptr);
+    ~SchWidget();
+    void initcolorvec();
+    void inittable();
+    int returnprocessnum();//临时
+    void printcolor_map();//临时
+    void mydraw_1(int i, QPainter &painter);
+    void mydraw_2(int i, QPainter &painter);
+
+private slots:
+
+
+    void on_spinBox_valueChanged(int arg1);
+
+    void on_simulate_clicked();
+
+    void on_clear_clicked();
+
+    void on_comboBox_activated(const QString &arg1);
+
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event);
+    //void timerEvent(QTimerEvent *event);
+
+private:
+    Ui::SchWidget *ui;
+    //颜色选择
+    QColor color;
+    map<string, QColor*> color_map;
+    friend class scheduling;
+
+
+    scheduling s;
+    QTimer * t;
+
+    int flag;
+    int algo_sign;
+    int number_of_process;
+    int it;//遍历器
+
+    vector<int> bq;
+    vector<int> pq;
+    vector<int> aq;
+    std::vector<task*> execQ;
+
+    vector<QColor*> colorvec;
+};
+
+
+#endif // SCHWIDGET_H
+

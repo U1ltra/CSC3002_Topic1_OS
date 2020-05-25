@@ -31,7 +31,7 @@ public:
     } *copiedfile;
     bool copyFileExist;
 
-    explicit VisualFileManager(QWidget *parent = 0);
+    explicit VisualFileManager(QMainWindow *parent = nullptr);
     ~VisualFileManager();
 
     void pathChange(QString path);

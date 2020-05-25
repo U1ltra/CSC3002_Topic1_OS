@@ -18,7 +18,7 @@ class TextEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit TextEditor(QWidget *parent = nullptr);
+    explicit TextEditor(QMainWindow *parent = nullptr);
     void setPID(int pid);
     void set_CPU(cpuMon*);
     void set_memory(Buddy* memory);

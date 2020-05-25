@@ -33,7 +33,7 @@ const QString CPUTEMPERATURE = QWidget::tr("CPU Temperature: ");
 const QString TITLE = QWidget::tr("Activity Monitor");
 
 
-monitor::monitor(cpuMon * cpu, QWidget *parent) :
+monitor::monitor(cpuMon * cpu, QMainWindow *parent) :
     QWidget(parent)
 {
     Title = new QLabel;
@@ -79,7 +79,7 @@ monitor::monitor(cpuMon * cpu, QWidget *parent) :
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
-
+    connect(visualTable,SIGNAL(clicked()),this,SLOT(to_effect_Click()));
 }
 
 monitor::~monitor()

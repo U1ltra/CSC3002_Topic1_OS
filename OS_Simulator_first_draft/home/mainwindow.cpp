@@ -1,15 +1,16 @@
+
 #include "home/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "app/calculator.h"
 #include "app/calendar.h"
 #include <QStatusBar>
 #include "app/digitalclock.h"
-#include "cpuMon.h"
+#include "monitor/cpuMon.h"
 #include <QDebug>
 #include <QToolButton>
 #include "monitor/monitor.h"
 #include <QMessageBox>
-
+#include <unistd.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QStatusBar *stBar = statusBar();
     setStatusBar(stBar);
-    clock_display = new DigitalClock();
+    clock_display = new DigitalClock(this);
     clock_display->setPID(11);//Default PID for clock is 11.
     clock_display->set_CPU(CPU);
     stBar->addPermanentWidget(clock_display);
@@ -59,35 +60,46 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow()
-{   CPU->terminateP(0);
+{
     delete ui;
 }
 
 
 
 void MainWindow::on_btn_calc_clicked()
-{   to_effect_Click();
-    cal = new Calculator();
+{
+    to_effect_Click();
+    sleeping();
+    cal = new Calculator(this);
     cal->setPID(calculator_count*100000+100);
     cal->set_CPU(CPU);
+    cal->set_memory(memory);
     calculator_count++;
     cal->show();
 }
 
 void MainWindow::on_btn_Calendar_clicked()
-{   to_effect_Click();
-    Calendar *calendar = new Calendar();
+{
+    to_effect_Click();
+    sleeping();
+    Calendar *calendar = new Calendar(this);
+\
     calendar->setPID(calendar_count*100000+200);
     calendar->set_CPU(CPU);
+    calendar->set_memory(memory);
     calendar_count++;
     calendar->show();
 }
 
 void MainWindow::on_btn_FileSystem_clicked()
-{   to_effect_Click();
-    vfm = new VisualFileManager();
+{
+    to_effect_Click();
+    sleeping();
+    vfm = new VisualFileManager(this);
     vfm->setPID(file_system_count*100000+300);
     vfm->set_CPU(CPU);
+    vfm->set_memory(memory);
+    file_system_count++;
     vfm->show();
 
 }
@@ -95,40 +107,49 @@ void MainWindow::on_btn_FileSystem_clicked()
 void MainWindow::on_btn_TaskManager_clicked()
 {
     to_effect_Click();
+    sleeping();
     taskMonitor = new monitor(CPU);
     taskMonitor->setPID(task_monitor_count*100000+400);
     taskMonitor->set_CPU(CPU);
+    taskMonitor->set_memory(memory);
     task_monitor_count++;
     taskMonitor->show();
 }
 
 void MainWindow::on_btn_TextEditor_clicked()
 {   to_effect_Click();
-    text_editor = new TextEditor();
+    sleeping();
+    text_editor = new TextEditor(this);
     text_editor->setPID(text_editor_count*100000+500);
     text_editor->set_CPU(CPU);
+    text_editor->set_memory(memory);
     text_editor_count++;
     text_editor->show();
 
 }
 
 void MainWindow::on_btn_game_clicked()
-{   to_effect_Click();
-
+{
+    to_effect_Click();
+    sleeping();
+    MemGame = new Mem_Widget(this);
+    MemGame->setPID(memory_game_count*100000+600);
+    MemGame->set_CPU(CPU);
+    MemGame->set_memory(memory);
+    memory_game_count++;
+    MemGame->show();
 }
 
-void MainWindow::on_actionSleep_triggered()
-{   to_effect_Click();
-    // FIXME::::
-}
 
 void MainWindow::on_actionShutdown_triggered()
 {   to_effect_Click();
+    sleeping();
     close();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
+    sleeping();
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *e)
@@ -161,7 +182,7 @@ void MainWindow::to_moving_around(){
 void MainWindow::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
-    memory->deallocate(PID,memory_size);
+        memory->deallocate(PID,memory_size);
     }
     event->accept();
 }
@@ -175,3 +196,8 @@ void MainWindow::set_up_memory(){
     }
 }
 
+void MainWindow::sleeping(){
+    if (CPU->isBusy()){
+        sleep(1);
+    }
+}

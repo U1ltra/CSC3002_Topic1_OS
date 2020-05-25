@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <QMessageBox>
 
-Calculator::Calculator(QWidget *parent) :
+Calculator::Calculator(QMainWindow *parent) :
     QWidget(parent),
     ui(new Ui::Calculator)
 {
@@ -361,7 +361,7 @@ void Calculator::sleeping(){
 void Calculator::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
-    memory->deallocate(PID,memory_size);
+        memory->deallocate(PID,memory_size);
     }
     event->accept();
 }

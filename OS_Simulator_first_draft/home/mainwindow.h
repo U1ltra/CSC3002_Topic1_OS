@@ -9,6 +9,10 @@
 #include "filesys/visualfilemanager.h"
 #include <QMouseEvent>
 #include "monitor/monitor.h"
+#include "memory/Memwidget.h"
+#include "schedule/scheduling.h"
+#include "schedule/Schwidget.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -23,7 +27,6 @@ public:
 
 private slots:
 
-
     void on_btn_calc_clicked();
 
     void on_btn_Calendar_clicked();
@@ -36,11 +39,10 @@ private slots:
 
     void on_btn_game_clicked();
 
-    void on_actionSleep_triggered();
-
     void on_actionShutdown_triggered();
 
     void back_to_fluctuation();
+
 private:
     // Instance Variable //
 
@@ -50,13 +52,16 @@ private:
     TextEditor *text_editor;
     VisualFileManager *vfm;
     monitor *taskMonitor;
+    Mem_Widget *MemGame;
+    SchWidget *SchGame;
     QTimer *system_timer;
     int calculator_count = 1,
     digial_clock_count = 1,
     text_editor_count = 1,
     calendar_count = 1,
     file_system_count=1,
-    task_monitor_count=1;
+    task_monitor_count=1,
+    memory_game_count = 1;
     int PID=10;
     cpuMon* CPU;
     Buddy* memory;
@@ -67,6 +72,8 @@ private:
     void to_effect_Click();
 
     void to_moving_around();
+
+    void sleeping();
 
     void set_up_memory();
 
