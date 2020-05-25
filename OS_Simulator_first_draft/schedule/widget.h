@@ -11,22 +11,26 @@
 #include "schedule/scheduling.h"
 #include "monitor/cpuMon.h"
 #include "memory/Buddy.h"
+
+
 using namespace std;
 namespace Ui {
 class Widget;
 }
 
-class Widget : public QWidget
+class SchWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = 0);
-    void setPID(int pid);
-    void set_CPU(cpuMon*);
-    void set_memory(Buddy* memory);
-    ~Widget();
-
+    explicit SchWidget(QWidget *parent = 0);
+    ~SchWidget();
+    void initcolorvec();
+    void inittable();
+    int returnprocessnum();//临时
+    void printcolor_map();//临时
+    void mydraw_1(int i, QPainter &painter);
+    void mydraw_2(int i, QPainter &painter);
 private slots:
 
 
@@ -35,25 +39,14 @@ private slots:
     void on_simulate_clicked();
 
     void on_clear_clicked();
+
     void on_comboBox_activated(const QString &arg1);
-    void initcolorvec();
-    void inittable();
 
-    void to_simple_Click();
-
-    void to_effect_Click();
-
-    void to_moving_around();
-
-    void back_to_fluctuation();
-
-    void refresh();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
-    void mousePressEvent(QMouseEvent *e);
-    void mouseMoveEvent(QMouseEvent *e);
-    void closeEvent(QCloseEvent *event);
+    //void timerEvent(QTimerEvent *event);
+
 private:
     Ui::Widget *ui;
     //颜色选择
@@ -61,14 +54,14 @@ private:
     map<string, QColor*> color_map;
     friend class scheduling;
 
-    int number_of_process;
-    int returnprocessnum();
-    void printcolor_map();
-    scheduling s;
 
+    scheduling s;
+    QTimer * t;
 
     int flag;
     int algo_sign;
+    int number_of_process;
+    int it;//遍历器
 
     vector<int> bq;
     vector<int> pq;
@@ -76,14 +69,6 @@ private:
     std::vector<task*> execQ;
 
     vector<QColor*> colorvec;
-
-    int PID;
-    QTimer *system_timer;
-    cpuMon* CPU;
-    Buddy* memory;
-    bool created = false;
-    int memory_size=1;
-    void sleeping();
 };
 
 #endif // WIDGET_H
