@@ -22,7 +22,12 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-
+    void initcolorvec();
+    void inittable();
+    int returnprocessnum();//临时
+    void printcolor_map();//临时
+    void mydraw_1(int i, QPainter &painter);
+    void mydraw_2(int i, QPainter &painter);
 private slots:
 
 
@@ -31,12 +36,14 @@ private slots:
     void on_simulate_clicked();
 
     void on_clear_clicked();
+
     void on_comboBox_activated(const QString &arg1);
-    void initcolorvec();
-    void inittable();
+
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+    //void timerEvent(QTimerEvent *event);
+
 private:
     Ui::Widget *ui;
     //颜色选择
@@ -44,14 +51,14 @@ private:
     map<string, QColor*> color_map;
     friend class scheduling;
 
-    int number_of_process;
-    int returnprocessnum();
-    void printcolor_map();
-    scheduling s;
 
+    scheduling s;
+    QTimer * t;
 
     int flag;
     int algo_sign;
+    int number_of_process;
+    int it;//遍历器
 
     vector<int> bq;
     vector<int> pq;
