@@ -1,22 +1,21 @@
-
-#include "schedule/widget.h"
-#include "ui_Schwidget.h"
+#include "widget.h"
+#include "ui_widget.h"
 #include <QString>
 #include <QList>
-#include <QStringList>
-#include <QScrollBar>
-#include <QPen>
-#include <QBrush>
-#include <QPainter>
-#include <QImage>
-#include <ctime>
-#include <QTimer>
-#include <unistd.h>
+#include<QStringList>
+#include<QScrollBar>
+#include<QPen>
+#include<QBrush>
+#include<QPainter>
+#include<QImage>
+#include<ctime>
+#include<QTimer>
+//#include <unistd.h>
 #include <QMessageBox>
-#include "monitor/cpuMon.h"
+//#include "monitor/cpuMon.h"
 SchWidget::SchWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
+    ui(new Ui::SchWidget)
 {
 
     //create the ui
@@ -122,7 +121,7 @@ void SchWidget::on_simulate_clicked(){
 
 /*
 *Function usage:when button "clear" is clicked
-*---------------------------------------------
+*----------
 */
 
 void SchWidget::on_clear_clicked()
@@ -188,7 +187,7 @@ void SchWidget::printcolor_map(){
     }
 }
 
-void Widget::initcolorvec(){
+void SchWidget::initcolorvec(){
     for(int i = 0; i< number_of_process;i++){
         colorvec.push_back(new QColor(rand()%(255 - 0 +1),rand()%(255 - 0 +1),rand()%(255 - 0 +1)));
     }

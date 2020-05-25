@@ -4,7 +4,7 @@
  * This file implements support functions of scheduling class.
  */
 
-#include "schedule/scheduling.h"
+#include "widget.h"
 #include <iostream>
 #include <vector>
 

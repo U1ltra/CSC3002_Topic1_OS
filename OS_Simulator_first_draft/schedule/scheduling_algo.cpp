@@ -5,7 +5,7 @@
  * scheduling class.
  */
 
-#include "schedule/scheduling.h"
+#include "widget.h"
 #include <algorithm>
 #include <vector>
 #include <set>
