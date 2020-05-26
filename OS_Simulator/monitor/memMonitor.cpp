@@ -219,13 +219,6 @@ void Memmonitor::sleeping(){
     }
 }
 
-void Memmonitor::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
-    if (created){
-    memory->deallocate(PID,memory_size);
-    }
-    event->accept();
-}
 
 
 void Memmonitor::set_memory(Buddy *Memory){

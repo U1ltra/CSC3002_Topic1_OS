@@ -117,9 +117,8 @@ private slots:
     void _refreshing();
 
 protected:
-//    void mousePressEvent(QMouseEvent *e);
-//    void mouseMoveEvent(QMouseEvent *e);
-    void closeEvent(QCloseEvent *event);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
 };
 
 #endif // CPUMONITOR_H

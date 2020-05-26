@@ -39,6 +39,14 @@ public:
      */
     void set_memory(Buddy* memory);
 
+    void to_simple_Click();
+
+    void to_effect_Click();
+
+    void to_moving_around();
+
+    void back_to_fluctuation();
+
 private:
 
     cpuMon * CPU;
@@ -56,6 +64,10 @@ private:
     bool created = false;
     int memory_size=1;
     void sleeping();
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MONITOR_H

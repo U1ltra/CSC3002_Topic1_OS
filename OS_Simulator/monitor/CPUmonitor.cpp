@@ -244,14 +244,6 @@ void CPUmonitor::sleeping(){
     }
 }
 
-void CPUmonitor::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
-    if (created){
-    memory->deallocate(PID,memory_size);
-    }
-    event->accept();
-}
-
 
 void CPUmonitor::set_memory(Buddy *Memory){
     memory = Memory;
@@ -261,4 +253,13 @@ void CPUmonitor::set_memory(Buddy *Memory){
     }else{
         created = true;
     }
+}
+
+void CPUmonitor::mousePressEvent(QMouseEvent *e){
+    to_simple_Click();
+}
+
+void CPUmonitor::mouseMoveEvent(QMouseEvent *e)
+{
+    to_moving_around();
 }

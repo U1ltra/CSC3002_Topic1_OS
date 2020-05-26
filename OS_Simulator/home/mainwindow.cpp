@@ -74,11 +74,12 @@ void MainWindow::on_btn_calc_clicked()
 {
     to_effect_Click();
     sleeping();
-    cal = new Calculator(this);
+    cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
     cal->set_CPU(CPU);
     cal->set_memory(memory);
     calculator_count++;
+    connect(this,SIGNAL(close()),cal,SLOT(close()));
     cal->show();
 }
 
@@ -86,11 +87,12 @@ void MainWindow::on_btn_Calendar_clicked()
 {
     to_effect_Click();
     sleeping();
-    Calendar *calendar = new Calendar(this);
+    Calendar *calendar = new Calendar();
     calendar->setPID(calendar_count*100000+200);
     calendar->set_CPU(CPU);
     calendar->set_memory(memory);
     calendar_count++;
+    connect(this,SIGNAL(close()),calendar,SLOT(close()));
     calendar->show();
 }
 
@@ -98,11 +100,12 @@ void MainWindow::on_btn_FileSystem_clicked()
 {
     to_effect_Click();
     sleeping();
-    vfm = new VisualFileManager(this);
+    vfm = new VisualFileManager();
     vfm->setPID(file_system_count*100000+300);
     vfm->set_CPU(CPU);
     vfm->set_memory(memory);
     file_system_count++;
+    connect(this,SIGNAL(close()),vfm,SLOT(close()));
     vfm->show();
 //        taskMonitor = new CPUmonitor(CPU);
 //        taskMonitor->setPID(task_monitor_count*100000+400);
@@ -131,6 +134,7 @@ void MainWindow::on_btn_TaskManager_clicked()
     Monitor->set_CPU(CPU);
     Monitor->set_memory(memory);
     monitor_count++;
+    connect(this,SIGNAL(close()),Monitor,SLOT(close()));
     Monitor->show();
 }
 
@@ -138,11 +142,12 @@ void MainWindow::on_btn_TextEditor_clicked()
 {
     to_effect_Click();
     sleeping();
-    text_editor = new TextEditor(this);
+    text_editor = new TextEditor();
     text_editor->setPID(text_editor_count*100000+500);
     text_editor->set_CPU(CPU);
     text_editor->set_memory(memory);
     text_editor_count++;
+    connect(this,SIGNAL(close()),text_editor,SLOT(close()));
     text_editor->show();
 
 }
@@ -151,11 +156,12 @@ void MainWindow::on_btn_game_clicked()
 {
     to_effect_Click();
     sleeping();
-    MemGame = new Mem_Widget(this);
+    MemGame = new Mem_Widget();
     MemGame->setPID(memory_game_count*100000+600);
     MemGame->set_CPU(CPU);
     MemGame->set_memory(memory);
     memory_game_count++;
+    connect(this,SIGNAL(close()),MemGame,SLOT(close()));
     MemGame->show();
 }
 
