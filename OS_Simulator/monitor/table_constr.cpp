@@ -11,6 +11,7 @@
 #include <exception>
 #include <QStandardItemModel>
 #include <monitor/table_constr.h>
+///
 
 using namespace std;
 

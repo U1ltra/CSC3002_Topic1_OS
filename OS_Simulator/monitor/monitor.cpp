@@ -11,6 +11,8 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <unistd.h>
+///
+
 const QFont TITLE_FONT = QFont("Helvatica", 25);
 const QString TITLE = QWidget::tr("Activity Monitor");
 const QString CPUT = QWidget::tr("CPU");

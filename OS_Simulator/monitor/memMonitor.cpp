@@ -15,6 +15,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <unistd.h>
+///
 
 const QFont NOM_FONT = QFont("Times New Roman", 16);
 const QSize SIZE = QSize(500, 100);
