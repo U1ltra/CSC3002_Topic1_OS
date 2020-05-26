@@ -15,7 +15,6 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <unistd.h>
-///
 
 const QFont NOM_FONT = QFont("Times New Roman", 16);
 const QSize SIZE = QSize(500, 100);
@@ -90,6 +89,7 @@ void Memmonitor::initTable(){
     attrNames.push_back("Real Size");
     attrNames.push_back("Memory Size");
     tableConstructor->setTable(memory->Bu_map.size(), COLUMNS);
+    cout << "table construction with row number >>> " << memory->Bu_map.size() << endl;
     tableConstructor->setTitle(attrNames, attrNames);
 
 
@@ -103,7 +103,7 @@ void Memmonitor::initTable(){
     total.clear();
     Pnames.clear();
     for (size_t i=0; i<check.size(); i++) {
-        if (i>=2) {
+        if (i>=3) {
             Pnames.push_back(check[i]);
 //            PIDS.push_back(check2[1]);
         }
@@ -228,15 +228,15 @@ void Memmonitor::closeEvent(QCloseEvent *event){
 }
 
 
-//void Memmonitor::set_memory(Buddy *Memory){
-//    memory = Memory;
-//    if (!memory->allocate(PID,memory_size)){
-//        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-//        close();
-//    }else {
-//        created = true;
-//    }
-//}
+void Memmonitor::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else {
+        created = true;
+    }
+}
 
 
 

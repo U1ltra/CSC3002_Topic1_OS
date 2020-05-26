@@ -17,7 +17,6 @@
 #include <QDebug>
 #include <QVariant>
 #include <iostream>
-///
 
 //#include <iomanip>
 
@@ -218,7 +217,7 @@ void cpuMon::operationDet(int pid, opType op){  // whenever GUI detect a kind of
     Tstatistics();                              // calculate statistics
     CPUTem();                                   // update cpu temperature
 //    check();
-    cout << "op princt" << endl;
+//    cout << "op princt" << endl;
 }
 
 void cpuMon::kernel_task(opType op){

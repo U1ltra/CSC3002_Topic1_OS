@@ -19,7 +19,6 @@
 #include "monitor/cpuMon.h"
 #include "monitor/table_constr.h"
 #include "memory/Buddy.h"
-///
 
 ////namespace Ui {
 ////class monitor;

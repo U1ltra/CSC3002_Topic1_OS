@@ -10,8 +10,7 @@
 #include <QString>
 #include <QLabel>
 #include <QMessageBox>
-#include <unistd.h>
-///
+#include <iostream>
 
 const QFont TITLE_FONT = QFont("Helvatica", 25);
 const QString TITLE = QWidget::tr("Activity Monitor");
@@ -23,6 +22,7 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
 {
     CPU = cpu;
     BD = bd;
+    std::cout << "memory process list in the first layer >>> " << BD->Bu_map.size() << endl;
 
     cpuM = new CPUmonitor(CPU);
     memM = new Memmonitor(BD, CPU);
@@ -41,6 +41,7 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     mainLayout->setContentsMargins(10,30,10,20);
     mainLayout->setAlignment(Qt::AlignCenter);      // not really useful
     this->setLayout(mainLayout);
+
 
 }
 

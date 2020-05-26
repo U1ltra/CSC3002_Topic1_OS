@@ -12,7 +12,6 @@
 #include <vector>
 #include <monitor/cpuMon.h>
 #include <QStandardItemModel>
-///
 
 
 /*

@@ -20,7 +20,6 @@
 #include <unistd.h>
 #include <QCloseEvent>
 #include <QMessageBox>
-///
 
 const QFont NOM_FONT = QFont("Times New Roman", 16);
 const QFont TITLE_FONT = QFont("Helvatica", 25);

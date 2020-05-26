@@ -127,7 +127,7 @@ void MainWindow::on_btn_TaskManager_clicked()
 //    memory_monitor_count++;
 //    MemMonitor->show();
     Monitor = new monitor(CPU, memory);
-    Monitor->setPID(text_editor_count*100000+500);
+    Monitor->setPID(monitor_count*100000+400);
     Monitor->set_CPU(CPU);
     Monitor->set_memory(memory);
     monitor_count++;

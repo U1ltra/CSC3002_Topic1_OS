@@ -10,7 +10,6 @@
 #include "monitor/cpuMon.h"
 #include "monitor/CPUmonitor.h"
 #include "monitor/memMonitor.h"
-///
 
 class monitor : public QWidget
 {
