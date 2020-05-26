@@ -5,7 +5,7 @@
  * scheduling class.
  */
 
-#include "scheduling.h"
+#include "widget.h"
 #include <algorithm>
 #include <vector>
 #include <set>
@@ -220,7 +220,7 @@ int scheduling::RR(){
     set<int> finished;
 
     int pid, arrive, pSlice = -1;
-    int clock = 0, startP = 0, slice = 4;
+    int clock = 0, startP = 0, slicet = slice;
 
     while (finished.size()!=pqueue.size()) {
         if (runQ.size()!=0){
@@ -253,11 +253,11 @@ int scheduling::RR(){
                 pSlice = -1;
             }
         }
-        if (pSlice == slice-1 && runQ.size()!=0){                   // make sure that the executed one has not being terminated
+        if (pSlice == slicet-1 && runQ.size()!=0){                   // make sure that the executed one has not being terminated
             runQ.push_back(runQ[0]);
             runQ.erase(runQ.begin());
             pSlice = -1;
-            task * oneSlice = new task(pid, slice, arrive);
+            task * oneSlice = new task(pid, slicet, arrive);
             exeQ.push_back(oneSlice);
         }
 
