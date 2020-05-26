@@ -7,17 +7,19 @@
 #include <QTimer>
 #include "monitor/cpuMon.h"
 #include <QCloseEvent>
+#include <QMainWindow>
 #include "memory/Buddy.h"
+#include <QDate>
 class Calendar : public QCalendarWidget
 {
     Q_OBJECT
 
 public:
-     Calendar();
+     Calendar(QMainWindow *parent = nullptr);
      void setPID(int pid);
      void set_CPU(cpuMon*);
      void set_memory(Buddy* memory);
-    ~Calendar();
+    ~Calendar() = default;
 
 private:
      QTimer *system_timer;
@@ -25,7 +27,7 @@ private:
      cpuMon* CPU;
      Buddy* memory;
      bool created = false;
-     int memory_size=1;
+     int memory_size=1;   
 
 private slots:
     void to_simple_Click();
@@ -36,7 +38,7 @@ private slots:
 
     void back_to_fluctuation();
 
-    void shutdown();
+
 
 protected:
     void mousePressEvent(QMouseEvent *e);

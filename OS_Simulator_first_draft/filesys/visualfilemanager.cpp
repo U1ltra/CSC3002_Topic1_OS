@@ -5,7 +5,7 @@
 #include <QTimer>
 //#include <windows.h>
 #include <unistd.h>
-VisualFileManager::VisualFileManager(QWidget *parent):
+VisualFileManager::VisualFileManager(QMainWindow *parent):
     QMainWindow(parent),
     ui(new Ui::VisualFileManager)
 {
@@ -363,3 +363,5 @@ void VisualFileManager::set_memory(Buddy *Memory){
         created = true;
     }
 }
+
+

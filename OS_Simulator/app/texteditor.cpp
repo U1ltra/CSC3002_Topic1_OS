@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 
-TextEditor::TextEditor(QWidget *parent) :
+TextEditor::TextEditor(QMainWindow *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
 {
@@ -235,16 +235,22 @@ void TextEditor::findText() {
 }
 
 void TextEditor::closeEvent(QCloseEvent *e) {
+
+    if (created){
     if (checkIfSaved()) {
+        CPU->terminateP(PID);
+        memory->deallocate(PID,memory_size);
         e->accept();
     } else {
         e->ignore();
     }
+    }
+    CPU->terminateP(PID);
 }
 
 void TextEditor::set_CPU(cpuMon * cpu){
     CPU=cpu;
-    CPU->createP(PID,"Calculator",user);
+    CPU->createP(PID,"Text Editor",user);
 }
 
 
@@ -254,13 +260,11 @@ void TextEditor::setPID(int pid){
 
 void TextEditor::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
-    system_timer->start(100);
 }
 
 void TextEditor::mouseMoveEvent(QMouseEvent *e)
 {
     to_moving_around();
-    system_timer->start(100);
 }
 
 
@@ -294,3 +298,14 @@ void TextEditor::sleeping(){
         sleep(1);
     }
 }
+
+void TextEditor::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->allocate(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else{
+        created = true;
+    }
+}
+

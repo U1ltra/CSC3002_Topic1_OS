@@ -4,8 +4,8 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QMessageBox>
-DigitalClock::DigitalClock():
-    QLCDNumber()
+DigitalClock::DigitalClock(QMainWindow *parent) :
+    QLCDNumber(parent)
 {
     this->setDigitCount(25);
     this->setDecMode();

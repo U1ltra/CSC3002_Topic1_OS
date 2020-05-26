@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include "monitor/cpuMon.h"
 #include <QCloseEvent>
+#include <QMainWindow>
 #include "memory/Buddy.h"
 namespace Ui {
 class Calculator;
@@ -15,7 +16,7 @@ class Calculator : public QWidget
     Q_OBJECT
 
 public:
-    explicit Calculator(QWidget *parent = nullptr);
+    explicit Calculator(QMainWindow *parent = nullptr);
     void setPID(int pid);
     void set_CPU(cpuMon*);
     void set_memory(Buddy* memory);

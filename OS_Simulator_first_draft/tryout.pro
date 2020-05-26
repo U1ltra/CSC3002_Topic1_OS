@@ -22,17 +22,21 @@ SOURCES += \
     app/openfile.cpp \
     app/saveaslist.cpp \
     app/texteditor.cpp \
-    \
-    monitor/cpuMon.cpp \
-    \
     filesys/visualfilemanager.cpp \
-    \
     home/login_interface.cpp \
-    home/mainwindow.cpp \
     home/main.cpp \
-    \
+    home/mainwindow.cpp \
+    memory/Buddy.cpp \
+    memory/Memwidget.cpp \
+    memory/Pair.cpp \
+    memory/m_task.cpp \
+    monitor/cpuMon.cpp \
+    monitor/monitor.cpp \
     monitor/table_constr.cpp \
-    uti/error.cpp
+    schedule/Schwidget.cpp \
+    schedule/scheduling_algo.cpp \
+    schedule/scheduling_uti.cpp
+
 
 HEADERS += \
     app/calculator.h \
@@ -41,55 +45,56 @@ HEADERS += \
     app/openfile.h \
     app/saveaslist.h \
     app/texteditor.h \
-#    app/ui_calculator.h \
-    \
+    app/ui_calculator.h \
     filesys/visualfilemanager.h \
-    \
     home/login_interface.h \
-#    home/ui_login_interface.h \
-    home/mainwindow.h \
-#    home/ui_widget.h \
-    \
+    home/mainwindow.h \ \
+    memory/Buddy.h \
+    memory/Memwidget.h \
+    memory/m_task.h \
+    memory/pair.h \
     monitor/cpuMon.h \
+    monitor/monitor.h \
     monitor/table_constr.h \
-    \
-    uti/error.h
+    schedule/Schwidget.h \
+    schedule/scheduling.h
+
 
 FORMS += \
     app/calculator.ui \
     app/openfile.ui \
     app/saveaslist.ui \
     app/texteditor.ui \
-    \
     filesys/visualfilemanager.ui \
-    \
     home/login_interface.ui \
-    home/mainwindow.ui
-    \
-    uti/error.ui
+    home/mainwindow.ui \
+    memory/Memwidget.ui \
+    schedule/Schwidget.ui
 
-INCLUDEPATH += \
-    app \
-    filesys \
-    home \
-    monitor \
-    uti
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+INCLUDEPATH += \
+    app \
+    filesys \
+    home \
+    monitor \
+    memory \
+    schedule
+
 DISTFILES += \
-    .DS_Store \
-    images/File.jpg \
-    images/Menu.jpg \
     images/Calculator.jpg \
     images/Calendar.jpg \
+    images/File.jpg \
     images/FileSystem.jpg \
     images/Game.jpg \
-    images/TaskManager/jpg \
-    images/TextEditor.jpg
+    images/Menu.jpg \
+    images/TaskManager.jpg \
+    images/TextEditor.jpg \
+    images/back.jpg
 
 RESOURCES += \
     image.qrc

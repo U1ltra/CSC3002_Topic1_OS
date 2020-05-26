@@ -6,6 +6,7 @@
 #include <QLCDNumber>
 #include <QTimer>
 #include <QDateTime>
+#include <QMainWindow>
 #include "monitor/cpuMon.h"
 #include "memory/Buddy.h"
 class DigitalClock : public QLCDNumber
@@ -13,7 +14,7 @@ class DigitalClock : public QLCDNumber
     Q_OBJECT
 
 public:
-     DigitalClock();
+     DigitalClock(QMainWindow *parent = nullptr);
      void setPID(int pid);
      void set_CPU(cpuMon*);
      void set_memory(Buddy* memory);
