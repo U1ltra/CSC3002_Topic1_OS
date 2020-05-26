@@ -1,10 +1,19 @@
+
+/*
+ * File:calculator.h
+ * -----------------
+ * This file exports a visualized calculator class.
+ */
+
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
 #include <QWidget>
 #include <QMouseEvent>
 #include "monitor/cpuMon.h"
-
+#include <QCloseEvent>
+#include <QMainWindow>
+#include "memory/Buddy.h"
 namespace Ui {
 class Calculator;
 }
@@ -14,9 +23,10 @@ class Calculator : public QWidget
     Q_OBJECT
 
 public:
-    explicit Calculator(QWidget *parent = nullptr);
+    explicit Calculator(QMainWindow *parent = nullptr);
     void setPID(int pid);
     void set_CPU(cpuMon*);
+    void set_memory(Buddy* memory);
     ~Calculator();
 
 private slots:
@@ -61,6 +71,7 @@ private slots:
     void back_to_fluctuation();
 
     void calculating();
+
 private:
     Ui::Calculator *ui;
     double number1,number2,result;
@@ -72,10 +83,14 @@ private:
     int PID;
     QTimer *system_timer;
     cpuMon* CPU;
+    Buddy* memory;
+    bool created = false;
+    int memory_size=1;
     void sleeping();
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // CALCULATOR_H
