@@ -18,6 +18,8 @@
 #include <QVariant>
 #include <iostream>
 
+//#include <iomanip>
+
 using namespace std;
 
 
@@ -468,7 +470,7 @@ void fluctuate(cpuMon & monitor){                               // OS gradually 
     if (!monitor.operation){                                    // freshing does not equal to fluctuate
         monitor.leisure();
 //        monitor.check();
-        cout << "fl print" << endl;
+//        cout << "fl print" << endl;
     }
     this_thread::sleep_for(chrono::milliseconds(100));          // call oneself again after the sleep, making this function a parallel thread
     thread next(ref(fluctuate), ref(monitor));                  // detach to allow the resources of this function been collected

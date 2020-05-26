@@ -47,7 +47,7 @@ bool Buddy::allocate(m_task &current){
     Pair tem = arr[i].back();
     arr[i].pop_back();
     i--;
-    for (; static_cast<int>(i) >= num; i--){
+    for (; static_cast<int>(i) >= num; i--) {
         Pair newpair = Pair(tem.lb, tem.lb + (tem.ub - tem.lb)/2);
         Pair newpair2= Pair(tem.lb + (tem.ub - tem.lb) / 2 + 1, tem.ub);
         arr[i].push_front(newpair);
