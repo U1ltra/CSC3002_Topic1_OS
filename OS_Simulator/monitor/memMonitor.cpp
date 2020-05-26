@@ -103,7 +103,7 @@ void Memmonitor::initTable(){
     total.clear();
     Pnames.clear();
     for (size_t i=0; i<check.size(); i++) {
-        if (i>=3) {
+        if (i>=2) {
             Pnames.push_back(check[i]);
 //            PIDS.push_back(check2[1]);
         }
@@ -156,16 +156,15 @@ void Memmonitor::initBottom() {
 void refresh(Memmonitor * memM) {
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-        delete memM->tableConstructor;
-        memM->tableConstructor = new stdTable;
-        memM->initTable();
-        memM->initBottom();
-        memM->memConsumption->update();
-        memM->totalMem->update();
-        memM->visualTable->update();
-
-        memM->visualTable->reset();
-//    }
+    delete memM->tableConstructor;
+    memM->tableConstructor = new stdTable;
+    memM->initTable();
+    memM->initBottom();
+    memM->memConsumption->update();
+    memM->totalMem->update();
+    memM->visualTable->update();
+    memM->visualTable->reset();
+    cout << "MemMonitor refreshed !!!" << endl;
     std::thread next = std::thread(refresh, memM);
     next.detach();
 }
@@ -220,17 +219,24 @@ void Memmonitor::sleeping(){
     }
 }
 
-
-
-void Memmonitor::set_memory(Buddy *Memory){
-    memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else {
-        created = true;
+void Memmonitor::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
     }
+    event->accept();
 }
+
+
+//void Memmonitor::set_memory(Buddy *Memory){
+//    memory = Memory;
+//    if (!memory->allocate(PID,memory_size)){
+//        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+//        close();
+//    }else {
+//        created = true;
+//    }
+//}
 
 
 

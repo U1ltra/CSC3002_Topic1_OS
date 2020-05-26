@@ -113,6 +113,8 @@ private slots:
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
+
 };
 
 #endif // MEMMONITOR_H

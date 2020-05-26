@@ -41,7 +41,6 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     mainLayout->setContentsMargins(10,30,10,20);
     mainLayout->setAlignment(Qt::AlignCenter);      // not really useful
     this->setLayout(mainLayout);
-    connect(tabW,SIGNAL(currentChanged()),this,SLOT(to_effect_Click()));
 
 }
 
@@ -75,38 +74,3 @@ void monitor::set_memory(Buddy *Memory){
     }
 }
 
-void monitor::back_to_fluctuation(){
-    CPU->operationDet(PID,fluctuation);
-}
-
-
-void monitor::to_effect_Click(){
-    CPU->operationDet(PID,effectClick);
-    system_timer->start(100);
-}
-
-void monitor::to_simple_Click(){
-    CPU->operationDet(PID,simpleClick);
-    system_timer->start(100);
-}
-
-void monitor::to_moving_around(){
-    CPU->operationDet(PID,movingAround);
-    system_timer->start(100);
-}
-
-
-void monitor::sleeping(){
-    if (CPU->isBusy()){
-        sleep(1);
-    }
-}
-
-void monitor::mousePressEvent(QMouseEvent *e){
-    to_simple_Click();
-}
-
-void monitor::mouseMoveEvent(QMouseEvent *e)
-{
-    to_moving_around();
-}

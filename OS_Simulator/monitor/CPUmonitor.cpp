@@ -189,6 +189,7 @@ void refresh(CPUmonitor * mon){
     mon->ThreadT->update();
     mon->ProcessT->update();
     mon->CPUTem->update();
+    cout << "MemMonitor refreshed !!!" << endl;
     std::thread next(refresh, mon);
     next.detach();
 }
@@ -245,22 +246,21 @@ void CPUmonitor::sleeping(){
     }
 }
 
-
-void CPUmonitor::set_memory(Buddy *Memory){
-    memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else{
-        created = true;
+void CPUmonitor::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+    memory->deallocate(PID,memory_size);
     }
+    event->accept();
 }
 
-void CPUmonitor::mousePressEvent(QMouseEvent *e){
-    to_simple_Click();
-}
 
-void CPUmonitor::mouseMoveEvent(QMouseEvent *e)
-{
-    to_moving_around();
-}
+//void CPUmonitor::set_memory(Buddy *Memory){
+//    memory = Memory;
+//    if (!memory->allocate(PID,memory_size)){
+//        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+//        close();
+//    }else{
+//        created = true;
+//    }
+//}
