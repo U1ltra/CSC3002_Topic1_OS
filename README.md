@@ -12,12 +12,9 @@
 *	Finish  : Sunday, May 26, 2020.
 *	Lang    : C/C++
 *   Compiler: Desktop Qt 5.12.6 clang 64bit
-*   Ref(s). : [1] Computer System Concepts - Silberchatz, Galvin, Gagne
-*				  Nineth Edition.
-*             [2] Computer System: A Programmer’s Perspective - Randal, David
-*                 Third edition.
-*             [3] The Design and Implementation of the FreeBSD Operating System 
-*                 Second Edition.
+*   Ref(s). : [1] Computer System Concepts, Nineth Edition. - Silberchatz, Galvin, Gagne
+*             [2] Computer System: A Programmer’s Perspective, Third edition. - Randal, David
+*             [3] The Design and Implementation of the FreeBSD Operating System, Second Edition. 
 *             [4] https://github.com/
 *             [5] https://www.csdn.net/
 *			  [6] http://www.cplusplus.com/reference/
