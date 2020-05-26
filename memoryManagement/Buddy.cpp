@@ -13,11 +13,10 @@ Buddy::Buddy(int s){
     size = s;
     int num = (int) ceil(log(s) / log(2));
     arr = vector<list<Pair>>(num + 1);
-    //cout<<"arr size"<<arr.size();
     arr[num].push_front(Pair(0,size-1));
 }
 
-void Buddy::allocate(m_task &current){
+bool Buddy::allocate(m_task &current){
     int s = current.memory;
     int num = (int) ceil(log(s) / log(2));
     if (arr[num].size() > 0){
@@ -26,9 +25,9 @@ void Buddy::allocate(m_task &current){
         current.starting_Address = tem.lb;
         Bu_map[current] = tem.ub - tem.lb + 1;
         cout << "memory from " << tem.lb << " to " << tem.ub << " " << "allocated." << endl;
-        return;
+        return true;
     }
-    int i;
+    size_t i;
     for (i = num+1; i < arr.size(); i++){
         if (arr[i].size() == 0) continue;
         break;
@@ -36,12 +35,12 @@ void Buddy::allocate(m_task &current){
 
     if (i == arr.size()){
         cout << "Fail to allocate memory" << endl;
-        return;
+        return false;
     }
     Pair tem = arr[i].back();
     arr[i].pop_back();
     i--;
-    for (; i >= num; i--){
+    for (; static_cast<int>(i) >= num; i--){
         Pair newpair = Pair(tem.lb, tem.lb + (tem.ub - tem.lb)/2);
         Pair newpair2= Pair(tem.lb + (tem.ub - tem.lb) / 2 + 1, tem.ub);
         arr[i].push_front(newpair);
@@ -52,15 +51,16 @@ void Buddy::allocate(m_task &current){
     current.starting_Address = tem.lb;
     Bu_map[current] = tem.ub - tem.lb + 1;
     cout << "Memory from " << tem.lb << " to " << tem.ub << " allocated" << endl;
+    return true;
 }
 
 
 
-void Buddy::deallocate(m_task &current){
-    index = current.starting_Address;
+bool Buddy::deallocate(m_task &current){
+    int index = current.starting_Address;
     if (!Bu_map.count(current)){
         cout << "Sorry, invalid free request" << endl;
-        return;
+        return false;
     }
 
     int num = (int) ceil(log(Bu_map[current] / log(2)));
@@ -91,6 +91,17 @@ void Buddy::deallocate(m_task &current){
         }
     }
     Bu_map.erase(current);
+    return true;
+}
+
+bool Buddy::allocate(int PID,int size){
+    m_task *task = new m_task(PID,size);
+    return allocate(*task);
+}
+
+bool Buddy::deallocate(int PID,int size){
+    m_task *task = new m_task(PID,size);
+    return deallocate(*task);
 }
 
 int Buddy::getsize(){

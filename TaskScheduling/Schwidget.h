@@ -8,10 +8,11 @@
 #include<map>
 #include<string>
 #include<QDebug>
-#include "scheduling.h"
+
 #include <string>
 #include <vector>
-
+#include <mythread.h>
+#include <QThread>
 using namespace std;
 namespace Ui {
 class SchWidget;
@@ -310,11 +311,13 @@ public:
     ~SchWidget();
     void initcolorvec();
     void inittable();
+    void initgraph();
     int returnprocessnum();//临时
     void printcolor_map();//临时
-    void mydraw_1(int i, QPainter &painter);
-    void mydraw_2(int i, QPainter &painter);
+    bool repetitiondetect(int i, vector<int> v);
 
+    //mythread *mythrd;
+    //QThread *qthrd;
 private slots:
 
 
@@ -326,6 +329,18 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
+//    void getImage(QImage&);
+
+//    void kill_thread(QObject*);
+
+    void on_initialize_clicked();
+
+    void on_timeslice_textEdited(const QString &arg1);
+
+
+    void on_pause_clicked();
+
+    void on_play_clicked();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -339,19 +354,21 @@ private:
     friend class scheduling;
 
 
-    scheduling s;
+    scheduling * s;
     QTimer * t;
 
     int flag;
     int algo_sign;
     int number_of_process;
-    int it;//遍历器
-
+    int timeslice;
+    bool rept_flag;
+    bool init_flag;
+    int ptremained;
     vector<int> bq;
     vector<int> pq;
     vector<int> aq;
     std::vector<task*> execQ;
-
+    vector<int> graphlenvec;
     vector<QColor*> colorvec;
 };
 #endif // WIDGET_H

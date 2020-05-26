@@ -2,22 +2,24 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <vector>
-#include <iostream>
-#include <QPixmap>
-#include <map>
-#include <string>
-#include <QDebug>
-//#include "scheduling.h"
-#include <QMainWindow>
-#include <string>
-#include <vector>
+#include<vector>
+#include<iostream>
+#include<QPixmap>
+#include<map>
+#include<string>
+#include<QDebug>
 
-
+#include <string>
+#include <vector>
+#include <mythread.h>
+#include <QThread>
 using namespace std;
 namespace Ui {
 class SchWidget;
 }
+
+
+
 
 
 extern const int PID_BLANK;                    // pid for blank period
@@ -305,15 +307,17 @@ class SchWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit SchWidget(QMainWindow *parent = nullptr);
+    explicit SchWidget(QWidget *parent = 0);
     ~SchWidget();
     void initcolorvec();
     void inittable();
+    void initgraph();
     int returnprocessnum();//临时
     void printcolor_map();//临时
-    void mydraw_1(int i, QPainter &painter);
-    void mydraw_2(int i, QPainter &painter);
+    bool repetitiondetect(int i, vector<int> v);
 
+    //mythread *mythrd;
+    //QThread *qthrd;
 private slots:
 
 
@@ -325,6 +329,18 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
+//    void getImage(QImage&);
+
+//    void kill_thread(QObject*);
+
+    void on_initialize_clicked();
+
+    void on_timeslice_textEdited(const QString &arg1);
+
+
+    void on_pause_clicked();
+
+    void on_play_clicked();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -338,22 +354,21 @@ private:
     friend class scheduling;
 
 
-    scheduling s;
+    scheduling * s;
     QTimer * t;
 
     int flag;
     int algo_sign;
     int number_of_process;
-    int it;//遍历器
-
+    int timeslice;
+    bool rept_flag;
+    bool init_flag;
+    int ptremained;
     vector<int> bq;
     vector<int> pq;
     vector<int> aq;
     std::vector<task*> execQ;
-
+    vector<int> graphlenvec;
     vector<QColor*> colorvec;
 };
-
-
-#endif // SCHWIDGET_H
-
+#endif // WIDGET_H

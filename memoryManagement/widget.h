@@ -18,6 +18,7 @@ public:
     explicit Mem_Widget(QWidget *parent = 0);
     ~Mem_Widget();
     bool eventFilter(QObject *watched, QEvent *event);
+    void inittable();
 
 private slots:
 
@@ -27,14 +28,18 @@ private slots:
 
     void on_simulate_clicked();
 
-    void on_lineEdit_textEdited(const QString &arg1);
+    void on_lineEdit_editingFinished();
 
 private:
     Ui::Widget *ui;
     std::vector<m_task*> task_vector;
+    std::vector<m_task*> pid_vector;
     int tasknumber;
     Buddy * bd;
     int flag;
+    bool init_flag;
+    bool success_flag;
+    int tused;//total used
 };
 
 #endif // WIDGET_H

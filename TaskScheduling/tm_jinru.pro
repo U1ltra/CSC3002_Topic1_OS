@@ -26,12 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         widget.cpp \
     scheduling_algo.cpp \
-    scheduling_uti.cpp \
-    mythread.cpp
+    scheduling_uti.cpp
 
 HEADERS  += widget.h \
-    scheduling.h \
-    mythread.h
+    scheduling.h
 
 FORMS    += widget.ui
 QMAKE_CXXFLAGS += -std=c++11
+
+DISTFILES +=

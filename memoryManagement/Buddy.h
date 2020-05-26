@@ -13,9 +13,13 @@ public:
 
     vector<list<Pair>> arr;
     map<m_task,int> Bu_map;
-    void allocate(m_task &current);
-    void deallocate(m_task &current);
+
+    bool allocate(int PID,int size);
+    bool allocate(m_task &current);
+    bool deallocate(m_task &current);
+    bool deallocate(int PID,int size);
     int getsize();
+
 private:
     int index;
     int size;
