@@ -33,7 +33,7 @@ private:
      cpuMon* CPU;
      Buddy* memory;
      bool created = false;
-     int memory_size = 1;
+     int memory_size = 100;
 
 private slots:
     void to_simple_Click();

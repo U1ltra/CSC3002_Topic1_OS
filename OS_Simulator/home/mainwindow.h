@@ -72,7 +72,7 @@ private:
     cpuMon* CPU;
     Buddy* memory;
     bool created = false;
-    int memory_size=1;
+    int memory_size=250;
     void to_simple_Click();
 
     void to_effect_Click();
