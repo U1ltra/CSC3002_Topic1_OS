@@ -35,7 +35,8 @@ SchWidget::SchWidget(QWidget *parent) :
 
     graphlenvec.push_back(0);
 
-   // setMouseTracking(true);
+    system_timer = new QTimer(this);
+    setMouseTracking(true);
 
 }
 
