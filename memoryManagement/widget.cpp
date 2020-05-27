@@ -40,7 +40,6 @@ void Mem_Widget::on_clear_clicked()
     task_vector.clear();
 
     delete bd;
-    bd = nullptr;
 
     tused = 0;
     ui->currentused->setText(QString::number(tused));

@@ -101,7 +101,7 @@ private:
     QTimer *system_timer;
     Buddy* memory;
     bool created = false;
-    int memory_size=1;
+    int memory_size=200;
     void sleeping();
 
 private slots:
