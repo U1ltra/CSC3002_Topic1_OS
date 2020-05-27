@@ -38,8 +38,6 @@ private slots:
 
     void on_simulate_clicked();
 
-    void on_change_clicked();
-
     void on_memorystorage_editingFinished();
 
     void to_simple_Click();
@@ -65,6 +63,7 @@ private:
     bool init_flag;
     bool success_flag;
     bool clear_flag;
+    int mouse_flag;
     int tused;//total used
     vector<QString*> promptvec;
 

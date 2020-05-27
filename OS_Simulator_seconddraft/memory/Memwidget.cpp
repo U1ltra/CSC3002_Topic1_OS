@@ -19,11 +19,13 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
         //设置表头内容
          inittable();
+         system_timer = new QTimer(this);
 
          flag = 0;//event filter
          init_flag = false;//initialize memory
          success_flag = true;//allocate memory success
          clear_flag = true;
+         mouse_flag = 1;
          tused = 0;
          ui->currentused->setText(QString::number(tused));
          ui->currentused->displayText();
@@ -42,8 +44,6 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
     {
         cout <<clear_flag<<endl;
         if(clear_flag == true){
-            if(bd->getsize() >0 && bd->getsize() != 32766 ){
-                cout<<"******************^^^^^^^^^^^"<<endl;
             ui->tableWidget->clearContents();
             ui->tableWidget->setRowCount(0);
             tasknumber = 0;
@@ -59,18 +59,16 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             ui->currentused->setText(QString::number(tused));
             ui->currentused->displayText();
             ui->scrollAreaWidgetContents->repaint();
-            cout<<"******************^^^^^^^^^^^"<<endl;
-
+            //initialize the spinbox and lineedit
             ui->memorystorage->setText("");
             ui->spinBox->setValue(0);
 
             init_flag = false;
             success_flag = true;
             clear_flag = false;
-        }
       }
         cout <<"end"<<clear_flag<<endl;
-    }
+}
 
     void Mem_Widget::on_spinBox_valueChanged(int arg1)
     {
@@ -126,6 +124,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
         }
         tused = 0;
         init_flag =false;
+        clear_flag = true;
       }
         if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==2)
            {
@@ -135,8 +134,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
             int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
             painter.drawRect(0,0,my_width,my_height);
+            clear_flag = true;
         }
-        clear_flag = true;
+//        if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::MouseButtonPress )
+//           {
+//            cout<<"88"<<endl;
+//        }
     }
 
     void Mem_Widget::on_simulate_clicked()
@@ -192,13 +195,6 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
         clear_flag = true;
     }
 
-    void Mem_Widget::on_change_clicked()
-    {
-    //    subwidget sub;
-
-    //    sub.show();
-        clear_flag = true;
-    }
 
     void Mem_Widget::on_memorystorage_editingFinished()
     {
