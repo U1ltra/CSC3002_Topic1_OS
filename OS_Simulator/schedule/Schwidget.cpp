@@ -4,12 +4,12 @@
 #include <QList>
 #include <QStringList>
 #include <QScrollBar>
-#include<QPen>
-#include<QBrush>
-#include<QPainter>
-#include<QImage>
-#include<ctime>
-#include<QTimer>
+#include <QPen>
+#include <QBrush>
+#include <QPainter>
+#include <QImage>
+#include <QTimer>
+#include <QTextEdit>
 //#include <unistd.h>
 #include <QMessageBox>
 //#include "monitor/cpuMon.h"
@@ -25,8 +25,15 @@ SchWidget::SchWidget(QWidget *parent) :
 
     ui->mygraph->installEventFilter(this);//在label上安装事件过滤器，this指针指定当事件发生时调用当前类中的事件过滤器进行处理
 
-    t = new QTimer(ui->mygraph);
+    t = new QTimer(this);
+    //initialize timeslice
+    timeslice = -1;
+    ptremained = 0;
+    init_flag = false;
+    rept_flag = false;
+    allow_to_init = true;//prevent double click simulate
 
+    graphlenvec.push_back(0);
 
    // setMouseTracking(true);
 
@@ -35,89 +42,114 @@ SchWidget::SchWidget(QWidget *parent) :
 SchWidget::~SchWidget()
 {
     delete ui;
+    delete s;
+    s = nullptr;
 }
-
-
 
 void SchWidget::on_spinBox_valueChanged(int arg1)
 {
     //设置进程数
+    if(s != nullptr){
+        number_of_process = arg1;
+        ui->table_of_process->setRowCount(number_of_process);
+        s->Tprocess = number_of_process;
+        //设置列，设置其名字
+        QList<QString> list_of_label;
+        ui->table_of_process->setColumnCount(8);
+        list_of_label<<("pid")<<("time remain")<<("Arrive Time")<<("Priority")<<("Wait Time")<<("Response Time")<<("Cycling Time")<<("Color");
+        QStringList vertical_label(list_of_label);
+        ui->table_of_process->setHorizontalHeaderLabels(vertical_label);
+        ui->table_of_process->setStyleSheet("selection-background-color: pink");
+        inittable();//初始化表格
+        //PID
+        for(int i = 0; i<number_of_process;i++){
+            QString s = QString::number(i+1);
+            ui->table_of_process->setItem(i,0,new QTableWidgetItem(s));
+        }
+        cout << arg1<<endl;
+    }
+    else{
+        QMessageBox::warning(this,"Warning","Please click initialize at first",QMessageBox::Yes);
 
-    number_of_process = arg1;
-    ui->table_of_process->setRowCount(number_of_process);
-    s.Tprocess = number_of_process;
-    //设置列，设置其名字
-    QList<QString> list_of_label;
-    ui->table_of_process->setColumnCount(8);
-    list_of_label<<("pid")<<("time remain")<<("Arrive Time")<<("Priority")<<("Wait Time")<<("Response Time")<<("Cycling Time")<<("Color");
-    QStringList vertical_label(list_of_label);
-    ui->table_of_process->setHorizontalHeaderLabels(vertical_label);
-    ui->table_of_process->setStyleSheet("selection-background-color: red");
-    inittable();//初始化表格
-    cout << arg1<<endl;
+
+    }
+
 }
 
 
 void SchWidget::on_simulate_clicked(){
-    flag = 1;
-    printcolor_map();
-
-    //设置表格内容
-    //PID
-    for(int i = 0; i<number_of_process;i++){
-        QString s = QString::number(i+1);
-        ui->table_of_process->setItem(i,0,new QTableWidgetItem(s));
+    if(algo_sign == 4 && timeslice == -1){
+        QMessageBox::warning(this, "Warning", "Please input timeslice",QMessageBox::Yes);
     }
+    else{
+        if(s != nullptr && init_flag == true&&number_of_process != 0){
+                flag = 1;
+                printcolor_map();
 
-    //颜色
-        initcolorvec();
-        for(int i = 0; i< number_of_process;++i){
-            ui->table_of_process->setItem(i,7,new QTableWidgetItem());
-            ui->table_of_process->item(i,7)->setBackground(QBrush(*colorvec[i]));
+                //设置表格内容
+                //颜色
+                    initcolorvec();
+                    for(int i = 0; i< number_of_process;++i){
+                        ui->table_of_process->setItem(i,7,new QTableWidgetItem());
+                        ui->table_of_process->item(i,7)->setBackground(QBrush(*colorvec[i]));
+                    }
+                //获取表格内容
+                    cout<<"**************8"<<endl;
+                for(int i=0; i<number_of_process; i++){ // 取出每个格子的内容
+                        if(ui->table_of_process->item(i,1) != NULL&&ui->table_of_process->item(i,2) != NULL&&                                   //不能同时有相同的到达
+                                ui->table_of_process->item(i,3) != NULL
+                                && repetitiondetect(ui->table_of_process->item(i,2)->text().toInt(),aq)&&checkempyt(i,1,3)
+                                &&repetitiondetect(ui->table_of_process->item(i,3)->text().toInt(),aq)){//一定要先判断非空，否则会报错
+                        bq.push_back(ui->table_of_process->item(i,1)->text().toInt());
+                        aq.push_back(ui->table_of_process->item(i,2)->text().toInt());
+                        pq.push_back(ui->table_of_process->item(i,3)->text().toInt());
+                        rept_flag = false;
+                        qDebug()<<"finish"<<endl;//可复制
+                     }
+                        else{
+                            rept_flag = true;
+                        }
+                }
+                //模拟
+                if(rept_flag == false){
+                s->setCondition(algo_sign,bq,aq,pq,timeslice);
+                s->simulation();
+                s->efficiency();
+                s->check();
+                execQ = s->exeQ;
+                //print execq
+                for(int j = 0; j< execQ.size();j++){
+                    cout <<execQ[j]->pid<<endl;
+                }
+                //打印表格
+                for(int i=0; i<number_of_process; i++){ // 取出每个格子的内容
+                        if(ui->table_of_process->item(i,4) != NULL&&ui->table_of_process->item(i,5) != NULL&&
+                                ui->table_of_process->item(i,6) != NULL){
+                                ui->table_of_process->setItem(i,4,new QTableWidgetItem(QString::number(s->pqueue[i]->waitT)));
+                                ui->table_of_process->setItem(i,5,new QTableWidgetItem(QString::number(s->pqueue[i]->responseT)));
+                                ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s->pqueue[i]->cyclingT)));
+                        }
+                    }
+                //绘图
+                t = new QTimer(this);
+                t->setInterval(1000);
+                connect(t, &QTimer::timeout,[=](){ui->mygraph->update();
+                                                    ptremained++;});
+                    flag = 1;
+                    ui->mygraph->repaint();
+                    t->start();
+                    init_flag = false;
+                }else{
+                       QMessageBox::warning(this,"Warning","Please check your input",QMessageBox::Yes);
+                       rept_flag = false;
+                    }
+        }else{
+            init_flag = false;
+            QMessageBox::warning(this,"Warning","Please initialize at first",QMessageBox::Yes);
         }
-    //获取表格内容
+        //prevent double click simulate
 
-
-    for(int i=0; i<number_of_process; i++){ // 取出每个格子的内容
-            if(ui->table_of_process->item(i,1) != NULL&&ui->table_of_process->item(i,2) != NULL&&
-                    ui->table_of_process->item(i,3) != NULL){//一定要先判断非空，否则会报错
-            bq.push_back(ui->table_of_process->item(i,1)->text().toInt());
-            aq.push_back(ui->table_of_process->item(i,2)->text().toInt());
-            pq.push_back(ui->table_of_process->item(i,3)->text().toInt());
-            qDebug()<<"finish"<<endl;//可复制
-         }
     }
-    //模拟
-    s.setCondition(algo_sign,bq,aq,pq,0);
-    s.simulation();
-    s.efficiency();
-    s.check();
-    execQ = s.exeQ;
-    //打印表格 QString::number(execQ[i]->
-
-    for(int i = 0; i< number_of_process;++i){
-        ui->table_of_process->setItem(i,4,new QTableWidgetItem(QString::number(s.pqueue[i]->waitT)));
-        ui->table_of_process->setItem(i,5,new QTableWidgetItem(QString::number(s.pqueue[i]->responseT)));
-        ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s.pqueue[i]->cyclingT)));
-    }
-//    //绘图
-    t = new QTimer(this);
-
-        for(int i = 0;i< execQ.size();i++){
-
-            if(execQ[i]->pid!= -1){
-               it = i;
-               t->start(1000);
-               connect(t, &QTimer::timeout,[=](){update();});
-                t->stop();
-            }
-            else{
-               it = i;
-               t->start(1000);
-               connect(t, &QTimer::timeout,[=](){update();});
-               t->stop();
-            }
-         }
 }
 
 /*
@@ -127,11 +159,34 @@ void SchWidget::on_simulate_clicked(){
 
 void SchWidget::on_clear_clicked()
 {
+    cout<<"iii"<<endl;
+    if(t != nullptr){
+        t->stop();
+    }
+    cout<<"iii"<<endl;
     ui->table_of_process->clear();
-    ui->table_of_process->setColumnCount(0);
-    ui->table_of_process->setRowCount(0);
-    number_of_process = 0;
-    ui->mygraph->clearMask();
+    ui->spinBox->setValue(0);
+cout<<"iii"<<endl;
+
+    bq.clear();
+    pq.clear();
+    aq.clear();
+cout<<"iii"<<endl;
+    colorvec.clear();
+
+    graphlenvec.clear();
+    graphlenvec.push_back(0);
+    init_flag =false;
+    rept_flag = false;
+    ptremained = 0;
+    cout<<"iii"<<endl;
+    delete s;
+    s = nullptr;
+    if(s == nullptr){
+        cout<<"empty null"<<endl;
+    }
+    allow_to_init = true;
+    initgraph();
 }
 /*
 *Function usage:return process number
@@ -141,20 +196,40 @@ int SchWidget::returnprocessnum(){
     return number_of_process;
 }
 
+///need change:实现在timer的调用下
 bool SchWidget::eventFilter(QObject *watched, QEvent *event)
  {
     if(watched == ui->mygraph && event->type() == QEvent::Paint && flag == 1)
        {
-
+        int graphlen = graphlenvec[graphlenvec.size()-1];
         QPainter painter(ui->mygraph);
         painter.setPen(Qt::black);
         cout<<"exec length:"<<execQ.size()<<endl;
-        if(execQ[it]->pid!= -1){
-           mydraw_1(it,painter);
+        for(int i = 0; i <execQ.size();i++){
+            if(execQ[i]->pid!= -1){
+                QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
+                 cout<<"pid is"<<(execQ[i])->pid<<endl;
+                 painter.setBrush(*brush);
+                 painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
+                 graphlen += 5*(execQ[i]->timeRemain);
+            }
+            else{
+                painter.setPen(Qt::black);
+                painter.setBrush(Qt::GlobalColor::transparent);
+                painter.drawRect(graphlen,40,5,100);
+                graphlen += 5;
+            }
+            ui->timecounter->setText(QString::number(ptremained));
         }
-        else{
-           mydraw_2(it,painter);
-        }
+        int temp = graphlenvec.size();
+        graphlenvec.push_back((-5)*temp);
+    }
+    if(watched == ui->mygraph && event->type() == QEvent::Paint && flag == 2){
+        QPainter p(ui->mygraph);
+        p.setPen(Qt::color0);
+        p.setBrush(Qt::GlobalColor::transparent);
+        p.drawRect(0,0,ui->mygraph->size().width(),ui->mygraph->size().height());
+        ui->timecounter->setText(QString::number(ptremained));
     }
        return QWidget::eventFilter(watched,event);
  }
@@ -163,21 +238,22 @@ void SchWidget::on_comboBox_activated(const QString &arg1)
 {
 
     if(arg1 =="First-Come First-Served"){
-        algo_sign = 1;
+        algo_sign = 0;
         }
     if(arg1 =="Shortest-Job First"){
-        algo_sign = 2;
+        algo_sign = 1;
         }
     if(arg1 =="Shortest-Remaining Time"){
-        algo_sign = 3;
+        algo_sign = 2;
         }
     if(arg1 =="Highest-Response Ratio Next"){
-        algo_sign = 4;
+        algo_sign = 3;
         }
     if(arg1 =="Round_Robin"){
-        algo_sign = 5;
+        algo_sign = 4;
         }
     cout<<"algo sign is:"<<algo_sign<<endl;
+
 
 }
 
@@ -205,23 +281,33 @@ void SchWidget::inittable(){
     }
 }
 
-void SchWidget::mydraw_1(int i, QPainter &painter){
-    QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
-     cout<<"pid is"<<(execQ[i])->pid<<endl;
-     painter.setBrush(*brush);
-     painter.drawRect(100+10*i,40,10,100);
+void SchWidget::initgraph(){
+    flag = 2;
+    ui->mygraph->repaint();
+}
 
+void SchWidget::on_initialize_clicked()
+{
+    if(allow_to_init == true){
+        s = new scheduling;
+        init_flag = true;
+        cout <<"initialized"<<endl;
+        allow_to_init = false;
+    }else{
+        QMessageBox::warning(this,"Warning","You cannot initialize for now.");
+    }
 
 }
 
-void SchWidget::mydraw_2(int i,QPainter &painter){
-    painter.setBrush(Qt::GlobalColor::color0);
-    painter.drawRect(100+10*i,40,10,100);
+void SchWidget::on_timeslice_textEdited(const QString &arg1)
+{
+    timeslice = arg1.toInt();
 }
+
 
 /*
 * CPU::Connection
-* ---------------
+* -------------------------------------------
 */
 
 //void Widget::set_CPU(cpuMon * cpu){
@@ -294,3 +380,37 @@ void SchWidget::mydraw_2(int i,QPainter &painter){
 //        created = true;
 //    }
 //}
+
+void SchWidget::on_pause_clicked()
+{
+    if(t != nullptr){
+        t->stop();
+    }
+}
+
+void SchWidget::on_play_clicked()
+{
+    if(t != nullptr){
+        t->start();
+    }
+}
+
+bool SchWidget::repetitiondetect(int i, vector<int> v){
+    for(int j = 0; j< v.size();j++){
+        if(i == v[j]){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool SchWidget::checkempyt(int i, int j, int k){
+    for(int n = j; n <= k; n++){
+        if(ui->table_of_process->item(i,n)->text() == ""){
+            return false;
+        }
+    }
+    return true;
+
+}
+

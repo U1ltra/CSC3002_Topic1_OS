@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Mem_Widget</class>
- <widget class="QWidget" name="Mem_Widget">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Display</string>
+      <string>Display: YELLOW:USED; PURPLE:UNUSED</string>
      </property>
     </widget>
    </item>
@@ -29,21 +29,57 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>285</width>
-        <height>381</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Address:0x00</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>283</width>
+          <height>294</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="uplimit">
+         <property name="text">
+          <string>Address: </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>CURRENT USED: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="currentused"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item row="1" column="1">
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -66,7 +102,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="memorystorage">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -161,14 +197,14 @@
          <item>
           <widget class="QPushButton" name="simulate">
            <property name="text">
-            <string>simulate</string>
+            <string>Simulate</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="clear">
            <property name="text">
-            <string>clear</string>
+            <string>Clear</string>
            </property>
           </widget>
          </item>

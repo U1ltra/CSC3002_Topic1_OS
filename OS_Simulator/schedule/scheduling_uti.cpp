@@ -4,7 +4,7 @@
  * This file implements support functions of scheduling class.
  */
 
-#include "schedule/scheduling.h"
+#include "schedule/Schwidget.h"
 #include <iostream>
 #include <vector>
 
@@ -42,8 +42,9 @@ scheduling::scheduling(){
 }
 
 scheduling::~scheduling(){
-    for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) delete *i;
-    for (vector<task*>::iterator i=exeQ.begin(); i<exeQ.end(); i++) delete *i;
+    for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) {delete *i;
+    *i = nullptr;}
+    for (vector<task*>::iterator j=exeQ.begin(); j<exeQ.end(); j++) {*j = nullptr;}
     pqueue.clear();
     exeQ.clear();
 }
