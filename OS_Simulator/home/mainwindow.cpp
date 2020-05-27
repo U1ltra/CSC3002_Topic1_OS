@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     CPU = new cpuMon();
     fluctuate(*CPU);
     CPU->createP(PID,"MainWindow",root);//Default PID for mainwindow is 10.
-    memory = new Buddy(10000);
+    memory = new Buddy(1024);
     set_up_memory();
 
     QStatusBar *stBar = statusBar();
