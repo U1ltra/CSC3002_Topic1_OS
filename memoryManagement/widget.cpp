@@ -1,7 +1,8 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include <iostream>
-#include<stdlib.h>
+#include <stdlib.h>
+#include "subwidget.h"
 #include <QMessageBox>
 Mem_Widget::Mem_Widget(QWidget *parent) :
     QWidget(parent),
@@ -20,10 +21,13 @@ Mem_Widget::Mem_Widget(QWidget *parent) :
      flag = 0;//event filter
      init_flag = false;//initialize memory
      success_flag = true;//allocate memory success
+     clear_flag = true;
      tused = 0;
      ui->currentused->setText(QString::number(tused));
      ui->currentused->displayText();
      ui->currentused->setReadOnly(true);
+
+
 }
 
 Mem_Widget::~Mem_Widget()
@@ -34,20 +38,30 @@ Mem_Widget::~Mem_Widget()
 
 void Mem_Widget::on_clear_clicked()
 {
-    ui->tableWidget->clearContents();
-    tasknumber = 0;
-    flag = 2;
-    task_vector.clear();
+    cout <<clear_flag<<endl;
+    if(clear_flag == true){
+        if(bd->getsize() >0 && bd->getsize() != 32766 ){
+            cout<<"******************^^^^^^^^^^^"<<endl;
+        ui->tableWidget->clear();
+        tasknumber = 0;
+        flag = 2;
+        task_vector.clear();
+        promptvec.clear();
 
-    delete bd;
 
-    tused = 0;
-    ui->currentused->setText(QString::number(tused));
-    ui->currentused->displayText();
+        delete bd;
+        bd = nullptr;
 
-    init_flag = false;
-    success_flag = true;
-    ui->scrollAreaWidgetContents->update();
+        tused = 0;
+        ui->currentused->setText(QString::number(tused));
+        ui->currentused->displayText();
+        ui->scrollAreaWidgetContents->repaint();
+        cout<<"******************^^^^^^^^^^^"<<endl;
+        init_flag = false;
+        success_flag = true;
+        clear_flag = false;
+    }
+  }
 }
 
 void Mem_Widget::on_spinBox_valueChanged(int arg1)
@@ -64,6 +78,7 @@ void Mem_Widget::on_spinBox_valueChanged(int arg1)
     QFont font = ui->tableWidget->horizontalHeader()->font();
     font.setBold(true);
     ui->tableWidget->horizontalHeader()->setFont(font);
+    clear_flag = true;
 //    ui->tableWidget->setItem(0,tasknumber-1,new QTableWidgetItem(Qt::number(tasknumber)));
 }
 
@@ -93,6 +108,8 @@ bool Mem_Widget::eventFilter(QObject *watched, QEvent *event){
             painter.setBrush(QBrush(Qt::magenta));
 
             painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub+1 - it->lb))/(bd->getsize())*my_height);
+
+            promptvec.push_back(new QString("Memory from " +QString::number(it->lb) +" to " + QString::number(it->ub) + " allocated"));
             tused += it->ub+1 - it->lb;
             ui->currentused->setText(QString::number(bd->getsize()-tused));
             ui->currentused->displayText();
@@ -110,6 +127,7 @@ bool Mem_Widget::eventFilter(QObject *watched, QEvent *event){
         int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
         painter.drawRect(0,0,my_width,my_height);
     }
+    clear_flag = true;
 }
 
 void Mem_Widget::on_simulate_clicked()
@@ -149,7 +167,7 @@ void Mem_Widget::on_simulate_clicked()
     else{
         QMessageBox::warning(this,"Warning", "Please Input the Memory Size at first", QMessageBox::Ok);
     }
-
+    clear_flag = true;
 }
 
 
@@ -160,6 +178,7 @@ void Mem_Widget::inittable(){
     QFont font = ui->tableWidget->horizontalHeader()->font();
     font.setBold(true);
     ui->tableWidget->horizontalHeader()->setFont(font);
+    clear_flag = true;
 }
 
 
@@ -178,6 +197,15 @@ void Mem_Widget::on_lineEdit_editingFinished()
     else{
         QMessageBox::warning(this,"Warning","Fail to initialize memory",QMessageBox::Ok);
     }
+    clear_flag = true;
+
+}
 
 
+void Mem_Widget::on_change_clicked()
+{
+//    subwidget sub;
+
+//    sub.show();
+    clear_flag = true;
 }

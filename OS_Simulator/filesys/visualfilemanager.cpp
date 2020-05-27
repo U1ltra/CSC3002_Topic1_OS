@@ -173,6 +173,21 @@ void VisualFileManager::Paste() {
         QString oldFilePath, newFilePath;
         oldFilePath = copiedfile->Path +"/" + copiedfile->Name;
         newFilePath = directoryPath + "/" + copiedfile->Name;
+
+        if (newFilePath == oldFilePath) {
+            newFilePath = directoryPath + "/" + copiedfile->Name + '(' + "1" + ')';
+        }
+        QDir tempDir(newFilePath);
+        while (tempDir.exists()) {
+            std::string tempstr = newFilePath.toStdString();
+            int length = tempstr.length();
+            int index = tempstr[length - 2] - '0';
+            index += 1;
+            char temp = index + '0';
+            newFilePath[length - 2] = temp;
+            tempDir.setPath(newFilePath);
+        }
+
         filePaste(oldFilePath, newFilePath);
 
         if (copiedfile->Path == "/")
