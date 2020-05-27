@@ -24,7 +24,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
          flag = 0;//event filter
          init_flag = false;//initialize memory
          success_flag = true;//allocate memory success
-         clear_flag = true;
+         clear_flag = false;
          mouse_flag = 1;
          tused = 0;
          ui->currentused->setText(QString::number(tused));
@@ -34,14 +34,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
     }
 
-    Mem_Widget::~Mem_Widget()
-    {
+    Mem_Widget::~Mem_Widget(){
         delete ui;
     }
 
 
-    void Mem_Widget::on_clear_clicked()
-    {
+    void Mem_Widget::on_clear_clicked(){
         cout <<clear_flag<<endl;
         if(clear_flag == true){
             ui->tableWidget->clearContents();
@@ -70,9 +68,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
         cout <<"end"<<clear_flag<<endl;
 }
 
-    void Mem_Widget::on_spinBox_valueChanged(int arg1)
-    {
-
+    void Mem_Widget::on_spinBox_valueChanged(int arg1){
         //set task number
         tasknumber = arg1;
         //change the table
@@ -88,7 +84,6 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
     }
 
     bool Mem_Widget::eventFilter(QObject *watched, QEvent *event){
-        //填入你想画的图
         if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==1 &&init_flag == true)
            {
         QPainter painter(ui->scrollAreaWidgetContents);
@@ -97,37 +92,23 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
         int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
         int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
         painter.drawRect(0,0,my_width,my_height);
-        std::cout<<"hhhhhhhh"<<my_height<<std::endl;
         for (int i = 0; i <bd->arr.size() ; i++){
-            //painter.drawRect(0,0,100,i*10);
-
             vector<list<Pair>> temp = (*bd).arr;
-
             for (list<Pair>::iterator it = temp[i].begin();it!=temp[i].end();it++){
-
-                cout<<(bd->getsize())<<endl;
-                cout<<"ub"<<it->ub<<endl;
-                cout<<"lb"<<it->lb<<endl;
-                cout<<my_height<<endl;
                 painter.setPen(Qt::magenta);
                 painter.setBrush(QBrush(Qt::magenta));
-
                 painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub+1 - it->lb))/(bd->getsize())*my_height);
-
                 promptvec.push_back(new QString("Memory from " +QString::number(it->lb) +" to " + QString::number(it->ub) + " allocated"));
                 tused += it->ub+1 - it->lb;
                 ui->currentused->setText(QString::number(bd->getsize()-tused));
                 ui->currentused->displayText();
+                }
             }
-
-
-        }
         tused = 0;
         init_flag =false;
         clear_flag = true;
       }
-        if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==2)
-           {
+        if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==2){
             QPainter painter(ui->scrollAreaWidgetContents);
             painter.setPen(Qt::transparent);
             painter.setBrush(Qt::transparent);
@@ -136,17 +117,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             painter.drawRect(0,0,my_width,my_height);
             clear_flag = true;
         }
-//        if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::MouseButtonPress )
-//           {
-//            cout<<"88"<<endl;
-//        }
     }
 
-    void Mem_Widget::on_simulate_clicked()
-    {
+    void Mem_Widget::on_simulate_clicked(){
         if(init_flag == true && bd != nullptr ){
             if(bd->getsize() > 0){
-            //设置表格内容
+            //set table content
             ui->tableWidget->setColumnCount(3);
             flag = 1;
             //retrieve data from table
@@ -162,7 +138,6 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
                 else{
                     success_flag = false;
                     break;
-
                 }
             }
             if(success_flag == true){
@@ -177,10 +152,11 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
                 QMessageBox::warning(this,"Warning","Fail to allocate memory");
                 }
             }
+
         }else{
             QMessageBox::warning(this,"Warning", "Please Input the Memory Size at first", QMessageBox::Ok);
         }
-        clear_flag = true;
+
     }
 
 
@@ -211,11 +187,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             }
             ui->label_6->setText(str);
             ui->uplimit->setText("Address: 0x"+QString::number(num,16));
+            clear_flag = true;
         }
         else{
             QMessageBox::warning(this,"Warning","Fail to initialize memory",QMessageBox::Ok);
         }
-        clear_flag = true;
+
     }
 
 
@@ -297,10 +274,5 @@ void Mem_Widget::on_tableWidget_itemClicked(QTableWidgetItem *item)
     to_simple_Click();
 }
 
-//void Mem_Widget::on_spinBox_valueChanged(const QString &arg1)
-//{
-//    to_effect_Click();
-//    sleeping();
-//}
 
 
