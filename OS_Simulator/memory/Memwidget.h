@@ -26,7 +26,8 @@ public:
     void setPID(int pid);
     void set_CPU(cpuMon *);
     void set_memory(Buddy * memory);
-
+    void inittable();
+protected:
     bool eventFilter(QObject *watched, QEvent *event);
 
 private slots:
@@ -37,7 +38,9 @@ private slots:
 
     void on_simulate_clicked();
 
-    void on_lineEdit_textEdited(const QString &arg1);
+    void on_change_clicked();
+
+    void on_memorystorage_editingFinished();
 
     void to_simple_Click();
 
@@ -56,9 +59,15 @@ private slots:
 private:
     Ui::Mem_Widget *ui;
     std::vector<m_task*> task_vector;
+    std::vector<m_task*> pid_vector;
     int tasknumber;
     Buddy * bd;
     int flag;
+    bool init_flag;
+    bool success_flag;
+    bool clear_flag;
+    int tused;//total used
+    vector<QString*> promptvec;
 
     int PID;
     QTimer *system_timer;
