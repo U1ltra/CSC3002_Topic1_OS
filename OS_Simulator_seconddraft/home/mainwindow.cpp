@@ -77,9 +77,10 @@ void MainWindow::on_btn_calc_clicked()
     cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
     cal->set_CPU(CPU);
+    cal->show();
     cal->set_memory(memory);
     calculator_count++;
-    cal->show();
+
 }
 
 void MainWindow::on_btn_Calendar_clicked()
@@ -89,9 +90,10 @@ void MainWindow::on_btn_Calendar_clicked()
     Calendar *calendar = new Calendar();
     calendar->setPID(calendar_count*100000+200);
     calendar->set_CPU(CPU);
+    calendar->show();
     calendar->set_memory(memory);
     calendar_count++;
-    calendar->show();
+
 }
 
 void MainWindow::on_btn_FileSystem_clicked()
@@ -101,9 +103,10 @@ void MainWindow::on_btn_FileSystem_clicked()
     vfm = new VisualFileManager(this);
     vfm->setPID(file_system_count*100000+300);
     vfm->set_CPU(CPU);
+    vfm->show();
     vfm->set_memory(memory);
     file_system_count++;
-    vfm->show();
+
 //        taskMonitor = new CPUmonitor(CPU);
 //        taskMonitor->setPID(task_monitor_count*100000+400);
 //        taskMonitor->set_memory(memory);
@@ -129,9 +132,10 @@ void MainWindow::on_btn_TaskManager_clicked()
     Monitor = new monitor(CPU, memory);
     Monitor->setPID(monitor_count*100000+400);
     Monitor->set_CPU(CPU);
+    Monitor->show();
     Monitor->set_memory(memory);
     monitor_count++;
-    Monitor->show();
+
 }
 
 void MainWindow::on_btn_TextEditor_clicked()
@@ -141,9 +145,10 @@ void MainWindow::on_btn_TextEditor_clicked()
     text_editor = new TextEditor(this);
     text_editor->setPID(text_editor_count*100000+500);
     text_editor->set_CPU(CPU);
+    text_editor->show();
     text_editor->set_memory(memory);
     text_editor_count++;
-    text_editor->show();
+
 
 }
 
@@ -219,9 +224,10 @@ void MainWindow::on_btn_Memory_Simulator_clicked()
     MemGame = new Mem_Widget();
     MemGame->setPID(memory_game_count*100000+600);
     MemGame->set_CPU(CPU);
+    MemGame->show();
     MemGame->set_memory(memory);
     memory_game_count++;
-    MemGame->show();
+
 }
 
 void MainWindow::on_btn_Schedule_Simulator_clicked()
@@ -231,7 +237,8 @@ void MainWindow::on_btn_Schedule_Simulator_clicked()
     SchGame = new SchWidget();
     MemGame->setPID(memory_game_count*100000+700);
     MemGame->set_CPU(CPU);
+    MemGame->show();
     MemGame->set_memory(memory);
     memory_game_count++;
-    MemGame->show();
+
 }
