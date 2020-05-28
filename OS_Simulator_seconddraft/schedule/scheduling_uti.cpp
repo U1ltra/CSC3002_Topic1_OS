@@ -42,8 +42,7 @@ scheduling::scheduling(){
 }
 
 scheduling::~scheduling(){
-    for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) {delete *i;
-    *i = nullptr;}
+    for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) {*i = nullptr;}
     for (vector<task*>::iterator j=exeQ.begin(); j<exeQ.end(); j++) {*j = nullptr;}
     pqueue.clear();
     exeQ.clear();

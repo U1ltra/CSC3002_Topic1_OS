@@ -58,7 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->btn_FileSystem->setPalette(patlette);
     ui->btn_calc->setStyleSheet("color:white");
     ui->btn_Calendar->setStyleSheet("color:white");
-    ui->btn_game->setStyleSheet("color:white");
+    ui->btn_Memory_Simulator->setStyleSheet("color:white");
+    ui->btn_Schedule_Simulator->setStyleSheet("color:white");
     ui->btn_TextEditor->setStyleSheet("color:white");
     ui->btn_TaskManager->setStyleSheet("color:white");
 }
