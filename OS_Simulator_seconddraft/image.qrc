@@ -5,7 +5,6 @@
     </qresource>
     <qresource prefix="/">
         <file>images/back.jpg</file>
-<<<<<<< HEAD
         <file>images/background.jpg</file>
         <file>images/TextEditor.jpg</file>
         <file>images/Calculator.jpg</file>
@@ -13,7 +12,7 @@
         <file>images/FileSystem.jpg</file>
         <file>images/Game.jpg</file>
         <file>images/TaskManager.jpg</file>
-=======
->>>>>>> 221c6fea8e2c64fd6a9d34c2cfcf19034c6131c7
+        <file>images/memory.png</file>
+        <file>images/schedule.png</file>
     </qresource>
 </RCC>

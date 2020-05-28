@@ -274,7 +274,7 @@ void MainWindow::mainwindow_layout() {
     ui->btn_Memory_Stimulator->setStyleSheet("background-color:transparent");
 
     ui->btn_Schedule_Stimulator->setIconSize(QSize(64,64));
-    ui->btn_Schedule_Stimulator->setIcon(QIcon(":/images/memory.jpg"));
+    ui->btn_Schedule_Stimulator->setIcon(QIcon(":/images/schedule.jpg"));
     ui->btn_Schedule_Stimulator->setText(QString::fromLocal8Bit("Schedule Stimulator"));
     ui->btn_Schedule_Stimulator->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     ui->btn_Schedule_Stimulator->setStyleSheet("background-color:transparent");
