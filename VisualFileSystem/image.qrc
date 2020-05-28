@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/image">
-        <file>Menu.jpg</file>
-        <file>File.jpg</file>
-    </qresource>
-</RCC>

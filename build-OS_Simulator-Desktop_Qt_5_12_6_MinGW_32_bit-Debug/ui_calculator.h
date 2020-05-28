@@ -1,5 +1,5 @@
 /********************************************************************************
-** Form generated from reading UI file 'Calculator.ui'
+** Form generated from reading UI file 'calculator.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.12.6
 **
@@ -35,14 +35,14 @@ public:
     QPushButton *calc_btn_multipy;
     QPushButton *calc_btn_division;
     QPushButton *calc_btn_equal;
-    QPushButton *calc_btn_plus_6;
+    QPushButton *calc_btn_clean;
     QTextEdit *screen;
 
     void setupUi(QWidget *Calculator)
     {
         if (Calculator->objectName().isEmpty())
             Calculator->setObjectName(QString::fromUtf8("Calculator"));
-        Calculator->resize(719, 537);
+        Calculator->resize(1269, 717);
         calc_btn_0 = new QPushButton(Calculator);
         calc_btn_0->setObjectName(QString::fromUtf8("calc_btn_0"));
         calc_btn_0->setGeometry(QRect(125, 308, 50, 50));
@@ -156,7 +156,7 @@ public:
         calc_btn_minus->setBaseSize(QSize(30, 30));
         calc_btn_multipy = new QPushButton(Calculator);
         calc_btn_multipy->setObjectName(QString::fromUtf8("calc_btn_multipy"));
-        calc_btn_multipy->setGeometry(QRect(293, 438, 50, 50));
+        calc_btn_multipy->setGeometry(QRect(290, 440, 50, 50));
         sizePolicy.setHeightForWidth(calc_btn_multipy->sizePolicy().hasHeightForWidth());
         calc_btn_multipy->setSizePolicy(sizePolicy);
         calc_btn_multipy->setMinimumSize(QSize(30, 30));
@@ -181,15 +181,15 @@ public:
         calc_btn_equal->setMaximumSize(QSize(50, 50));
         calc_btn_equal->setSizeIncrement(QSize(1, 1));
         calc_btn_equal->setBaseSize(QSize(30, 30));
-        calc_btn_plus_6 = new QPushButton(Calculator);
-        calc_btn_plus_6->setObjectName(QString::fromUtf8("calc_btn_plus_6"));
-        calc_btn_plus_6->setGeometry(QRect(545, 438, 50, 50));
-        sizePolicy.setHeightForWidth(calc_btn_plus_6->sizePolicy().hasHeightForWidth());
-        calc_btn_plus_6->setSizePolicy(sizePolicy);
-        calc_btn_plus_6->setMinimumSize(QSize(30, 30));
-        calc_btn_plus_6->setMaximumSize(QSize(50, 50));
-        calc_btn_plus_6->setSizeIncrement(QSize(1, 1));
-        calc_btn_plus_6->setBaseSize(QSize(30, 30));
+        calc_btn_clean = new QPushButton(Calculator);
+        calc_btn_clean->setObjectName(QString::fromUtf8("calc_btn_clean"));
+        calc_btn_clean->setGeometry(QRect(545, 438, 50, 50));
+        sizePolicy.setHeightForWidth(calc_btn_clean->sizePolicy().hasHeightForWidth());
+        calc_btn_clean->setSizePolicy(sizePolicy);
+        calc_btn_clean->setMinimumSize(QSize(30, 30));
+        calc_btn_clean->setMaximumSize(QSize(50, 50));
+        calc_btn_clean->setSizeIncrement(QSize(1, 1));
+        calc_btn_clean->setBaseSize(QSize(30, 30));
         screen = new QTextEdit(Calculator);
         screen->setObjectName(QString::fromUtf8("screen"));
         screen->setGeometry(QRect(50, 90, 641, 81));
@@ -217,7 +217,7 @@ public:
         calc_btn_multipy->setText(QApplication::translate("Calculator", "*", nullptr));
         calc_btn_division->setText(QApplication::translate("Calculator", "/", nullptr));
         calc_btn_equal->setText(QApplication::translate("Calculator", "=", nullptr));
-        calc_btn_plus_6->setText(QApplication::translate("Calculator", "C", nullptr));
+        calc_btn_clean->setText(QApplication::translate("Calculator", "C", nullptr));
     } // retranslateUi
 
 };

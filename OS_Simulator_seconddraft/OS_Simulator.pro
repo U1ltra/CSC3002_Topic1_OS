@@ -98,7 +98,10 @@ DISTFILES += \
     images/Menu.jpg \
     images/TaskManager.jpg \
     images/TextEditor.jpg \
-    images/back.jpg
+    images/back.jpg \
+    images/background.jpg \
+    images/memory.png \
+    images/schedule.png
 
 RESOURCES += \
     image.qrc

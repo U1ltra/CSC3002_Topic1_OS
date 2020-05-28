@@ -321,6 +321,7 @@ public:
 
     void set_CPU(cpuMon * cpu);
     void setPID(int pid);
+    void set_memory(Buddy *Memory);
 
     //mythread *mythrd;
     //QThread *qthrd;
@@ -358,7 +359,6 @@ private slots:
 
     void refresh();
 
-    void set_memory(Buddy *Memory);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -385,6 +385,7 @@ private:
     int timeslice;
     bool rept_flag;
     bool init_flag;
+    bool clear_flag;
     int ptremained;
     bool allow_to_init;
     vector<int> bq;

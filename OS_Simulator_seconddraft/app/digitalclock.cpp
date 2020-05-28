@@ -10,7 +10,7 @@ DigitalClock::DigitalClock(QMainWindow *parent) :
     this->setDigitCount(25);
     this->setDecMode();
     this->setSegmentStyle(QLCDNumber::Flat);
-    this->setStyleSheet("border: 1px solid green; color: green; background: silver;");
+    this->setStyleSheet("color: white; background-color: transparent;");
     this->resize(400,200);
     QTimer *clock_timer = new QTimer(this);
     clock_timer->setInterval(1000);

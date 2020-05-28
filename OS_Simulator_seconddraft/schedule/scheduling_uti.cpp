@@ -42,8 +42,12 @@ scheduling::scheduling(){
 }
 
 scheduling::~scheduling(){
+<<<<<<< HEAD
     for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) {delete *i;
     *i = nullptr;}
+=======
+    for (vector<task*>::iterator i=pqueue.begin(); i<pqueue.end(); i++) {*i = nullptr;}
+>>>>>>> 221c6fea8e2c64fd6a9d34c2cfcf19034c6131c7
     for (vector<task*>::iterator j=exeQ.begin(); j<exeQ.end(); j++) {*j = nullptr;}
     pqueue.clear();
     exeQ.clear();

@@ -11,7 +11,6 @@
 //#include <windows.h>
 #include <unistd.h>
 
-
 TextEditor::TextEditor(QMainWindow *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
@@ -19,12 +18,13 @@ TextEditor::TextEditor(QMainWindow *parent) :
     ui->setupUi(this);
     isSaved = false;
     hasPath = false;
-    currFile = "C:\\Users\\lfy20\\Desktop\\test\\No Title.txt";
+
+    currFile = "No Title.txt";
     this->setWindowTitle("No Title - Text Editor");
     const QTextCursor cursor = ui->textEdit->textCursor();
-    QPalette pal = this->palette();
-    pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/back.jpg")));
-    this->setPalette(pal);
+    this->setShortcut();
+    setStyleSheet("background-color: white");
+
     setMouseTracking(true);
     this->centralWidget()->setMouseTracking(true);
 
@@ -139,12 +139,19 @@ void TextEditor::on_action_Paste_triggered() {
 void TextEditor::on_action_Find_triggered() {
     to_effect_Click();
     sleeping();
-    QDialog *findDlog = new QDialog(this);
+    findDlog = new QDialog(this);
     findLine = new QLineEdit(findDlog);
+    forwardBtn = new QRadioButton(tr("Forward"));
+    backwardBtn = new QRadioButton(tr("Backward"));
+    findDirGroup = new QButtonGroup(findDlog);
+    findDirGroup->addButton(forwardBtn);
+    findDirGroup->addButton(backwardBtn);
+    backwardBtn->setChecked(true);
     QPushButton *findBtn = new QPushButton("Find next", findDlog);
     QVBoxLayout *findLayout = new QVBoxLayout(findDlog);
     findLayout->addWidget(findLine);
-    findLayout->addWidget(findBtn);
+    findLayout->addWidget(forwardBtn);
+    findLayout->addWidget(backwardBtn);
     findDlog->setWindowTitle("Find");
     findDlog->show();
     connect(findBtn,SIGNAL(clicked()),this,SLOT(findText()));
@@ -223,27 +230,38 @@ void TextEditor::findText() {
     if (text.isEmpty()) {
         QMessageBox::information(this,"Text Editor","Empty search field",QMessageBox::Ok);
     } else {
-        if (ui->textEdit->find(text, QTextDocument::FindBackward)) {
-            QPalette palette = ui->textEdit->palette();
-            palette.setColor(QPalette::Highlight,palette.color(QPalette::Active,QPalette::Highlight));
-            ui->textEdit->setPalette(palette);
+        if (backwardBtn->isChecked()) {
+            if (ui->textEdit->find(text, QTextDocument::FindBackward)) {
+                QPalette palette = ui->textEdit->palette();
+                palette.setColor(QPalette::Highlight,palette.color(QPalette::Active,QPalette::Highlight));
+                ui->textEdit->setPalette(palette);
+            } else {
+                QMessageBox::information(this,"Text Editor","Cannot find "+text,QMessageBox::Ok);
+            }
         } else {
-            QMessageBox::information(this,"Text Editor","Cannot find "+text,QMessageBox::Ok);
+            if (ui->textEdit->find(text)) {
+                QPalette palette = ui->textEdit->palette();
+                palette.setColor(QPalette::Highlight,palette.color(QPalette::Active,QPalette::Highlight));
+                ui->textEdit->setPalette(palette);
+            } else {
+                QMessageBox::information(this,"Text Editor","Cannot find "+text,QMessageBox::Ok);
+            }
         }
-    }
 
+        }
 }
 
 void TextEditor::closeEvent(QCloseEvent *e) {
 
     if (created){
-    if (checkIfSaved()) {
-        CPU->terminateP(PID);
-        memory->deallocate(PID,memory_size);
-        e->accept();
-    } else {
-        e->ignore();
-    }
+        if (checkIfSaved()) {
+            CPU->terminateP(PID);
+            memory->deallocate(PID,memory_size);
+            e->accept();
+            if (findDlog->isVisible()) findDlog->close();
+        } else {
+            e->ignore();
+        }
     }
     CPU->terminateP(PID);
 }
@@ -308,4 +326,19 @@ void TextEditor::set_memory(Buddy *Memory){
         created = true;
     }
 }
+
+
+void TextEditor::setShortcut() {
+    ui->action_NewFile->setShortcut(QKeySequence("ALT+N"));
+    ui->action_Save->setShortcut(QKeySequence("ALT+S"));
+    ui->action_SaveAs->setShortcut(QKeySequence("ALT+A"));
+    ui->action_Exit->setShortcut(QKeySequence("ALT+X"));
+    ui->action_OpenFile->setShortcut(QKeySequence("ALT+O"));
+    ui->action_Find->setShortcut(QKeySequence("ALT+F"));
+    ui->action_Cut->setShortcut(QKeySequence("ALT+T"));
+    ui->action_Copy->setShortcut(QKeySequence("ALT+C"));
+    ui->action_Paste->setShortcut(QKeySequence("ALT+P"));
+    ui->action_Undo->setShortcut(QKeySequence("ALT+U"));
+}
+
 

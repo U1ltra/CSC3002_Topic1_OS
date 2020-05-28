@@ -6,6 +6,7 @@
 #include "app/digitalclock.h"
 #include "app/calculator.h"
 #include "app/texteditor.h"
+#include "app/calendar.h"
 #include "filesys/visualfilemanager.h"
 #include <QMouseEvent>
 #include "monitor/CPUmonitor.h"
@@ -55,12 +56,14 @@ private:
     Calculator *cal;
     TextEditor *text_editor;
     VisualFileManager *vfm;
+    Calendar *calendar;
     CPUmonitor *taskMonitor;
     Mem_Widget *MemGame;
     SchWidget *SchGame;
     Memmonitor *MemMonitor;
     monitor *Monitor;
     QTimer *system_timer;
+
     int calculator_count = 1,
     digial_clock_count = 1,
     text_editor_count = 1,
@@ -69,7 +72,9 @@ private:
     task_monitor_count=1,
     memory_game_count = 1,
     memory_monitor_count = 1,
-    monitor_count = 1;
+    monitor_count = 1,
+    Schedule_game_count=1;
+
     int PID=10;
     cpuMon* CPU;
     Buddy* memory;
@@ -84,6 +89,8 @@ private:
     void sleeping();
 
     void set_up_memory();
+
+    void mainwindow_layout();
 
 protected:
     void mousePressEvent(QMouseEvent *e);

@@ -16,6 +16,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+<<<<<<< HEAD
+    calculator.cpp \
+    digitalclock.cpp \
+    login_interface.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    texteditor.cpp
+
+HEADERS += \
+    calculator.h \
+    digitalclock.h \
+    login_interface.h \
+    mainwindow.h \
+    texteditor.h \
+    ui_calculator.h \
+    ui_login_interface.h \
+    ui_widget.h
+
+FORMS += \
+    calculator.ui \
+    login_interface.ui \
+    mainwindow.ui \
+    texteditor.ui
+=======
     app/calculator.cpp \
     app/calendar.cpp \
     app/digitalclock.cpp \
@@ -81,11 +105,14 @@ INCLUDEPATH += \
     home \
     monitor \
     uti
+>>>>>>> 221c6fea8e2c64fd6a9d34c2cfcf19034c6131c7
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+<<<<<<< HEAD
+=======
 
 DISTFILES += \
     .DS_Store \
@@ -100,3 +127,4 @@ DISTFILES += \
 
 RESOURCES += \
     image.qrc
+>>>>>>> 221c6fea8e2c64fd6a9d34c2cfcf19034c6131c7

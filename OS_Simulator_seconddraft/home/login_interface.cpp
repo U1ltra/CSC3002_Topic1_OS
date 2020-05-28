@@ -18,8 +18,10 @@ login_interface::login_interface(QWidget *parent):
     ParentBook.insert("parent","1");
     ChildrenBook.insert("child","1");
     this->setWindowTitle("Login Page");
+    // Set background
+    this->setWindowFlags(Qt::FramelessWindowHint);
     QPalette pal = this->palette();
-    pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/back.jpg")));
+    pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/background.jpg")));
     this->setPalette(pal);
 }
 

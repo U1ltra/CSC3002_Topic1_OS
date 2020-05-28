@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include "monitor/cpuMon.h"
 #include <QTimer>
+#include <QButtonGroup>
+#include <QRadioButton>
 #include "app/saveaslist.h"
 #include "app/openfile.h"
 #include "memory/Buddy.h"
@@ -67,9 +69,17 @@ private:
     QLineEdit *findLine;
     saveAsList newSaveAs;
     openFile newOpenFile;
+
+    QDialog *findDlog;
+
+    QButtonGroup *findDirGroup;
+    QRadioButton *forwardBtn;
+    QRadioButton *backwardBtn;
+
     void saveFile(QString filePath);
     void saveAsFile();
     bool checkIfSaved();
+    void setShortcut();
 
     int PID;
     QTimer *system_timer;
@@ -78,6 +88,7 @@ private:
     bool created = false;
     int memory_size=220;
     void sleeping();
+
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
