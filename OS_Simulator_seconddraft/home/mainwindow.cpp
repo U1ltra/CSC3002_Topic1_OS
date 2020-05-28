@@ -1,3 +1,4 @@
+
 #include "home/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "app/calculator.h"
@@ -23,15 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
     CPU->createP(PID,"MainWindow",root);//Default PID for mainwindow is 10.
     memory = new Buddy(10000);
     set_up_memory();
-
-    //QStatusBar *stBar = statusBar();
-    //setStatusBar(stBar);
     QHBoxLayout * clockLayout = new QHBoxLayout(this);
     clock_display = new DigitalClock(this);
     clock_display->setPID(11);//Default PID for clock is 11.
     clock_display->set_CPU(CPU);
     clock_display->set_memory(memory);
-    //stBar->addPermanentWidget(clock_display);
     clockLayout->addWidget(clock_display);
 
     this->setWindowTitle("Main Window");
@@ -293,3 +290,4 @@ void MainWindow::mainwindow_layout() {
     ui->btn_TextEditor->setPalette(patlette);
     ui->btn_TaskManager->setPalette(patlette);
 }
+

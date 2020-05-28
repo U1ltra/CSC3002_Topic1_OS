@@ -11,7 +11,6 @@
 //#include <windows.h>
 #include <unistd.h>
 
-
 TextEditor::TextEditor(QMainWindow *parent) :
     QMainWindow(parent),
     ui(new Ui::TextEditor)
@@ -19,11 +18,13 @@ TextEditor::TextEditor(QMainWindow *parent) :
     ui->setupUi(this);
     isSaved = false;
     hasPath = false;
+
     currFile = "No Title.txt";
     this->setWindowTitle("No Title - Text Editor");
     const QTextCursor cursor = ui->textEdit->textCursor();
     this->setShortcut();
     setStyleSheet("background-color: white");
+
     setMouseTracking(true);
     this->centralWidget()->setMouseTracking(true);
 
@@ -151,7 +152,6 @@ void TextEditor::on_action_Find_triggered() {
     findLayout->addWidget(findLine);
     findLayout->addWidget(forwardBtn);
     findLayout->addWidget(backwardBtn);
-    findLayout->addWidget(findBtn);
     findDlog->setWindowTitle("Find");
     findDlog->show();
     connect(findBtn,SIGNAL(clicked()),this,SLOT(findText()));
@@ -248,21 +248,20 @@ void TextEditor::findText() {
             }
         }
 
-    }
-
+        }
 }
 
 void TextEditor::closeEvent(QCloseEvent *e) {
 
     if (created){
-    if (checkIfSaved()) {
-        CPU->terminateP(PID);
-        memory->deallocate(PID,memory_size);
-        e->accept();
-        if (findDlog->isVisible()) findDlog->close();
-    } else {
-        e->ignore();
-    }
+        if (checkIfSaved()) {
+            CPU->terminateP(PID);
+            memory->deallocate(PID,memory_size);
+            e->accept();
+            if (findDlog->isVisible()) findDlog->close();
+        } else {
+            e->ignore();
+        }
     }
     CPU->terminateP(PID);
 }
@@ -328,6 +327,7 @@ void TextEditor::set_memory(Buddy *Memory){
     }
 }
 
+
 void TextEditor::setShortcut() {
     ui->action_NewFile->setShortcut(QKeySequence("ALT+N"));
     ui->action_Save->setShortcut(QKeySequence("ALT+S"));
@@ -340,4 +340,5 @@ void TextEditor::setShortcut() {
     ui->action_Paste->setShortcut(QKeySequence("ALT+P"));
     ui->action_Undo->setShortcut(QKeySequence("ALT+U"));
 }
+
 

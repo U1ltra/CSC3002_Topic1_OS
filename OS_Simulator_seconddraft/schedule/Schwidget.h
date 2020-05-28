@@ -385,6 +385,7 @@ private:
     int timeslice;
     bool rept_flag;
     bool init_flag;
+    bool clear_flag;
     int ptremained;
     bool allow_to_init;
     vector<int> bq;

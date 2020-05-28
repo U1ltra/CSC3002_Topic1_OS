@@ -20,6 +20,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout"/>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
@@ -112,7 +113,13 @@
     </property>
     <addaction name="actionShutdown"/>
    </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
    <addaction name="menuSystem"/>
+   <addaction name="menuFile"/>
   </widget>
   <action name="actionShutdown">
    <property name="text">

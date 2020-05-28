@@ -69,6 +69,7 @@ private:
     QLineEdit *findLine;
     saveAsList newSaveAs;
     openFile newOpenFile;
+
     QDialog *findDlog;
 
     QButtonGroup *findDirGroup;
@@ -87,6 +88,7 @@ private:
     bool created = false;
     int memory_size=300;
     void sleeping();
+
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
