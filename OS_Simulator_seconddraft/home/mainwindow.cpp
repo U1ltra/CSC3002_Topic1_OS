@@ -235,10 +235,10 @@ void MainWindow::on_btn_Schedule_Simulator_clicked()
     to_effect_Click();
     sleeping();
     SchGame = new SchWidget();
-    MemGame->setPID(memory_game_count*100000+700);
-    MemGame->set_CPU(CPU);
-    MemGame->show();
-    MemGame->set_memory(memory);
-    memory_game_count++;
+    SchGame->setPID(Schedule_game_count*100000+700);
+    SchGame->set_CPU(CPU);
+    SchGame->show();
+    SchGame->set_memory(memory);
+    Schedule_game_count++;
 
 }

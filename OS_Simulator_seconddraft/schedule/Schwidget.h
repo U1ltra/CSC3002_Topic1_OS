@@ -321,6 +321,7 @@ public:
 
     void set_CPU(cpuMon * cpu);
     void setPID(int pid);
+    void set_memory(Buddy *Memory);
 
     //mythread *mythrd;
     //QThread *qthrd;
@@ -358,7 +359,6 @@ private slots:
 
     void refresh();
 
-    void set_memory(Buddy *Memory);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);

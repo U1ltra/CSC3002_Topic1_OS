@@ -69,7 +69,9 @@ private:
     task_monitor_count=1,
     memory_game_count = 1,
     memory_monitor_count = 1,
-    monitor_count = 1;
+    monitor_count = 1,
+    Schedule_game_count=1;
+
     int PID=10;
     cpuMon* CPU;
     Buddy* memory;
