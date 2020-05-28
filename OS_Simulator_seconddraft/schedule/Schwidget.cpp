@@ -83,7 +83,7 @@ void SchWidget::on_simulate_clicked(){
         QMessageBox::warning(this, "Warning", "Please input timeslice",QMessageBox::Yes);
     }
     else{
-        if(s != nullptr && init_flag == true&&number_of_process != 0){
+        if(s != nullptr && init_flag == true&&number_of_process != 0){//able to simulate
                 flag = 1;
                 printcolor_map();
 
@@ -140,13 +140,13 @@ void SchWidget::on_simulate_clicked(){
                     ui->mygraph->repaint();
                     t->start();
                     init_flag = false;
-                }else{
+                }else{//inable to print picture
                        QMessageBox::warning(this,"Warning","Please check your input",QMessageBox::Yes);
                        rept_flag = false;
                     }
-        }else{
+        }else{//inable to simulate
             init_flag = false;
-            QMessageBox::warning(this,"Warning","Please initialize at first",QMessageBox::Yes);
+            QMessageBox::warning(this,"Warning","Please clear and initialize at first",QMessageBox::Yes);
         }
         //prevent double click simulate
 
@@ -295,9 +295,8 @@ void SchWidget::on_initialize_clicked()
         cout <<"initialized"<<endl;
         allow_to_init = false;
     }else{
-        QMessageBox::warning(this,"Warning","You cannot initialize for now.");
+        QMessageBox::warning(this,"Warning","You cannot initialize for now. You should clear first.");
     }
-
 }
 
 void SchWidget::on_timeslice_textEdited(const QString &arg1)

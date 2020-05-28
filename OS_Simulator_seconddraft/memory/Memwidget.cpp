@@ -64,7 +64,9 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             init_flag = false;
             success_flag = true;
             clear_flag = false;
-      }
+      }else{
+            QMessageBox::warning(this,"Warning","You cannot clear before click simulate",QMessageBox::Yes);
+        }
         cout <<"end"<<clear_flag<<endl;
 }
 
@@ -154,7 +156,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             }
 
         }else{
-            QMessageBox::warning(this,"Warning", "Please Input the Memory Size at first", QMessageBox::Ok);
+            QMessageBox::warning(this,"Warning", "Please First Clear and Input the Memory Size", QMessageBox::Ok);
         }
 
     }
