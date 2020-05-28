@@ -28,7 +28,8 @@ SchWidget::SchWidget(QWidget *parent) :
         //initialize timeslice
         timeslice = -1;
         ptremained = 0;
-        init_flag = false;
+        flag = 0;//painting logic
+        inited_flag = false;
         rept_flag = false;
 
         clear_flag = false;
@@ -64,12 +65,9 @@ SchWidget::SchWidget(QWidget *parent) :
                 QString s = QString::number(i+1);
                 ui->table_of_process->setItem(i,0,new QTableWidgetItem(s));
             }
-            cout << arg1<<endl;
         }
         else{
             QMessageBox::warning(this,"Warning","Please click initialize at first",QMessageBox::Yes);
-
-
         }
 
     }
@@ -81,7 +79,7 @@ SchWidget::SchWidget(QWidget *parent) :
                 QMessageBox::warning(this, "Warning", "Please input timeslice",QMessageBox::Yes);
             }
             else{
-                if(s != nullptr && init_flag == true&&number_of_process != 0){//able to simulate
+                if(s != nullptr && inited_flag == true&&number_of_process != 0){//able to simulate
                         flag = 1;
                         printcolor_map();
 
@@ -93,7 +91,7 @@ SchWidget::SchWidget(QWidget *parent) :
                                 ui->table_of_process->item(i,7)->setBackground(QBrush(*colorvec[i]));
                             }
                         //获取表格内容
-                            cout<<"**************8"<<endl;
+
                         for(int i=0; i<number_of_process; i++){ // 取出每个格子的内容
                                 if(ui->table_of_process->item(i,1) != NULL&&ui->table_of_process->item(i,2) != NULL&&                                   //不能同时有相同的到达
                                         ui->table_of_process->item(i,3) != NULL
@@ -111,40 +109,46 @@ SchWidget::SchWidget(QWidget *parent) :
                         }
                         //模拟
                         if(rept_flag == false){
-                        s->setCondition(algo_sign,bq,aq,pq,timeslice);
-                        s->simulation();
-                        s->efficiency();
-                        s->check();
-                        execQ = s->exeQ;
-                        //print execq
-                        for(int j = 0; j< execQ.size();j++){
-                            cout <<execQ[j]->pid<<endl;
-                        }
-                        //打印表格
-                        for(int i=0; i<number_of_process; i++){ // 取出每个格子的内容
-                                if(ui->table_of_process->item(i,4) != NULL&&ui->table_of_process->item(i,5) != NULL&&
-                                        ui->table_of_process->item(i,6) != NULL){
-                                        ui->table_of_process->setItem(i,4,new QTableWidgetItem(QString::number(s->pqueue[i]->waitT)));
-                                        ui->table_of_process->setItem(i,5,new QTableWidgetItem(QString::number(s->pqueue[i]->responseT)));
-                                        ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s->pqueue[i]->cyclingT)));
-                                }
+                            s->setCondition(algo_sign,bq,aq,pq,timeslice);
+                            s->simulation();
+                            s->efficiency();
+                            s->check();
+                            execQ = s->exeQ;
+                            //print execq
+                            for(int j = 0; j< execQ.size();j++){
+                                cout <<execQ[j]->pid<<endl;
                             }
-                        //绘图
-                        t = new QTimer(this);
-                        t->setInterval(1000);
-                        connect(t, &QTimer::timeout,[=](){ui->mygraph->update();
-                                                            ptremained++;});
-                            flag = 1;
-                            ui->mygraph->repaint();
-                            t->start();
-                            init_flag = false;
-                            //clear_flag = true;
+                            //打印表格
+                            for(int i=0; i<number_of_process; i++){ // 取出每个格子的内容
+                                    if(ui->table_of_process->item(i,4) != NULL&&ui->table_of_process->item(i,5) != NULL&&
+                                            ui->table_of_process->item(i,6) != NULL){
+                                            ui->table_of_process->setItem(i,4,new QTableWidgetItem(QString::number(s->pqueue[i]->waitT)));
+                                            ui->table_of_process->setItem(i,5,new QTableWidgetItem(QString::number(s->pqueue[i]->responseT)));
+                                            ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s->pqueue[i]->cyclingT)));
+                                    }
+                                }
+                            //绘图
+                            t = new QTimer(this);
+                            t->setInterval(1000);
+                            connect(t, &QTimer::timeout,[=](){ui->mygraph->update();
+                                                                ptremained++;});
+                                flag = 1;
+                                ui->mygraph->repaint();
+                                t->start();
+                                inited_flag = false;
+                                clear_flag = true;
                         }else{//inable to print picture
-                               QMessageBox::warning(this,"Warning","Please check your input",QMessageBox::Yes);
-                               rept_flag = false;
+                            if(t->isActive()){
+                                t->stop();
+                            }
+                                clear_flag = true;
+                                QMessageBox::warning(this,"Warning","Please check your input",QMessageBox::Yes);
+//                               rept_flag = false;
+
                             }
                 }else{//inable to simulate
-                    init_flag = false;
+                    inited_flag = false;
+                    clear_flag = true;
                     QMessageBox::warning(this,"Warning","Invalid simulation: Please clear and initialize at first",QMessageBox::Yes);
                 }
                 //prevent double click simulate
@@ -159,32 +163,42 @@ SchWidget::SchWidget(QWidget *parent) :
 
     void SchWidget::on_clear_clicked()
     {
-        if(t != nullptr || t->isActive()){
-            t->stop();
+        if(clear_flag == true){
+            if(t != nullptr || t->isActive()){
+                t->stop();
+            }
+
+//            inittable();
+//           ui->table_of_process->clearContents();
+
+            ui->spinBox->setValue(0);
+            
+            bq.clear();
+            pq.clear();
+            aq.clear();
+            colorvec.clear();
+            
+            graphlenvec.clear();
+            graphlenvec.push_back(0);
+            inited_flag =false;
+            rept_flag = false;
+            ptremained = 0;
+            
+            delete s;
+            
+            s = nullptr;
+            
+            if(s == nullptr){
+                cout<<"empty null"<<endl;
+            }
+            allow_to_init = true;
+            flag = 2;
+
+            initgraph();
+        }else{
+            QMessageBox::warning(this,"Warning","You cannot clear an empty object.");
         }
-
-        ui->table_of_process->clearContents();
-        ui->spinBox->setValue(0);
-
-        bq.clear();
-        pq.clear();
-        aq.clear();
-        colorvec.clear();
-
-        graphlenvec.clear();
-        graphlenvec.push_back(0);
-        init_flag =false;
-        rept_flag = false;
-        ptremained = 0;
-        delete s;
-        s = nullptr;
-        if(s == nullptr){
-            cout<<"empty null"<<endl;
-        }
-        allow_to_init = true;
-
-        inittable();
-        initgraph();
+        clear_flag = false;//prevent double clear
     }
     /*
     *Function usage:return process number
@@ -294,9 +308,10 @@ SchWidget::SchWidget(QWidget *parent) :
     {
         if(allow_to_init == true){
             s = new scheduling;
-            init_flag = true;
+            inited_flag = true;
             cout <<"initialized"<<endl;
             allow_to_init = false;
+            clear_flag = true;
         }else{
             QMessageBox::warning(this,"Warning","You cannot initialize for now. You should clear first.");
         }
