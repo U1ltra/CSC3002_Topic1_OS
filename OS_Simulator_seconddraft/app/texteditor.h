@@ -76,7 +76,7 @@ private:
     cpuMon* CPU;
     Buddy* memory;
     bool created = false;
-    int memory_size=300;
+    int memory_size=220;
     void sleeping();
 protected:
     void mousePressEvent(QMouseEvent *e);

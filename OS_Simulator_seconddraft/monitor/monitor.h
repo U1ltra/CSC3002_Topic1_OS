@@ -54,7 +54,7 @@ private:
     QTimer * system_timer;
     Buddy * memory;
     bool created = false;
-    int memory_size=300;
+    int memory_size=175;
     void sleeping();
 };
 
