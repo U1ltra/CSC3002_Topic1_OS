@@ -69,12 +69,17 @@ bool Buddy::deallocate(m_task &current){
         cout << "Sorry, invalid free request" << endl;
         return false;
     }
-
-    int num = (int) ceil(log(Bu_map[current] / log(2)));
-    int buddyNum, buddyAddress;
+    int num = (int) ceil(log(Bu_map[current]) / log(2));
     arr[num].push_front(Pair(index, index + (int)pow(2,num) - 1));
     cout << "Memory from " << index << " to " << index + (int)pow(2,num) - 1 << " freed." << endl;
-    buddyNum = index / Bu_map[current];
+    merge(num,index);
+    Bu_map.erase(current);
+    return true;
+}
+
+void Buddy::merge(int num, int index){
+    int buddyNum = index / pow(2,num);
+    int buddyAddress;
     if (buddyNum % 2 != 0)
         buddyAddress = index - (int) pow(2,num);
     else
@@ -97,8 +102,9 @@ bool Buddy::deallocate(m_task &current){
             break;
         }
     }
-    Bu_map.erase(current);
-    return true;
+    if (++num <  log(this->size) / log(2))
+        merge(num, index);
+    else return;
 }
 
 bool Buddy::allocate(int PID,int size){

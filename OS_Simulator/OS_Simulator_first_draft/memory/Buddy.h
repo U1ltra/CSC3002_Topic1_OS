@@ -23,6 +23,7 @@ public:
 private:
     int index;
     int size;
+    void merge(int num, int index);
 };
 
 #endif // BUDDY_H
