@@ -147,18 +147,6 @@ void MainWindow::on_btn_TextEditor_clicked()
 
 }
 
-void MainWindow::on_btn_game_clicked()
-{
-    to_effect_Click();
-    sleeping();
-    MemGame = new Mem_Widget();
-    MemGame->setPID(memory_game_count*100000+600);
-    MemGame->set_CPU(CPU);
-    MemGame->set_memory(memory);
-    memory_game_count++;
-    MemGame->show();
-}
-
 
 void MainWindow::on_actionShutdown_triggered()
 {
@@ -223,3 +211,27 @@ void MainWindow::sleeping(){
 }
 
 
+
+void MainWindow::on_btn_Memory_Simulator_clicked()
+{
+    to_effect_Click();
+    sleeping();
+    MemGame = new Mem_Widget();
+    MemGame->setPID(memory_game_count*100000+600);
+    MemGame->set_CPU(CPU);
+    MemGame->set_memory(memory);
+    memory_game_count++;
+    MemGame->show();
+}
+
+void MainWindow::on_btn_Schedule_Simulator_clicked()
+{
+    to_effect_Click();
+    sleeping();
+    SchGame = new SchWidget();
+    MemGame->setPID(memory_game_count*100000+700);
+    MemGame->set_CPU(CPU);
+    MemGame->set_memory(memory);
+    memory_game_count++;
+    MemGame->show();
+}

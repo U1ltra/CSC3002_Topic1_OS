@@ -44,9 +44,9 @@ private slots:
     void back_to_fluctuation();
 
     void on_btn_Memory_Simulator_clicked();
-
+    
     void on_btn_Schedule_Simulator_clicked();
-
+    
 private:
     // Instance Variable //
 
