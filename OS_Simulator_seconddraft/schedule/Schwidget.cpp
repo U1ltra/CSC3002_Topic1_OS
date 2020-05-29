@@ -21,7 +21,11 @@ SchWidget::SchWidget(QWidget *parent) :
 
     //create the ui
     ui->setupUi(this);
+
+//<<<<<<< HEAD
+
     ui->mygraph->installEventFilter(this);//在label上安装事件过滤器，this指针指定当事件发生时调用当前类中的事件过滤器进行处理
+
     t = new QTimer(this);
     //initialize timeslice
     timeslice = -1;
@@ -64,7 +68,6 @@ void SchWidget::on_spinBox_valueChanged(int arg1)
             QString s = QString::number(i+1);
             ui->table_of_process->setItem(i,0,new QTableWidgetItem(s));
         }
-        cout << arg1<<endl;
     }
     else{
         QMessageBox::warning(this,"Warning","Please click initialize at first",QMessageBox::Yes);
@@ -373,7 +376,6 @@ void SchWidget::set_memory(Buddy *Memory){
     }else{
         created = true;
         showNormal();
-
     }
 }
 
@@ -409,26 +411,4 @@ bool SchWidget::checkempyt(int i, int j, int k){
     return true;
 
 }
-
-/* ui->mygraph->installEventFilter(this);//在label上安装事件过滤器，this指针指定当事件发生时调用当前类中的事件过滤器进行处理
-this->setFixedSize(1000,500);
-    t = new QTimer(this);
-    //initialize timeslice
-    timeslice = -1;
-    ptremained = 0;
-    init_flag = false;
-    rept_flag = false;
-
-    clear_flag = false;
-
-    allow_to_init = true;//prevent double click simulate
-
-    graphlenvec.push_back(0);
-
-    system_timer = new QTimer(this);
-    setMouseTracking(true);
-*/
-
-
-
 

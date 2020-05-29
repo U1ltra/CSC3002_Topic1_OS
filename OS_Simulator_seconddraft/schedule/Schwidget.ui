@@ -180,12 +180,12 @@
           </item>
           <item>
            <property name="text">
-            <string>Shortest-Job First</string>
+            <string>Shortest Remaining Time</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Shortest-Remaining Time</string>
+            <string>Shortest Job First</string>
            </property>
           </item>
           <item>

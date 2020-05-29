@@ -20,6 +20,10 @@ namespace Ui {
     class SchWidget;
 }
 
+
+
+
+
 extern const int PID_BLANK;                    // pid for blank period
 /*
  * Type: task
