@@ -117,9 +117,14 @@ public:
     bool isBusy() const;
 
     /*
-     * Return whether this process is terminated.
+     * Return whether this process is terminated
      */
     bool isFreeToClose(int PID);
+
+    /*
+     * Pass in the shut down signal
+     */
+    void shutDown();
 
     /*
      * Return total cpu percentage used up by system processes
@@ -176,6 +181,7 @@ private:
     double cputemp;                     // cpu temperature
     double TcpuPercentage;
     bool operation;                     // indicate in current time slice, whether any operations happened
+    bool shutOS;
     std::vector<process*> processes;    // processes created and havenot terminated
     std::vector<const QVariant> name_of_attrs;// store PID, cpuT, cpuPer, thread, idle_wake, permission such names in QVariant
 

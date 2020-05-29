@@ -127,6 +127,30 @@ bool cpuMon::isBusy() const{
     return TcpuPercentage > .8 || cputemp > 80;
 }
 
+bool cpuMon::isFreeToClose(int PID){
+    vector<process*>::iterator it;
+    it = processes.begin();
+    while (it!=processes.end()) {
+        if ((*it)->pid==PID) return false;
+        it++;
+    }
+    return true;
+}
+
+void cpuMon::shutDown(){
+    shutOS = true;
+    process * buffer;
+    vector<process*>::iterator it;
+    it = processes.begin();
+    while (it!=processes.end()) {
+        buffer = *(processes.end()-1);
+        processes.pop_back();
+        delete buffer;
+        this_thread::sleep_for(std::chrono::seconds(2));
+        it++;
+    }
+}
+
 double cpuMon::TsysPer(){
     double total = 0;
     vector<process*>::iterator it;
