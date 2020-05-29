@@ -27,12 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("Main Window");
     mainwindow_layout();
 
-    /* Display the digital clock */
-    clock_display = new DigitalClock();
-    clock_display->setPID(11);           //Default PID for clock is 11.
-    clock_display->set_CPU(CPU);
-    clock_display->set_memory(memory);
-    ui->clock_layout->addWidget(clock_display, Qt::AlignHCenter);
 
     /* Create main mainwindow process */
     CPU = new cpuMon();
@@ -45,6 +39,14 @@ MainWindow::MainWindow(QWidget *parent) :
     system_timer = new QTimer();
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation())); //Return to the fluctuation mode.
+
+
+    /* Display the digital clock */
+    clock_display = new DigitalClock();
+    clock_display->setPID(11);           //Default PID for clock is 11.
+    clock_display->set_CPU(CPU);
+    clock_display->set_memory(memory);
+    ui->clock_layout->addWidget(clock_display, Qt::AlignHCenter);
 }
 
 MainWindow::~MainWindow()
