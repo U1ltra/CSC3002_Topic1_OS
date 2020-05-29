@@ -66,7 +66,7 @@ private slots:
 
     void back_to_fluctuation();
 
-    void refreshing();
+    void refresh();
 
 protected:
     void mousePressEvent(QMouseEvent *e);

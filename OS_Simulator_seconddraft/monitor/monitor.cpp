@@ -85,10 +85,9 @@ void monitor::set_memory(Buddy *Memory){
         memM->set_memory(memory);
         showNormal();
     }
-<<<<<<< HEAD
+
     cpuM->set_memory(memory);
     memM->set_memory(memory);
-=======
 
 }
 
@@ -110,7 +109,6 @@ void monitor::back_to_fluctuation(){
 void monitor::to_effect_Click(){
     CPU->operationDet(PID,effectClick);
     system_timer->start(100);
->>>>>>> cad0b797d1c54afca4377e70e74685b49a7e3510
 }
 
 void monitor::to_simple_Click(){
@@ -123,8 +121,8 @@ void monitor::to_moving_around(){
     system_timer->start(100);
 }
 
-void monitor::refreshing(){
-    CPU->operationDet(PID,calculation);
+void monitor::refresh(){
+    CPU->operationDet(PID,refreshing);
     system_timer->start(100);
 }
 
