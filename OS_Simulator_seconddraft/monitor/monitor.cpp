@@ -40,9 +40,9 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
 
     cpuM->installEventFilter(this);
     cpuM->visualTable->installEventFilter(this);
-//    memM->installEventFilter(this);
+    memM->installEventFilter(this);
 //    tabW->installEventFilter(this);
-//    Title->installEventFilter(this);
+    Title->installEventFilter(this);
 //    mainLayout->installEventFilter(this);
 
     mainLayout->addWidget(Title);
@@ -98,16 +98,40 @@ void monitor::set_memory(Buddy *Memory){
 
 bool monitor::eventFilter(QObject *watched, QEvent *event){
     if (watched == cpuM) {
-        cout << "cpuM event detected" << endl;
-        cout << to_string(event->type()) << endl;
+        if (event->type()==QEvent::LayoutRequest || event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
+//            CPU->operationDet(PID, movingAround);
+            cout << to_string(event->type()) << endl;
+            cout << "cpuM event detected" << endl;
+        }
+//        cout << "cpuM event detected" << endl;
+//        cout << to_string(event->type()) << endl;
     }
     if (watched == cpuM->visualTable) {
-        cout << "visualtable event detected" << endl;
-        cout << to_string(event->type()) << endl;
+        if (event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
+//            CPU->operationDet(PID, movingAround);
+            cout << to_string(event->type()) << endl;
+            cout << "visualtable event detected" << endl;
+        }
+//        cout << "visualtable event detected" << endl;
+//        cout << to_string(event->type()) << endl;
     }
-    if (watched == memM) cout << "memM event detected" << endl;
-    if (watched == Title) cout << "title event detected" << endl;
-    if (watched == mainLayout) cout << "mainlayout event detected" << endl;
+    if (watched == memM) {
+        if (event->type()==QEvent::LayoutRequest || event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
+//            CPU->operationDet(PID, movingAround);
+            cout << to_string(event->type()) << endl;
+            cout << "memM event detected" << endl;
+        }
+//        cout << "memM event detected" << endl;
+    }
+    if (watched == Title) {
+        if (event->type()==QEvent::Leave||event->type()==QEvent::Enter){
+//            CPU->operationDet(PID, movingAround);
+            cout << to_string(event->type()) << endl;
+            cout << "title event detected" << endl;
+        }
+//        cout << "title event detected" << endl;
+//        cout << to_string(event->type()) << endl;
+    }
 }
 
 void monitor::mousePressEvent(QMouseEvent *e){
@@ -141,7 +165,7 @@ void monitor::to_moving_around(){
 }
 
 void monitor::refresh(){
-    CPU->operationDet(PID,refreshing);
+    CPU->operationDet(PID,fluctuation);
     system_timer->start(100);
 }
 
@@ -155,9 +179,6 @@ void monitor::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
         memory->deallocate(PID,memory_size);
-        while(!CPU->isFreeToClose(PID)){
-            sleep(1);
-        }
     }
     event->accept();
 }
