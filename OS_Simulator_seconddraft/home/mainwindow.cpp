@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     CPU = new cpuMon();
     fluctuate(*CPU);
     CPU->createP(PID,"MainWindow",root);//Default PID for mainwindow is 10.
-    memory = new Buddy(10000);
+    memory = new Buddy(1024);
     set_up_memory();
     QHBoxLayout * clockLayout = new QHBoxLayout(this);
     clock_display = new DigitalClock(this);
@@ -187,7 +187,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
 }
 
 void MainWindow::set_up_memory(){
-    if (!memory->allocate(PID,memory_size)){
+    if (!memory->mem_allocation(PID,memory_size)){
         QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
         close();
     }else{

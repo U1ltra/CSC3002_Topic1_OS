@@ -319,7 +319,7 @@ void TextEditor::sleeping(){
 
 void TextEditor::set_memory(Buddy *Memory){
     memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
+    if (!memory->mem_allocation(PID,memory_size)){
         QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
         close();
     }else{
