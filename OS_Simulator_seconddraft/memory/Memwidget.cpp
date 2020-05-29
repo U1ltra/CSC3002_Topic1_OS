@@ -25,7 +25,6 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
         //设置表头内容
          inittable();
-         system_timer = new QTimer(this);
 
          flag = 0;//event filter
          init_flag = false;//initialize memory
@@ -36,6 +35,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
          ui->currentused->setText(QString::number(tused));
          ui->currentused->displayText();
          ui->currentused->setReadOnly(true);
+         setMouseTracking(true);
+         this->centralWidget()->setMouseTracking(true);
+
+         system_timer = new QTimer();
+         system_timer->setSingleShot(true);
+         connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     }
 
     Mem_Widget::~Mem_Widget(){
@@ -44,6 +49,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
 
     void Mem_Widget::on_clear_clicked(){
+        sleeping();
+        to_effect_Click();
         cout <<clear_flag<<endl;
         if(clear_flag == true){
             ui->tableWidget->clearContents();
@@ -75,6 +82,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 }
 
     void Mem_Widget::on_spinBox_valueChanged(int arg1){
+        sleeping();
+        to_effect_Click();
         //set task number
         tasknumber = arg1;
         //change the table
@@ -126,6 +135,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
     }
 
     void Mem_Widget::on_simulate_clicked(){
+        sleeping();
+        to_effect_Click();
         if(init_flag == true && bd != nullptr ){
             if(bd->getsize() > 0){
             //set table content
@@ -179,7 +190,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
 
     void Mem_Widget::on_memorystorage_editingFinished()
-    {
+    {   sleeping();
+        to_effect_Click();
         int num = atoi(ui->memorystorage->text().toStdString().c_str());
         std::cout<<"storage is"<<atoi(ui->memorystorage->text().toStdString().c_str())<<"*******"<<std::endl;
         if(num > 0){
@@ -277,7 +289,8 @@ void Mem_Widget::set_memory(Buddy *Memory){
 
 void Mem_Widget::on_tableWidget_itemClicked(QTableWidgetItem *item)
 {
-    to_simple_Click();
+    sleeping();
+    to_effect_Click();
 }
 
 

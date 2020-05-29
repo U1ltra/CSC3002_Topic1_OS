@@ -62,6 +62,8 @@ void monitor::setPID(int pid){
 void monitor::set_CPU(cpuMon * cpu){
     CPU = cpu;
     CPU->createP(PID, "Activity Monitor", user);
+    cpuM->set_CPU(cpu);
+    memM->set_CPU(cpu);
 }
 
 
@@ -73,5 +75,7 @@ void monitor::set_memory(Buddy *Memory){
     }else {
         created = true;
     }
+    cpuM->set_memory(memory);
+    memM->set_memory(memory);
 }
 

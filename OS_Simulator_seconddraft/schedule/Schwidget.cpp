@@ -685,7 +685,8 @@ bool SchWidget::checkempyt(int i, int j, int k){
     }
 
     void SchWidget::on_initialize_clicked()
-    {
+    {   sleeping();
+        to_effect_Click();
         if(allow_to_init == true){
             s = new scheduling;
             init_flag = true;
@@ -697,7 +698,8 @@ bool SchWidget::checkempyt(int i, int j, int k){
     }
 
     void SchWidget::on_timeslice_textEdited(const QString &arg1)
-    {
+    {   sleeping();
+        to_effect_Click();
         timeslice = arg1.toInt();
     }
 
