@@ -42,7 +42,8 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     mainLayout->setAlignment(Qt::AlignCenter);      // not really useful
     this->setLayout(mainLayout);
 
-
+    setMouseTracking(true);
+    this->centralWidget()->setMouseTracking(true);
 }
 
 monitor::~monitor(){
@@ -74,6 +75,7 @@ void monitor::set_memory(Buddy *Memory){
         close();
     }else {
         created = true;
+        showNormal();
     }
     cpuM->set_memory(memory);
     memM->set_memory(memory);

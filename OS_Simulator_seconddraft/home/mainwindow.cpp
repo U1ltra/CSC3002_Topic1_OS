@@ -58,7 +58,6 @@ void MainWindow::on_btn_calc_clicked()
     cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
     cal->set_CPU(CPU);
-    cal->showNormal();
     cal->set_memory(memory);
     calculator_count++;
 
@@ -69,9 +68,9 @@ void MainWindow::on_btn_Calendar_clicked()
     to_effect_Click();
     sleeping();
     calendar = new Calendar();
+    connect(this,SIGNAL(closing()),calendar,SLOT(close()));
     calendar->setPID(calendar_count*100000+200);
     calendar->set_CPU(CPU);
-    calendar->showNormal();
     calendar->set_memory(memory);
     calendar_count++;
 
@@ -82,38 +81,22 @@ void MainWindow::on_btn_FileSystem_clicked()
     to_effect_Click();
     sleeping();
     vfm = new VisualFileManager(this);
+    connect(this,SIGNAL(closing()),vfm,SLOT(close()));
     vfm->setPID(file_system_count*100000+300);
     vfm->set_CPU(CPU);
-    vfm->showNormal();
     vfm->set_memory(memory);
     file_system_count++;
 
-//        taskMonitor = new CPUmonitor(CPU);
-//        taskMonitor->setPID(task_monitor_count*100000+400);
-//        taskMonitor->set_memory(memory);
-//        task_monitor_count++;
-//        taskMonitor->show();
 }
 
 void MainWindow::on_btn_TaskManager_clicked()
 {
     to_effect_Click();
     sleeping();
-//    taskMonitor = new CPUmonitor(CPU);
-//    taskMonitor->setPID(task_monitor_count*100000+400);
-//    taskMonitor->set_memory(memory);
-//    task_monitor_count++;
-//    taskMonitor->show();
-//    MemMonitor = new Memmonitor(memory, CPU);
-//    MemMonitor->setPID(task_monitor_count*100000+400);
-//    MemMonitor->set_CPU(CPU);
-//    MemMonitor->set_memory(memory);
-//    memory_monitor_count++;
-//    MemMonitor->show();
     Monitor = new monitor(CPU, memory);
+    connect(this,SIGNAL(closing()),Monitor,SLOT(close()));
     Monitor->setPID(monitor_count*100000+400);
     Monitor->set_CPU(CPU);
-    Monitor->showNormal();
     Monitor->set_memory(memory);
     monitor_count++;
 
@@ -124,9 +107,9 @@ void MainWindow::on_btn_TextEditor_clicked()
     to_effect_Click();
     sleeping();
     text_editor = new TextEditor(this);
+    connect(this,SIGNAL(closing()),text_editor,SLOT(close()));
     text_editor->setPID(text_editor_count*100000+500);
     text_editor->set_CPU(CPU);
-    text_editor->showNormal();
     text_editor->set_memory(memory);
     text_editor_count++;
 
@@ -185,6 +168,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
     if (created){
         memory->deallocate(PID,memory_size);
     }
+    emit closing();
     event->accept();
 }
 
@@ -194,6 +178,7 @@ void MainWindow::set_up_memory(){
         close();
     }else{
         created = true;
+        showNormal();
     }
 }
 
@@ -212,7 +197,6 @@ void MainWindow::on_btn_Memory_Simulator_clicked()
     MemGame = new Mem_Widget();
     MemGame->setPID(memory_game_count*100000+600);
     MemGame->set_CPU(CPU);
-    MemGame->showNormal();
     MemGame->set_memory(memory);
     memory_game_count++;
 

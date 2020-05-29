@@ -68,5 +68,6 @@ void Calendar::set_memory(Buddy *Memory){
         close();
     }else{
         created = true;
+        showNormal();
     }
 }

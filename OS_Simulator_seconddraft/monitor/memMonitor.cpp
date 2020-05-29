@@ -38,7 +38,7 @@ Memmonitor::Memmonitor(Buddy * bd, cpuMon * cpu, QWidget *parent) :
 //    setPID(pid);
 //    set_memory(bd);                                 // need pid at once since mem page does not refresh
     initTable();
-
+    setMouseTracking(true);
     bottomLayout = new QHBoxLayout;
     memConsumption = new QLabel;
     totalMem = new QLabel;

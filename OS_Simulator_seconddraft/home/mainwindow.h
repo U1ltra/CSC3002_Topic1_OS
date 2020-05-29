@@ -96,6 +96,9 @@ protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void closeEvent(QCloseEvent*event);
+
+signals:
+    void closing();
 };
 
 #endif // MAINWINDOW_H
