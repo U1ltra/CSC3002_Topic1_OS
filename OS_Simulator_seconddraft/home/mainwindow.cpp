@@ -154,13 +154,13 @@ void MainWindow::on_actionShutdown_triggered()
     to_effect_Click();
     sleeping();
     close();
-//    if (cal->isVisible()) cal->close();
-//    if (calendar->isVisible()) calendar->close();
-//    if (vfm->isVisible()) vfm->close();
-//    if (text_editor->isVisible()) text_editor->close();
-//    if (Monitor->isVisible()) Monitor->close();
-//    if (MemGame->isVisible()) MemGame->close();
-//    if (SchGame->isVisible()) SchGame->close();
+    //    if (cal->isVisible()) cal->close();
+    //    if (calendar->isVisible()) calendar->close();
+    //    if (vfm->isVisible()) vfm->close();
+    //    if (text_editor->isVisible()) text_editor->close();
+    //    if (Monitor->isVisible()) Monitor->close();
+    //    if (MemGame->isVisible()) MemGame->close();
+    //    if (SchGame->isVisible()) SchGame->close();
 }
 
 void MainWindow::back_to_fluctuation(){
@@ -281,12 +281,24 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e)
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
     if (created){
-        memory->deallocate(PID,memory_size);
+        to_shutdown = QMessageBox::question(this,"System","Do you really want to shut down the system?",
+                                            QMessageBox::Yes |QMessageBox::No,QMessageBox::No);
+        if (to_shutdown==QMessageBox::Yes){
+            CPU->shutDown();
+            CPU->terminateP(PID);
+            memory->deallocate(PID,memory_size);
+            emit closing();
+            while(!CPU->isFreeToClose(PID)){
+                sleep(1);
+            }
+            event->accept();
+        }else{
+            event->ignore();
+        }
+    }else{
+        CPU->terminateP(PID);
+        event->accept();
     }
-    cout << "emitting" << endl;
-    emit closing();
-    event->accept();
 }
 

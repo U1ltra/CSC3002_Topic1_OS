@@ -10,6 +10,7 @@
 #include <QMainWindow>
 #include <QLCDNumber>
 #include <QMouseEvent>
+#include <QMessageBox>
 #include "app/digitalclock.h"
 #include "app/calculator.h"
 #include "app/texteditor.h"
@@ -83,7 +84,7 @@ private:
     Memmonitor *MemMonitor;
     monitor *Monitor;
     QTimer *system_timer;
-
+    QMessageBox::StandardButton to_shutdown;
     //Set all initial process of applications to 1.
     int calculator_count = 1,
     digial_clock_count = 1,

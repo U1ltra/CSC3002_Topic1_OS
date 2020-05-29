@@ -290,9 +290,12 @@ if (CPU->isBusy()){
 void Mem_Widget::closeEvent(QCloseEvent *event){
 CPU->terminateP(PID);
 if (created){
-memory->deallocate(PID,memory_size);
+    memory->deallocate(PID,memory_size);
+    while(!CPU->isFreeToClose(PID)){
+        sleep(1);
+    }
 }
-event->accept();
+    event->accept();
 }
 
 
