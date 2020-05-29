@@ -123,7 +123,7 @@ void cpuMon::terminateP(int pid){
 }
 
 bool cpuMon::isBusy() const{
-    return TcpuPercentage > .75;
+    return TcpuPercentage > .8 || cputemp > 80;
 }
 
 double cpuMon::TsysPer(){
@@ -217,7 +217,7 @@ void cpuMon::operationDet(int pid, opType op){  // whenever GUI detect a kind of
     Tstatistics();                              // calculate statistics
     CPUTem();                                   // update cpu temperature
 //    check();
-//    cout << "op princt" << endl;
+    cout << "op princt" << endl;
 }
 
 void cpuMon::kernel_task(opType op){
@@ -245,7 +245,7 @@ void cpuMon::kernel_task(opType op){
         }
         switch (op) {
         case simpleClick: case movingAround: case fluctuation:          // as far as kernel is concern, these three are having little effect
-            periodCPUT = (300+rand()%500) / double(10000);              // around 1.5-4% of the %CPU
+            periodCPUT = (500+rand()%900) / double(10000);              // around 2.5-7% of the %CPU
             processes[0]->cpuT = processes[0]->cpuT+periodCPUT;
             processes[0]->cpuPer = periodCPUT/REFRESHING_SLICE;
             processes[0]->thread = processes[0]->thread+rand()%9-5;     // overall decreasing
@@ -347,7 +347,7 @@ void cpuMon::launchd(opType op){                                            // l
                 break;
 
             case effectClick:
-                periodCPUT = (100+rand()%300)/double(10000);                // around 0.5%-2%
+                periodCPUT = (300+rand()%300)/double(10000);                // around 1.5%-3%
                 processes[1]->cpuT = processes[1]->cpuT+periodCPUT;
                 processes[1]->cpuPer = periodCPUT/REFRESHING_SLICE;
                 processes[1]->thread = processes[1]->thread+4;
@@ -362,7 +362,7 @@ void cpuMon::operationMon(process * & P, opType op){                    // this 
     double periodCPUT;                                                  // in, reasonable updates are performed on statistics of the give process
     switch (op) {
         case simpleClick: case movingAround:                            // during the three type of condition, current process attributes is low
-            periodCPUT = (200+rand()%200)/double(10000);                // around 1%-2%
+            periodCPUT = (800+rand()%200)/double(10000);                // around 1%-2%
             P->cpuT = P->cpuT+periodCPUT;
             P->cpuPer = periodCPUT/REFRESHING_SLICE;
             P->thread = rand()%7+1;
@@ -450,7 +450,7 @@ void cpuMon::CPUTem(){
     else                        cputemp-=(rand()%1000)/double(1000);
 
     if (cputemp<25)             cputemp=(2600+rand()%100)/double(100);  // make sure the temperature is in reasonable range
-    if (cputemp>75)             cputemp=(7300+rand()%200)/double(100);
+    if (cputemp>80)             cputemp=(8000+rand()%200)/double(100);
 }
 
 void cpuMon::leisure(){
@@ -470,9 +470,9 @@ void fluctuate(cpuMon & monitor){                               // OS gradually 
     if (!monitor.operation){                                    // freshing does not equal to fluctuate
         monitor.leisure();
 //        monitor.check();
-//        cout << "fl print" << endl;
+        cout << "fl print" << endl;
     }
-    this_thread::sleep_for(chrono::milliseconds(100));          // call oneself again after the sleep, making this function a parallel thread
+    this_thread::sleep_for(chrono::milliseconds(200));          // call oneself again after the sleep, making this function a parallel thread
     thread next(ref(fluctuate), ref(monitor));                  // detach to allow the resources of this function been collected
     next.detach();
 

@@ -258,7 +258,7 @@ void TextEditor::closeEvent(QCloseEvent *e) {
             CPU->terminateP(PID);
             memory->deallocate(PID,memory_size);
             e->accept();
-            if (findDlog->isVisible()) findDlog->close();
+//            if (findDlog->isVisible()) findDlog->close();
         } else {
             e->ignore();
         }
