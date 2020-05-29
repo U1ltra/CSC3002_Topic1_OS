@@ -24,6 +24,8 @@ login_interface::login_interface(QWidget *parent):
     /* Set background */
     this->setWindowTitle("Login Page");
     this->setWindowFlags(Qt::FramelessWindowHint);
+    ui->label->setFont(LabelF);
+    ui->label_2->setFont(LabelF);
     QPalette pal = this->palette();
     pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/background.jpg")));
     this->setPalette(pal);

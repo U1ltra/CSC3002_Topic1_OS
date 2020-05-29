@@ -38,7 +38,7 @@ Memmonitor::Memmonitor(Buddy * bd, cpuMon * cpu, QWidget *parent) :
 //    setPID(pid);
 //    set_memory(bd);                                 // need pid at once since mem page does not refresh
     initTable();
-
+    setMouseTracking(true);
     bottomLayout = new QHBoxLayout;
     memConsumption = new QLabel;
     totalMem = new QLabel;
@@ -64,6 +64,7 @@ Memmonitor::Memmonitor(Buddy * bd, cpuMon * cpu, QWidget *parent) :
 
     system_timer = new QTimer;
     system_timer->setSingleShot(true);
+    visualTable->viewport()->setMouseTracking(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 }
@@ -217,14 +218,6 @@ void Memmonitor::sleeping(){
     if (CPU->isBusy()){
         sleep(1);
     }
-}
-
-void Memmonitor::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
-    if (created){
-    memory->deallocate(PID,memory_size);
-    }
-    event->accept();
 }
 
 

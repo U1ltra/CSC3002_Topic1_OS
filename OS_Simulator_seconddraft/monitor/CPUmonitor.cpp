@@ -75,7 +75,7 @@ CPUmonitor::CPUmonitor(cpuMon * cpu, QWidget *parent) :
 //    monitorRefreshT->start();
 
     setMouseTracking(true);
-
+    visualTable->viewport()->setMouseTracking(true);
     system_timer = new QTimer();  // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
@@ -244,6 +244,7 @@ void CPUmonitor::sleeping(){
     }
 }
 
+<<<<<<< HEAD
 void CPUmonitor::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
@@ -251,6 +252,8 @@ void CPUmonitor::closeEvent(QCloseEvent *event){
     }
     event->accept();
 }
+=======
+>>>>>>> cad0b797d1c54afca4377e70e74685b49a7e3510
 
 
 void CPUmonitor::set_memory(Buddy *Memory){

@@ -346,6 +346,7 @@ void TextEditor:: saveAsFile() {
  * No, program will continue without processing the file. Return false if
  * user choose to stay on the page, and vice versa.
  */
+
 bool TextEditor::checkIfSaved() {
     if (ui->textEdit->document()->isModified() && isSaved == false) {
         QMessageBox::StandardButton msg =
@@ -393,11 +394,6 @@ void TextEditor::mouseMoveEvent(QMouseEvent *e)
 {
     to_moving_around();
 }
-
-
-
-
-
 
 
 

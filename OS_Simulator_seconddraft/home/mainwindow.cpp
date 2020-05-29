@@ -63,7 +63,6 @@ void MainWindow::on_btn_calc_clicked()
     cal = new Calculator();
     cal->setPID(calculator_count*100000+100);
     cal->set_CPU(CPU);
-    cal->showNormal();
     cal->set_memory(memory);
     calculator_count++;
 }
@@ -73,9 +72,9 @@ void MainWindow::on_btn_Calendar_clicked()
     to_effect_Click();
     sleeping();
     calendar = new Calendar();
+    connect(this,SIGNAL(closing()),calendar,SLOT(close()));
     calendar->setPID(calendar_count*100000+200);
     calendar->set_CPU(CPU);
-    calendar->showNormal();
     calendar->set_memory(memory);
     calendar_count++;
 }
@@ -85,9 +84,9 @@ void MainWindow::on_btn_FileSystem_clicked()
     to_effect_Click();
     sleeping();
     vfm = new VisualFileManager(this);
+    connect(this,SIGNAL(closing()),vfm,SLOT(close()));
     vfm->setPID(file_system_count*100000+300);
     vfm->set_CPU(CPU);
-    vfm->showNormal();
     vfm->set_memory(memory);
     file_system_count++;
 }
@@ -97,9 +96,9 @@ void MainWindow::on_btn_TaskManager_clicked()
     to_effect_Click();
     sleeping();
     Monitor = new monitor(CPU, memory);
+    connect(this,SIGNAL(closing()),Monitor,SLOT(close()));
     Monitor->setPID(monitor_count*100000+400);
     Monitor->set_CPU(CPU);
-    Monitor->showNormal();
     Monitor->set_memory(memory);
     monitor_count++;
 }
@@ -109,9 +108,9 @@ void MainWindow::on_btn_TextEditor_clicked()
     to_effect_Click();
     sleeping();
     text_editor = new TextEditor(this);
+    connect(this,SIGNAL(closing()),text_editor,SLOT(close()));
     text_editor->setPID(text_editor_count*100000+500);
     text_editor->set_CPU(CPU);
-    text_editor->showNormal();
     text_editor->set_memory(memory);
     text_editor_count++;
 }
@@ -187,6 +186,7 @@ void MainWindow::set_up_memory(){
         close();
     }else{
         created = true;
+        showNormal();
     }
 }
 
@@ -281,5 +281,6 @@ void MainWindow::closeEvent(QCloseEvent *event){
     if (created){
         memory->deallocate(PID,memory_size);
     }
+    emit closing();
     event->accept();
 }

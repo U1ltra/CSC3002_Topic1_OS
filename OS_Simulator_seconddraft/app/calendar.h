@@ -8,7 +8,6 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
 
-
 #include <QAbstractItemModel>
 #include <QCalendarWidget>
 #include <QTimer>

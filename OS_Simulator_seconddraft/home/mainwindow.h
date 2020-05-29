@@ -116,6 +116,9 @@ protected:
     void mousePressEvent(QMouseEvent *e);      /* Dectect the oparation of simple(invalid) click.*/
     void mouseMoveEvent(QMouseEvent *e);       /* Dectect the oparation of moving around.        */
     void closeEvent(QCloseEvent*event);
+
+signals:
+    void closing();
 };
 
 #endif // MAINWINDOW_H

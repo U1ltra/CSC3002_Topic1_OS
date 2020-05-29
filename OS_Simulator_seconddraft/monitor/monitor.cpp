@@ -11,6 +11,7 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <iostream>
+#include <unistd.h>
 
 const QFont TITLE_FONT = QFont("Helvatica", 25);
 const QString TITLE = QWidget::tr("Activity Monitor");
@@ -42,7 +43,13 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     mainLayout->setAlignment(Qt::AlignCenter);      // not really useful
     this->setLayout(mainLayout);
 
+    setMouseTracking(true);
 
+    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer->setSingleShot(true);
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
+    connect(tabW,SIGNAL(tabBarClicked()),this,SLOT(to_effect_Click()));
 }
 
 monitor::~monitor(){
@@ -74,8 +81,63 @@ void monitor::set_memory(Buddy *Memory){
         close();
     }else {
         created = true;
+        cpuM->set_memory(memory);
+        memM->set_memory(memory);
+        showNormal();
     }
+<<<<<<< HEAD
     cpuM->set_memory(memory);
     memM->set_memory(memory);
+=======
+
 }
 
+void monitor::mousePressEvent(QMouseEvent *e){
+    to_simple_Click();
+}
+
+void monitor::mouseMoveEvent(QMouseEvent *e)
+{
+    to_moving_around();
+}
+
+
+void monitor::back_to_fluctuation(){
+    CPU->operationDet(PID,fluctuation);
+}
+
+
+void monitor::to_effect_Click(){
+    CPU->operationDet(PID,effectClick);
+    system_timer->start(100);
+>>>>>>> cad0b797d1c54afca4377e70e74685b49a7e3510
+}
+
+void monitor::to_simple_Click(){
+    CPU->operationDet(PID,simpleClick);
+    system_timer->start(100);
+}
+
+void monitor::to_moving_around(){
+    CPU->operationDet(PID,movingAround);
+    system_timer->start(100);
+}
+
+void monitor::refreshing(){
+    CPU->operationDet(PID,calculation);
+    system_timer->start(100);
+}
+
+void monitor::sleeping(){
+    if (CPU->isBusy()){
+        sleep(1);
+    }
+}
+
+void monitor::closeEvent(QCloseEvent *event){
+    CPU->terminateP(PID);
+    if (created){
+        memory->deallocate(PID,memory_size);
+    }
+    event->accept();
+}
