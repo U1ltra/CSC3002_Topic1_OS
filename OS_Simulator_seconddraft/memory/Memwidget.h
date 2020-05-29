@@ -1,3 +1,10 @@
+/*
+ * File: Memwidget.h
+ * -------------
+ * This file helps to give UI interface of memory-simulation
+ * game.
+ */
+
 #ifndef MEMWIDGET_H
 #define MEMWIDGET_H
 
@@ -20,6 +27,12 @@ class Mem_Widget : public QWidget
     Q_OBJECT
 
 public:
+    /*
+     * Constructor: Mem_Widget
+     * Usage: Mem_Widget(QMainWindow *parent = nullptr)
+     * ------------------------
+     * Creates a Mem_Widget object. Initializes the UI interface.
+     */
     explicit Mem_Widget(QMainWindow *parent = nullptr);
     ~Mem_Widget();
 

@@ -1,3 +1,8 @@
+/*
+ * File: Memwidget.cpp
+ * ---------------
+ * This file implements the memwidget.h interface.
+ */
 
 #include "memory/Memwidget.h"
 #include "ui_Memwidget.h"
@@ -6,6 +11,7 @@
 #include <unistd.h>
 #include <QMessageBox>
 #include <QTimer>
+
 
 Mem_Widget::Mem_Widget(QMainWindow *parent) :
     QWidget(parent),
@@ -154,7 +160,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             if(success_flag == true){
                 //check whether allocate successfully
                 for(int i = 0;i<tasknumber;i++){
-                    if(!bd->allocate(*task_vector[i])){
+                    if(!bd->mem_allocation(*task_vector[i])){
                         success_flag = false;
                         }
                     }
@@ -273,7 +279,7 @@ void Mem_Widget::closeEvent(QCloseEvent *event){
 
 void Mem_Widget::set_memory(Buddy *Memory){
     memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
+    if (!memory->mem_allocation(PID,memory_size)){
         QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
         close();
     }else{

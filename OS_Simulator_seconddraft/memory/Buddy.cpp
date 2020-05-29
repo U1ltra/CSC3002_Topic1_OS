@@ -1,4 +1,3 @@
-
 /*
  * File: Buddy.cpp
  * ---------------
@@ -23,7 +22,7 @@ Buddy::Buddy(int s){
     arr[num].push_front(Pair(0,size-1));
 }
 
-bool Buddy::allocate(m_task &current){
+bool Buddy::mem_allocation(m_task &current){
     int s = current.memory;
     int num = (int) ceil(log(s) / log(2));
     if (arr[num].size() > 0){
@@ -109,9 +108,9 @@ void Buddy::merge(int num, int index){
 }
 
 
-bool Buddy::allocate(int PID,int size){
+bool Buddy::mem_allocation(int PID,int size){
     m_task *task = new m_task(PID,size);
-    return allocate(*task);
+    return mem_allocation(*task);
 }
 
 bool Buddy::deallocate(int PID,int size){
