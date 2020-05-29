@@ -114,7 +114,12 @@ public:
     /*
      * Return true if total cpu percentage surpasses 75%
      */
-    bool isBusy() const ;
+    bool isBusy() const;
+
+    /*
+     * Return whether this process is terminated.
+     */
+    bool isFreeToClose(int PID);
 
     /*
      * Return total cpu percentage used up by system processes

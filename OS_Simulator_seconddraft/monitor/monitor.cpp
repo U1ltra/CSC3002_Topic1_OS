@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <iostream>
 #include <unistd.h>
+#include <QCloseEvent>
 
 const QFont TITLE_FONT = QFont("Helvatica", 25);
 const QString TITLE = QWidget::tr("Activity Monitor");
@@ -36,6 +37,14 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     Title->setText(TITLE);
     Title->setFont(TITLE_FONT);
     Title->setAlignment(Qt::AlignCenter);
+
+    cpuM->installEventFilter(this);
+    cpuM->visualTable->installEventFilter(this);
+//    memM->installEventFilter(this);
+//    tabW->installEventFilter(this);
+//    Title->installEventFilter(this);
+//    mainLayout->installEventFilter(this);
+
     mainLayout->addWidget(Title);
     mainLayout->addWidget(tabW);
     mainLayout->setSpacing(25);
@@ -43,8 +52,8 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     mainLayout->setAlignment(Qt::AlignCenter);      // not really useful
     this->setLayout(mainLayout);
 
-    setMouseTracking(true);
 
+//    setMouseTracking(true);
     system_timer = new QTimer();  // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
@@ -85,11 +94,20 @@ void monitor::set_memory(Buddy *Memory){
         memM->set_memory(memory);
         showNormal();
     }
-<<<<<<< HEAD
-    cpuM->set_memory(memory);
-    memM->set_memory(memory);
-=======
+}
 
+bool monitor::eventFilter(QObject *watched, QEvent *event){
+    if (watched == cpuM) {
+        cout << "cpuM event detected" << endl;
+        cout << to_string(event->type()) << endl;
+    }
+    if (watched == cpuM->visualTable) {
+        cout << "visualtable event detected" << endl;
+        cout << to_string(event->type()) << endl;
+    }
+    if (watched == memM) cout << "memM event detected" << endl;
+    if (watched == Title) cout << "title event detected" << endl;
+    if (watched == mainLayout) cout << "mainlayout event detected" << endl;
 }
 
 void monitor::mousePressEvent(QMouseEvent *e){
@@ -110,7 +128,6 @@ void monitor::back_to_fluctuation(){
 void monitor::to_effect_Click(){
     CPU->operationDet(PID,effectClick);
     system_timer->start(100);
->>>>>>> cad0b797d1c54afca4377e70e74685b49a7e3510
 }
 
 void monitor::to_simple_Click(){
@@ -124,7 +141,7 @@ void monitor::to_moving_around(){
 }
 
 void monitor::refreshing(){
-    CPU->operationDet(PID,calculation);
+    CPU->operationDet(PID,fluctuation);
     system_timer->start(100);
 }
 

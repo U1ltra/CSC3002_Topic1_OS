@@ -109,6 +109,7 @@ void cpuMon::createLaunchd(){
 void cpuMon::createP(int pid, QVariant name, permission per){
     process * P = new process(name, per, pid,
                               INITIAL_THREAD, INITIAL_IDLE, INITIAL_CPUT, INITIAL_CPUPER);
+    P->pre_cpuT = INITIAL_CPUT;
     processes.push_back(P);
 }
 
@@ -425,7 +426,7 @@ void cpuMon::inactiveP(process * active){
     it= processes.begin()+3;                                            // starts from the forth process which is not a root process
     while (it != processes.end()){
         if ((*it)!=active){
-            periodCPUT = (*it)->pre_cpuT - rand()%20/double(1000);
+            periodCPUT = (*it)->pre_cpuT - rand()%6/double(1000);
             (*it)->thread = (*it)->thread - rand()%3;
             (*it)->idle_wake = rand()%2;
 

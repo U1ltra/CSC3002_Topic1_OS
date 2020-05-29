@@ -74,12 +74,12 @@ CPUmonitor::CPUmonitor(cpuMon * cpu, QWidget *parent) :
 //    monitorRefreshT->setInterval(1000);
 //    monitorRefreshT->start();
 
-    setMouseTracking(true);
-    visualTable->viewport()->setMouseTracking(true);
-    system_timer = new QTimer();  // To return to the fluctuation.
-    system_timer->setSingleShot(true);
-    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
-    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
+//    setMouseTracking(true);
+//    visualTable->viewport()->setMouseTracking(true);
+//    system_timer = new QTimer();  // To return to the fluctuation.
+//    system_timer->setSingleShot(true);
+//    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+//    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 
 }
 
@@ -203,14 +203,14 @@ void CPUmonitor::setPID(int pid){
     PID=pid;
 }
 
-//void monitor::mousePressEvent(QMouseEvent *e){
-//    to_simple_Click();
-//}
+void CPUmonitor::mousePressEvent(QMouseEvent *e){
+    to_simple_Click();
+}
 
-//void monitor::mouseMoveEvent(QMouseEvent *e)
-//{
-//    to_moving_around();
-//}
+void CPUmonitor::mouseMoveEvent(QMouseEvent *e)
+{
+    to_moving_around();
+}
 
 
 void CPUmonitor::back_to_fluctuation(){
@@ -243,17 +243,6 @@ void CPUmonitor::sleeping(){
         sleep(1);
     }
 }
-
-<<<<<<< HEAD
-void CPUmonitor::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
-    if (created){
-        memory->deallocate(PID,memory_size);
-    }
-    event->accept();
-}
-=======
->>>>>>> cad0b797d1c54afca4377e70e74685b49a7e3510
 
 
 void CPUmonitor::set_memory(Buddy *Memory){

@@ -72,6 +72,8 @@ protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void closeEvent(QCloseEvent *event);
+
+    bool eventFilter(QObject *watched, QEvent *event);
 };
 
 #endif // MONITOR_H

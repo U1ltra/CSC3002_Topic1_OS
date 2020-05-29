@@ -36,7 +36,6 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
          ui->currentused->displayText();
          ui->currentused->setReadOnly(true);
          setMouseTracking(true);
-         this->centralWidget()->setMouseTracking(true);
 
          system_timer = new QTimer();
          system_timer->setSingleShot(true);

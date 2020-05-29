@@ -87,6 +87,7 @@ private:
     bool created = false;
     int memory_size=253;
     void sleeping();
+
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);

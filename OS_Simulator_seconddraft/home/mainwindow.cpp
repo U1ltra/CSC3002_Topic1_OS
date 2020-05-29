@@ -1,3 +1,4 @@
+
 /*
  * File: mainwindow.cpp
  * --------------------
@@ -63,6 +64,7 @@ void MainWindow::on_btn_calc_clicked()
     to_effect_Click();
     sleeping();
     cal = new Calculator();
+    connect(this,SIGNAL(closing()),cal,SLOT(close()));
     cal->setPID(calculator_count*100000+100);
     cal->set_CPU(CPU);
     cal->set_memory(memory);
@@ -152,13 +154,13 @@ void MainWindow::on_actionShutdown_triggered()
     to_effect_Click();
     sleeping();
     close();
-    if (cal->isVisible()) cal->close();
-    if (calendar->isVisible()) calendar->close();
-    if (vfm->isVisible()) vfm->close();
-    if (text_editor->isVisible()) text_editor->close();
-    if (Monitor->isVisible()) Monitor->close();
-    if (MemGame->isVisible()) MemGame->close();
-    if (SchGame->isVisible()) SchGame->close();
+//    if (cal->isVisible()) cal->close();
+//    if (calendar->isVisible()) calendar->close();
+//    if (vfm->isVisible()) vfm->close();
+//    if (text_editor->isVisible()) text_editor->close();
+//    if (Monitor->isVisible()) Monitor->close();
+//    if (MemGame->isVisible()) MemGame->close();
+//    if (SchGame->isVisible()) SchGame->close();
 }
 
 void MainWindow::back_to_fluctuation(){
@@ -283,6 +285,8 @@ void MainWindow::closeEvent(QCloseEvent *event){
     if (created){
         memory->deallocate(PID,memory_size);
     }
+    cout << "emitting" << endl;
     emit closing();
     event->accept();
 }
+

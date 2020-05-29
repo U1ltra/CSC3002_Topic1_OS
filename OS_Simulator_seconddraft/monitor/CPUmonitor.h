@@ -23,6 +23,7 @@
 ////namespace Ui {
 ////class monitor;
 ////}
+class monitor;
 
 class CPUmonitor : public QWidget
 {
@@ -98,6 +99,7 @@ private:
     QVBoxLayout * bottomRight;
     QHBoxLayout * bottomStack;
     QVBoxLayout * mainLayout;
+    friend class monitor;
 
     QTimer *system_timer;
     Buddy* memory;

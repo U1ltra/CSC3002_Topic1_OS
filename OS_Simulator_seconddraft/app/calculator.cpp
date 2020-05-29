@@ -16,6 +16,7 @@ Calculator::Calculator(QMainWindow *parent) :
     S="";
     last_number=true;
     after_equal = false;
+    ui->screen->setReadOnly(true);
     this->setWindowTitle("Calculator");
     connect(ui->calc_btn_clean,SIGNAL(clicked()),this,SLOT(on_calc_btn_clean_clicked()));
 
@@ -40,7 +41,7 @@ void Calculator::on_calc_btn_1_clicked()
         after_equal = false;
     }
     S+="1";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+1;
@@ -58,7 +59,7 @@ void Calculator::on_calc_btn_2_clicked()
         after_equal = false;
     }
     S+="2";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+2;
@@ -76,7 +77,7 @@ void Calculator::on_calc_btn_3_clicked()
         after_equal = false;
     }
     S+="3";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+3;
@@ -94,7 +95,7 @@ void Calculator::on_calc_btn_4_clicked()
         after_equal = false;
     }
     S+="4";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+4;
@@ -112,7 +113,7 @@ void Calculator::on_calc_btn_5_clicked()
         after_equal = false;
     }
     S+="5";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+5;
@@ -130,7 +131,7 @@ void Calculator::on_calc_btn_6_clicked()
         after_equal = false;
     }
     S+="6";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+6;
@@ -148,7 +149,7 @@ void Calculator::on_calc_btn_7_clicked()
         after_equal = false;
     }
     S+="7";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+7;
@@ -166,7 +167,7 @@ void Calculator::on_calc_btn_8_clicked()
         after_equal = false;
     }
     S+="8";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+8;
@@ -184,7 +185,7 @@ void Calculator::on_calc_btn_9_clicked()
         after_equal = false;
     }
     S+="9";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10+9;
@@ -202,7 +203,7 @@ void Calculator::on_calc_btn_0_clicked()
         after_equal = false;
     }
     S+="0";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     calculating();
     if(last_number){
      number1=number1*10;
@@ -222,7 +223,7 @@ void Calculator::on_calc_btn_plus_clicked()
     sign='+';
     last_number=false;
     after_equal = false;
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
 }
 
 void Calculator::on_calc_btn_minus_clicked()
@@ -235,7 +236,7 @@ void Calculator::on_calc_btn_minus_clicked()
     sign='-';
     last_number=false;
     after_equal = false;
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
 }
 
 void Calculator::on_calc_btn_multipy_clicked()
@@ -248,7 +249,7 @@ void Calculator::on_calc_btn_multipy_clicked()
     sign='*';
     last_number=false;
     after_equal = false;
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
 }
 
 void Calculator::on_calc_btn_division_clicked()
@@ -261,7 +262,7 @@ void Calculator::on_calc_btn_division_clicked()
     sign='/';
     last_number=false;
     after_equal = false;
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
 }
 
 void Calculator::on_calc_btn_equal_clicked()
@@ -290,7 +291,7 @@ void Calculator::on_calc_btn_equal_clicked()
     number2 = 0;
     after_equal = true;
     S+=QString::number(result, 10, 2);
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
 
 }
 
@@ -298,7 +299,7 @@ void Calculator::on_calc_btn_clean_clicked()
 {   to_effect_Click();
     sleeping();
     S="";
-    ui->screen->setText(S);
+    ui->screen->setPlainText(S);
     last_number=true;
     number1 = 0.0;
     number2 = 0.0;
