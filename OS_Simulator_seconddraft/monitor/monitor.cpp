@@ -140,8 +140,8 @@ void monitor::to_moving_around(){
     system_timer->start(100);
 }
 
-void monitor::refreshing(){
-    CPU->operationDet(PID,fluctuation);
+void monitor::refresh(){
+    CPU->operationDet(PID,refreshing);
     system_timer->start(100);
 }
 

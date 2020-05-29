@@ -22,8 +22,6 @@ SchWidget::SchWidget(QWidget *parent) :
     //create the ui
     ui->setupUi(this);
 
-//<<<<<<< HEAD
-
     ui->mygraph->installEventFilter(this);//在label上安装事件过滤器，this指针指定当事件发生时调用当前类中的事件过滤器进行处理
 
     t = new QTimer(this);
@@ -38,7 +36,7 @@ SchWidget::SchWidget(QWidget *parent) :
 
     system_timer = new QTimer(this);
     setMouseTracking(true);
-
+    on_initialize_clicked();
 }
 
 SchWidget::~SchWidget()
