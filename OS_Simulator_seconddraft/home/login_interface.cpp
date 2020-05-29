@@ -8,6 +8,9 @@
 #include <QMessageBox>
 #include <QTimer>
 
+const QFont LabelF = QFont("Helvatica", 18);
+const QPalette LabelP = QPalette(QPalette::WindowText, Qt::white);
+
 login_interface::login_interface(QWidget *parent):
     QWidget(parent),
     ui(new Ui::Widget)
@@ -20,6 +23,8 @@ login_interface::login_interface(QWidget *parent):
     this->setWindowTitle("Login Page");
     // Set background
     this->setWindowFlags(Qt::FramelessWindowHint);
+    ui->label->setFont(LabelF);
+    ui->label_2->setFont(LabelF);
     QPalette pal = this->palette();
     pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/background.jpg")));
     this->setPalette(pal);
@@ -63,7 +68,7 @@ void login_interface::on_Parent_Mode_clicked()
 void login_interface::parent_accept(){
     //qDebug()<<"parent_accept"<<endl;
     this->close();
-    //mw.show();
+//    mw.show();
     mw.showFullScreen();
 }
 

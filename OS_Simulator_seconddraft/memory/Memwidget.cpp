@@ -12,7 +12,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
     ui(new Ui::Mem_Widget)
 {
     ui->setupUi(this);
-        this->setFixedSize(600,500);
+//        this->setFixedSize(600,500);
         ui->scrollAreaWidgetContents->installEventFilter(this);
         //设置表格内容
         ui->tableWidget->setColumnCount(3);
