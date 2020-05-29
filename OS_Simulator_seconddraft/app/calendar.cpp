@@ -1,7 +1,7 @@
 #include "app/calendar.h"
 #include <QCalendarWidget>
 #include <QMessageBox>
-
+#include <unistd.h>
 Calendar::Calendar(QMainWindow *parent):
     QCalendarWidget(parent)
 {
@@ -57,6 +57,9 @@ void Calendar::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
         memory->deallocate(PID,memory_size);
+        while(!CPU->isFreeToClose(PID)){
+            sleep(1);
+        }
     }
     event->accept();
 }

@@ -163,14 +163,16 @@ void TextEditor::on_action_SaveAs_triggered() {
  */
 
 void TextEditor::on_action_Exit_triggered() {
+    CPU->terminateP(PID);
     if (created){
         if (checkIfSaved()) {
-            CPU->terminateP(PID);
             memory->deallocate(PID,memory_size);
-            this->close();
+            while(!CPU->isFreeToClose(PID)){
+                sleep(1);
+            }
+            close();
         }
     }
-    CPU->terminateP(PID);
 }
 
 void TextEditor::closeEvent(QCloseEvent *e) {

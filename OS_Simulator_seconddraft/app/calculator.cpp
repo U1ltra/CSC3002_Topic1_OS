@@ -363,6 +363,9 @@ void Calculator::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
         memory->deallocate(PID,memory_size);
+        while(!CPU->isFreeToClose(PID)){
+            sleep(1);
+        }
     }
     event->accept();
 }
