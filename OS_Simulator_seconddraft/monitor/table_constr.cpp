@@ -80,7 +80,7 @@ int stdTable::tableChange(int col, std::vector<const QVariant> values){
     if (!initialized) throw "object have not initialized";
 
     for (int i=0; i<rows; i++){                                     // set all rows of a given column a time
-        std::cout << "am i here?: " << i << " " << col << endl;
+//        std::cout << "am i here?: " << i << " " << col << endl;
         ((*items)[i][col])->setText(values[i].toString());          // QVariant to QString, text need to be QString
         if (i==rows-1) qDebug() << values[i].toString();
     }

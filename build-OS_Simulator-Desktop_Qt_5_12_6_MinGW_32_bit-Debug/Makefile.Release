@@ -219,14 +219,13 @@ compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_image.cpp
 release/qrc_image.cpp: ../OS_Simulator_seconddraft/image.qrc \
 		D:/College/C++/5.12.6/mingw73_32/bin/rcc.exe \
-		../OS_Simulator_seconddraft/images/Calendar.jpg \
-		../OS_Simulator_seconddraft/images/TaskManager.jpg \
-		../OS_Simulator_seconddraft/images/back.jpg \
-		../OS_Simulator_seconddraft/images/FileSystem.jpg \
-		../OS_Simulator_seconddraft/images/Game.jpg \
+		../OS_Simulator_seconddraft/images/Calculator.png \
+		../OS_Simulator_seconddraft/images/TextEditor.png \
 		../OS_Simulator_seconddraft/images/schedule.png \
-		../OS_Simulator_seconddraft/images/Calculator.jpg \
-		../OS_Simulator_seconddraft/images/TextEditor.jpg \
+		../OS_Simulator_seconddraft/images/File.jpg \
+		../OS_Simulator_seconddraft/images/Calendar.png \
+		../OS_Simulator_seconddraft/images/TaskManager.png \
+		../OS_Simulator_seconddraft/images/FileSystem.png \
 		../OS_Simulator_seconddraft/images/background.jpg \
 		../OS_Simulator_seconddraft/images/memory.png \
 		../OS_Simulator_seconddraft/Menu.jpg \
@@ -991,8 +990,6 @@ release/moc_texteditor.cpp: ../OS_Simulator_seconddraft/app/texteditor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpen.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextoption.h \
-		../OS_Simulator_seconddraft/monitor/cpuMon.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QVariant \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QTimer \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qtimer.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qbasictimer.h \
@@ -1028,6 +1025,8 @@ release/moc_texteditor.cpp: ../OS_Simulator_seconddraft/app/texteditor.h \
 		../OS_Simulator_seconddraft/memory/Buddy.h \
 		../OS_Simulator_seconddraft/memory/pair.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
+		../OS_Simulator_seconddraft/monitor/cpuMon.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QVariant \
 		release/moc_predefs.h \
 		D:/College/C++/5.12.6/mingw73_32/bin/moc.exe
 	D:\College\C++\5.12.6\mingw73_32\bin\moc.exe $(DEFINES) --include C:/Users/lfy20/Desktop/csc/build-OS_Simulator-Desktop_Qt_5_12_6_MinGW_32_bit-Debug/release/moc_predefs.h -ID:/College/C++/5.12.6/mingw73_32/mkspecs/win32-g++ -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/app -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/filesys -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/home -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/monitor -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/memory -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/schedule -ID:/College/C++/5.12.6/mingw73_32/include -ID:/College/C++/5.12.6/mingw73_32/include/QtWidgets -ID:/College/C++/5.12.6/mingw73_32/include/QtGui -ID:/College/C++/5.12.6/mingw73_32/include/QtANGLE -ID:/College/C++/5.12.6/mingw73_32/include/QtCore -I. -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++ -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/i686-w64-mingw32 -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/backward -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include-fixed -ID:/College/C++/Tools/mingw730_32/i686-w64-mingw32/include ..\OS_Simulator_seconddraft\app\texteditor.h -o release\moc_texteditor.cpp
@@ -1289,6 +1288,7 @@ release/moc_login_interface.cpp: ../OS_Simulator_seconddraft/home/login_interfac
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLCDNumber \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlcdnumber.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qframe.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		../OS_Simulator_seconddraft/app/digitalclock.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QAbstractItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qabstractitemmodel.h \
@@ -1300,7 +1300,6 @@ release/moc_login_interface.cpp: ../OS_Simulator_seconddraft/home/login_interfac
 		../OS_Simulator_seconddraft/memory/pair.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
 		../OS_Simulator_seconddraft/app/calculator.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QCloseEvent \
 		../OS_Simulator_seconddraft/app/texteditor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
@@ -1343,7 +1342,18 @@ release/moc_login_interface.cpp: ../OS_Simulator_seconddraft/home/login_interfac
 		../OS_Simulator_seconddraft/filesys/visualfilemanager.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h \
-		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
+		../OS_Simulator_seconddraft/memory/Memwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
+		../OS_Simulator_seconddraft/schedule/Schwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
+		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLayout \
@@ -1352,23 +1362,12 @@ release/moc_login_interface.cpp: ../OS_Simulator_seconddraft/home/login_interfac
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QStandardItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qstandarditemmodel.h \
 		../OS_Simulator_seconddraft/monitor/table_constr.h \
-		../OS_Simulator_seconddraft/memory/Memwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
-		../OS_Simulator_seconddraft/schedule/Schwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
-		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		../OS_Simulator_seconddraft/monitor/monitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTabWidget \
+		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
 		release/moc_predefs.h \
 		D:/College/C++/5.12.6/mingw73_32/bin/moc.exe
 	D:\College\C++\5.12.6\mingw73_32\bin\moc.exe $(DEFINES) --include C:/Users/lfy20/Desktop/csc/build-OS_Simulator-Desktop_Qt_5_12_6_MinGW_32_bit-Debug/release/moc_predefs.h -ID:/College/C++/5.12.6/mingw73_32/mkspecs/win32-g++ -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/app -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/filesys -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/home -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/monitor -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/memory -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/schedule -ID:/College/C++/5.12.6/mingw73_32/include -ID:/College/C++/5.12.6/mingw73_32/include/QtWidgets -ID:/College/C++/5.12.6/mingw73_32/include/QtGui -ID:/College/C++/5.12.6/mingw73_32/include/QtANGLE -ID:/College/C++/5.12.6/mingw73_32/include/QtCore -I. -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++ -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/i686-w64-mingw32 -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/backward -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include-fixed -ID:/College/C++/Tools/mingw730_32/i686-w64-mingw32/include ..\OS_Simulator_seconddraft\home\login_interface.h -o release\moc_login_interface.cpp
@@ -1483,6 +1482,7 @@ release/moc_mainwindow.cpp: ../OS_Simulator_seconddraft/home/mainwindow.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLCDNumber \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlcdnumber.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qframe.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		../OS_Simulator_seconddraft/app/digitalclock.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QAbstractItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qabstractitemmodel.h \
@@ -1498,7 +1498,6 @@ release/moc_mainwindow.cpp: ../OS_Simulator_seconddraft/home/mainwindow.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
 		../OS_Simulator_seconddraft/app/calculator.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QWidget \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QCloseEvent \
 		../OS_Simulator_seconddraft/app/texteditor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QString \
@@ -1542,7 +1541,18 @@ release/moc_mainwindow.cpp: ../OS_Simulator_seconddraft/home/mainwindow.h \
 		../OS_Simulator_seconddraft/filesys/visualfilemanager.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h \
-		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
+		../OS_Simulator_seconddraft/memory/Memwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
+		../OS_Simulator_seconddraft/schedule/Schwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
+		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLayout \
@@ -1551,23 +1561,12 @@ release/moc_mainwindow.cpp: ../OS_Simulator_seconddraft/home/mainwindow.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QStandardItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qstandarditemmodel.h \
 		../OS_Simulator_seconddraft/monitor/table_constr.h \
-		../OS_Simulator_seconddraft/memory/Memwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
-		../OS_Simulator_seconddraft/schedule/Schwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
-		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		../OS_Simulator_seconddraft/monitor/monitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTabWidget \
+		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
 		release/moc_predefs.h \
 		D:/College/C++/5.12.6/mingw73_32/bin/moc.exe
 	D:\College\C++\5.12.6\mingw73_32\bin\moc.exe $(DEFINES) --include C:/Users/lfy20/Desktop/csc/build-OS_Simulator-Desktop_Qt_5_12_6_MinGW_32_bit-Debug/release/moc_predefs.h -ID:/College/C++/5.12.6/mingw73_32/mkspecs/win32-g++ -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/app -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/filesys -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/home -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/monitor -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/memory -IC:/Users/lfy20/Desktop/csc/OS_Simulator_seconddraft/schedule -ID:/College/C++/5.12.6/mingw73_32/include -ID:/College/C++/5.12.6/mingw73_32/include/QtWidgets -ID:/College/C++/5.12.6/mingw73_32/include/QtGui -ID:/College/C++/5.12.6/mingw73_32/include/QtANGLE -ID:/College/C++/5.12.6/mingw73_32/include/QtCore -I. -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++ -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/i686-w64-mingw32 -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/backward -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include -ID:/College/C++/Tools/mingw730_32/lib/gcc/i686-w64-mingw32/7.3.0/include-fixed -ID:/College/C++/Tools/mingw730_32/i686-w64-mingw32/include ..\OS_Simulator_seconddraft\home\mainwindow.h -o release\moc_mainwindow.cpp
@@ -2872,25 +2871,6 @@ release/openfile.o: ../OS_Simulator_seconddraft/app/openfile.cpp ../OS_Simulator
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtabwidget.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qrubberband.h \
 		ui_openfile.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QVariant \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlineedit.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextcursor.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpen.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextoption.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QPushButton \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qpushbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\openfile.o ..\OS_Simulator_seconddraft\app\openfile.cpp
@@ -3024,25 +3004,6 @@ release/saveaslist.o: ../OS_Simulator_seconddraft/app/saveaslist.cpp ../OS_Simul
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtabwidget.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qrubberband.h \
 		ui_saveaslist.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QVariant \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlineedit.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextcursor.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpen.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextoption.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QPushButton \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qpushbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\saveaslist.o ..\OS_Simulator_seconddraft\app\saveaslist.cpp
@@ -3162,8 +3123,6 @@ release/texteditor.o: ../OS_Simulator_seconddraft/app/texteditor.cpp ../OS_Simul
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpen.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextoption.h \
-		../OS_Simulator_seconddraft/monitor/cpuMon.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QVariant \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QTimer \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qtimer.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qbasictimer.h \
@@ -3199,27 +3158,9 @@ release/texteditor.o: ../OS_Simulator_seconddraft/app/texteditor.cpp ../OS_Simul
 		../OS_Simulator_seconddraft/memory/Buddy.h \
 		../OS_Simulator_seconddraft/memory/pair.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
+		../OS_Simulator_seconddraft/monitor/cpuMon.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QVariant \
 		ui_texteditor.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QAction \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qaction.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qactiongroup.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMenu \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmenu.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMenuBar \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmenubar.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QStatusBar \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qstatusbar.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTextEdit \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtextedit.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextdocument.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QWidget \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMessageBox \
@@ -3374,32 +3315,6 @@ release/visualfilemanager.o: ../OS_Simulator_seconddraft/filesys/visualfilemanag
 		../OS_Simulator_seconddraft/memory/pair.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
 		ui_visualfilemanager.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlineedit.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextcursor.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpen.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextoption.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMenuBar \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmenubar.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmenu.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qaction.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qactiongroup.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QPushButton \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qpushbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QStatusBar \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qstatusbar.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QWidget \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMessageBox \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmessagebox.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdialog.h \
@@ -3526,6 +3441,7 @@ release/login_interface.o: ../OS_Simulator_seconddraft/home/login_interface.cpp 
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLCDNumber \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlcdnumber.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qframe.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		../OS_Simulator_seconddraft/app/digitalclock.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QAbstractItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qabstractitemmodel.h \
@@ -3537,7 +3453,6 @@ release/login_interface.o: ../OS_Simulator_seconddraft/home/login_interface.cpp 
 		../OS_Simulator_seconddraft/memory/pair.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
 		../OS_Simulator_seconddraft/app/calculator.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QCloseEvent \
 		../OS_Simulator_seconddraft/app/texteditor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
@@ -3580,7 +3495,18 @@ release/login_interface.o: ../OS_Simulator_seconddraft/home/login_interface.cpp 
 		../OS_Simulator_seconddraft/filesys/visualfilemanager.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h \
-		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
+		../OS_Simulator_seconddraft/memory/Memwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
+		../OS_Simulator_seconddraft/schedule/Schwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
+		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLayout \
@@ -3589,23 +3515,12 @@ release/login_interface.o: ../OS_Simulator_seconddraft/home/login_interface.cpp 
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QStandardItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qstandarditemmodel.h \
 		../OS_Simulator_seconddraft/monitor/table_constr.h \
-		../OS_Simulator_seconddraft/memory/Memwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
-		../OS_Simulator_seconddraft/schedule/Schwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
-		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		../OS_Simulator_seconddraft/monitor/monitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTabWidget \
+		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
 		../OS_Simulator_seconddraft/home/ui_login_interface.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
@@ -3741,6 +3656,7 @@ release/main.o: ../OS_Simulator_seconddraft/home/main.cpp ../OS_Simulator_second
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLCDNumber \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlcdnumber.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qframe.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		../OS_Simulator_seconddraft/app/digitalclock.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QAbstractItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qabstractitemmodel.h \
@@ -3752,7 +3668,6 @@ release/main.o: ../OS_Simulator_seconddraft/home/main.cpp ../OS_Simulator_second
 		../OS_Simulator_seconddraft/memory/pair.h \
 		../OS_Simulator_seconddraft/memory/m_task.h \
 		../OS_Simulator_seconddraft/app/calculator.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QCloseEvent \
 		../OS_Simulator_seconddraft/app/texteditor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
@@ -3795,7 +3710,18 @@ release/main.o: ../OS_Simulator_seconddraft/home/main.cpp ../OS_Simulator_second
 		../OS_Simulator_seconddraft/filesys/visualfilemanager.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h \
-		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
+		../OS_Simulator_seconddraft/memory/Memwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
+		../OS_Simulator_seconddraft/schedule/Schwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
+		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLayout \
@@ -3804,23 +3730,12 @@ release/main.o: ../OS_Simulator_seconddraft/home/main.cpp ../OS_Simulator_second
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QStandardItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qstandarditemmodel.h \
 		../OS_Simulator_seconddraft/monitor/table_constr.h \
-		../OS_Simulator_seconddraft/memory/Memwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
-		../OS_Simulator_seconddraft/schedule/Schwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
-		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		../OS_Simulator_seconddraft/monitor/monitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTabWidget \
+		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
@@ -3830,9 +3745,8 @@ release/main.o: ../OS_Simulator_seconddraft/home/main.cpp ../OS_Simulator_second
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\OS_Simulator_seconddraft\home\main.cpp
 
-release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp ../OS_Simulator_seconddraft/home/mainwindow.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMainWindow \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmainwindow.h \
+release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QStatusBar \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qstatusbar.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtwidgetsglobal.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtguiglobal.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qglobal.h \
@@ -3935,11 +3849,22 @@ release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp ../OS_Simu
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qfiledevice.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qvector2d.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtouchdevice.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtabwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QToolButton \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtoolbutton.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qicon.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMessageBox \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmessagebox.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdialog.h \
+		../OS_Simulator_seconddraft/home/mainwindow.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMainWindow \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmainwindow.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtabwidget.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLCDNumber \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlcdnumber.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qframe.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		../OS_Simulator_seconddraft/app/digitalclock.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QAbstractItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qabstractitemmodel.h \
@@ -3955,7 +3880,6 @@ release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp ../OS_Simu
 		../OS_Simulator_seconddraft/memory/m_task.h \
 		../OS_Simulator_seconddraft/app/calculator.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QWidget \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QMouseEvent \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QCloseEvent \
 		../OS_Simulator_seconddraft/app/texteditor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QString \
@@ -3969,10 +3893,8 @@ release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp ../OS_Simu
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qbuttongroup.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QRadioButton \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qradiobutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
 		../OS_Simulator_seconddraft/app/saveaslist.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QDialog \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdialog.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDir \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qdir.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qfileinfo.h \
@@ -3999,7 +3921,17 @@ release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp ../OS_Simu
 		../OS_Simulator_seconddraft/filesys/visualfilemanager.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QProcess \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qprocess.h \
-		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
+		../OS_Simulator_seconddraft/memory/Memwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
+		../OS_Simulator_seconddraft/schedule/Schwidget.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
+		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
+		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLayout \
@@ -4008,46 +3940,13 @@ release/mainwindow.o: ../OS_Simulator_seconddraft/home/mainwindow.cpp ../OS_Simu
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtableview.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QStandardItemModel \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qstandarditemmodel.h \
 		../OS_Simulator_seconddraft/monitor/table_constr.h \
-		../OS_Simulator_seconddraft/memory/Memwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPainter \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qpainter.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidgetItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtablewidget.h \
-		../OS_Simulator_seconddraft/schedule/Schwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QPixmap \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QDebug \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QThread \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qthread.h \
-		../OS_Simulator_seconddraft/monitor/memMonitor.h \
 		../OS_Simulator_seconddraft/monitor/monitor.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTabWidget \
-		ui_mainwindow.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QAction \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qaction.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qactiongroup.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QGridLayout \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QHBoxLayout \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMenu \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmenu.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMenuBar \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmenubar.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QToolButton \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtoolbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QStatusBar \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qstatusbar.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMessageBox \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmessagebox.h
+		../OS_Simulator_seconddraft/monitor/CPUmonitor.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\OS_Simulator_seconddraft\home\mainwindow.cpp
 
 release/Buddy.o: ../OS_Simulator_seconddraft/memory/Buddy.cpp ../OS_Simulator_seconddraft/memory/m_task.h \
@@ -4192,37 +4091,6 @@ release/Memwidget.o: ../OS_Simulator_seconddraft/memory/Memwidget.cpp ../OS_Simu
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtabbar.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qrubberband.h \
 		ui_Memwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QGridLayout \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlayout.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlayoutitem.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QHBoxLayout \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QHeaderView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qheaderview.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlineedit.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextcursor.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QPushButton \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qpushbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QScrollArea \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qscrollarea.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QSpacerItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QSpinBox \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qspinbox.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidget \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QVBoxLayout \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMessageBox \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmessagebox.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdialog.h \
@@ -5010,39 +4878,6 @@ release/Schwidget.o: ../OS_Simulator_seconddraft/schedule/Schwidget.cpp ../OS_Si
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtabbar.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qrubberband.h \
 		ui_Schwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QApplication \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qcoreapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtCore/qeventloop.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdesktopwidget.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qguiapplication.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qinputmethod.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QComboBox \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qcombobox.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QFrame \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QGridLayout \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qgridlayout.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlayout.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlayoutitem.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qboxlayout.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QHBoxLayout \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QHeaderView \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qheaderview.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLabel \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlabel.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QLineEdit \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qlineedit.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextcursor.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QPushButton \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qpushbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qabstractbutton.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QScrollArea \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qscrollarea.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QSpacerItem \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QSpinBox \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qspinbox.h \
-		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTableWidget \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QString \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/QList \
 		D:/College/C++/5.12.6/mingw73_32/include/QtCore/QStringList \
@@ -5057,6 +4892,8 @@ release/Schwidget.o: ../OS_Simulator_seconddraft/schedule/Schwidget.cpp ../OS_Si
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QTextEdit \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qtextedit.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextdocument.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextcursor.h \
+		D:/College/C++/5.12.6/mingw73_32/include/QtGui/qtextformat.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/QMessageBox \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qmessagebox.h \
 		D:/College/C++/5.12.6/mingw73_32/include/QtWidgets/qdialog.h

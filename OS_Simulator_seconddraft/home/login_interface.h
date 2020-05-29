@@ -1,3 +1,9 @@
+/*
+ * File: login_interface.h
+ * -----------------------
+ * This file designs the login page of GUI.
+ */
+
 #ifndef WIDGET_H
 #define WIDGET_H
 
@@ -21,7 +27,6 @@ public:
 
 private slots:
 
-
     void on_login_btn_Login_clicked();
 
     void on_Parent_Mode_clicked();
@@ -30,19 +35,25 @@ private slots:
 
     void on_Password_returnPressed();
 
+/*
+ * Slot Function: closeWindow
+ * --------------------------
+ * Close the main window in child mode.
+ */
     void closeWindow();
 
 private:
+    /* Instance Variable */
+
     Ui::Widget *ui;
-    // Instance Variable //
-    bool parentMode_active = true;
+    bool parentMode_active = true;          /* If user logs into parent mode.            */
     QString password;
     QString username;
-
-    QMap<QString,QString> ParentBook;
-    QMap<QString,QString> ChildrenBook;
-
+    QMap<QString,QString> ParentBook;       /* The username and password of parent mode. */
+    QMap<QString,QString> ChildrenBook;     /* The username and password of child mode.  */
     MainWindow mw;
+
+    /* Private Functions */
 
     void parent_accept();
     void children_accept();

@@ -62,16 +62,20 @@ void monitor::setPID(int pid){
 void monitor::set_CPU(cpuMon * cpu){
     CPU = cpu;
     CPU->createP(PID, "Activity Monitor", user);
+    cpuM->set_CPU(cpu);
+    memM->set_CPU(cpu);
 }
 
 
 void monitor::set_memory(Buddy *Memory){
     memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
+    if (!memory->mem_allocation(PID,memory_size)){
         QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
         close();
     }else {
         created = true;
     }
+    cpuM->set_memory(memory);
+    memM->set_memory(memory);
 }
 

@@ -1,28 +1,40 @@
+/*
+ * File: login_interface.cpp
+ * -------------------------
+ * This file implements the login_interface.h interface.
+ */
 
-
-#include "home/login_interface.h"
-#include "home/mainwindow.h"
-#include "ui_login_interface.h"
 #include <QString>
 #include <QDebug>
 #include <QMessageBox>
 #include <QTimer>
+#include "home/login_interface.h"
+#include "home/mainwindow.h"
+#include "ui_login_interface.h"
+
+const QFont LabelF = QFont("Helvatica", 18);
+const QPalette LabelP = QPalette(QPalette::WindowText, Qt::white);
 
 login_interface::login_interface(QWidget *parent):
     QWidget(parent),
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    ParentBook = QMap<QString,QString>();
-    ChildrenBook = QMap<QString,QString>();
-    ParentBook.insert("parent","1");
-    ChildrenBook.insert("child","1");
+
+    /* Set background */
     this->setWindowTitle("Login Page");
-    // Set background
     this->setWindowFlags(Qt::FramelessWindowHint);
     QPalette pal = this->palette();
     pal.setBrush(QPalette::Background, QBrush(QPixmap(":/images/background.jpg")));
     this->setPalette(pal);
+    ui->label->setFont(LabelF);
+    ui->label_2->setFont(LabelF);
+
+    /* Set the username and passward. */
+    ParentBook = QMap<QString,QString>();
+    ChildrenBook = QMap<QString,QString>();
+    ParentBook.insert("parent","1");
+    ChildrenBook.insert("child","1");  
 }
 
 login_interface::~login_interface()
@@ -30,20 +42,29 @@ login_interface::~login_interface()
     delete ui;
 }
 
+/* Private Slots */
+
+/*
+ * Implementation notes: on_login_btn_Login_clicked
+ * ------------------------------------------------
+ * Based on the selected mode, compare user's input to the pair of username and
+ * passward in corresponding QMap and log in corresponding system.
+ */
+
 void login_interface::on_login_btn_Login_clicked()
 {
     username = ui->UserName->text();
     password = ui->Password->text();
-    if (parentMode_active) {
+    if (parentMode_active) {  // Parent mode
         if (ParentBook.contains(username) && password.trimmed() == ParentBook.find(username)->trimmed()) {
             parent_accept();
-        }else {
+        } else {
             QMessageBox::critical(this,"Login Failure","Invalid Password");
             ui->UserName->clear();
             ui->Password->clear();
             ui->UserName->setFocus();
         }
-    }else {
+    } else {                  // Child mode
         if (ChildrenBook.contains(username) && password.trimmed() == ChildrenBook.find(username)->trimmed()) {
             children_accept();
         }else {
@@ -61,14 +82,18 @@ void login_interface::on_Parent_Mode_clicked()
 }
 
 void login_interface::parent_accept(){
-    //qDebug()<<"parent_accept"<<endl;
     this->close();
-    //mw.show();
     mw.showFullScreen();
 }
 
+/*
+ * Implementation notes: children_accept
+ * -------------------------------------
+ * This system will automatically log out and shut down in 15 minutes by
+ * using QTimer.
+ */
+
 void login_interface::children_accept(){
-    //qDebug()<<"children_accept"<<endl;
     this->close();
     mw.showFullScreen();
     QTimer::singleShot(15*60000, this, SLOT(closeWindow()));

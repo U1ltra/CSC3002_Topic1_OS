@@ -56,7 +56,7 @@ public:
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
-        Widget->resize(801, 465);
+        Widget->resize(801, 495);
         verticalLayout = new QVBoxLayout(Widget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(-1, 18, -1, -1);
@@ -177,8 +177,8 @@ public:
     void retranslateUi(QWidget *Widget)
     {
         Widget->setWindowTitle(QApplication::translate("Widget", "Widget", nullptr));
-        label->setText(QApplication::translate("Widget", "User", nullptr));
-        label_2->setText(QApplication::translate("Widget", "Password", nullptr));
+        label->setText(QApplication::translate("Widget", "<html><head/><body><p><span style=\" font-weight:600; color:#f4f4f4;\">User</span></p></body></html>", nullptr));
+        label_2->setText(QApplication::translate("Widget", "<html><head/><body><p><span style=\" font-weight:600; color:#eeeeee;\">Password</span></p></body></html>", nullptr));
         Password->setText(QString());
         UserName->setText(QString());
         login_btn_Login->setText(QApplication::translate("Widget", "Login", nullptr));

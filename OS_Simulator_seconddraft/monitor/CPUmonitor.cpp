@@ -196,7 +196,6 @@ void refresh(CPUmonitor * mon){
 
 void CPUmonitor::set_CPU(cpuMon * cpu){
     CPU=cpu;
-    CPU->createP(PID,"monitor",user);
 }
 
 
@@ -248,18 +247,12 @@ void CPUmonitor::sleeping(){
 void CPUmonitor::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
-    memory->deallocate(PID,memory_size);
+        memory->deallocate(PID,memory_size);
     }
     event->accept();
 }
 
 
-//void CPUmonitor::set_memory(Buddy *Memory){
-//    memory = Memory;
-//    if (!memory->allocate(PID,memory_size)){
-//        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-//        close();
-//    }else{
-//        created = true;
-//    }
-//}
+void CPUmonitor::set_memory(Buddy *Memory){
+    memory = Memory;
+}

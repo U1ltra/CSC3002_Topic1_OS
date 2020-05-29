@@ -24,7 +24,13 @@ class Memmonitor : public QWidget
     Q_OBJECT
 
 public:
-
+    /*
+     * Constructor: Memmonitor
+     * Usage: Memmonitor(Buddy * bd, cpuMon *, QWidget *parent = nullptr)
+     * ------------------------
+     * Creates a Memmonitor object. Initializes the memory
+     * monitor table and assign values into table.
+     */
     explicit Memmonitor(Buddy * bd, cpuMon *, QWidget *parent = nullptr);
     ~Memmonitor();
 

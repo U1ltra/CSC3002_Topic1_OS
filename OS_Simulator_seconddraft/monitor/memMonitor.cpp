@@ -61,6 +61,7 @@ Memmonitor::Memmonitor(Buddy * bd, cpuMon * cpu, QWidget *parent) :
     this->setLayout(mainLayout);
     refresh(this);
 
+
     system_timer = new QTimer;
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
@@ -175,7 +176,6 @@ void Memmonitor::setPID(int pid){
 
 void  Memmonitor::set_CPU(cpuMon * cpu){
     CPU = cpu;
-    CPU->createP(PID,"monitor",user);
 }
 
 void Memmonitor::mousePressEvent(QMouseEvent *e){
@@ -230,12 +230,6 @@ void Memmonitor::closeEvent(QCloseEvent *event){
 
 void Memmonitor::set_memory(Buddy *Memory){
     memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else {
-        created = true;
-    }
 }
 
 

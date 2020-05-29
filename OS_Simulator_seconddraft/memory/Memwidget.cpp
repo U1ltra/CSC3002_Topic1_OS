@@ -1,3 +1,8 @@
+/*
+ * File: Memwidget.cpp
+ * ---------------
+ * This file implements the memwidget.h interface.
+ */
 
 #include "memory/Memwidget.h"
 #include "ui_Memwidget.h"
@@ -7,19 +12,19 @@
 #include <QMessageBox>
 #include <QTimer>
 
+
 Mem_Widget::Mem_Widget(QMainWindow *parent) :
     QWidget(parent),
     ui(new Ui::Mem_Widget)
 {
     ui->setupUi(this);
-        this->setFixedSize(600,500);
+//        this->setFixedSize(600,500);
         ui->scrollAreaWidgetContents->installEventFilter(this);
         //设置表格内容
         ui->tableWidget->setColumnCount(3);
 
         //设置表头内容
          inittable();
-         system_timer = new QTimer(this);
 
          flag = 0;//event filter
          init_flag = false;//initialize memory
@@ -30,8 +35,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
          ui->currentused->setText(QString::number(tused));
          ui->currentused->displayText();
          ui->currentused->setReadOnly(true);
+         setMouseTracking(true);
+         this->centralWidget()->setMouseTracking(true);
 
-
+         system_timer = new QTimer();
+         system_timer->setSingleShot(true);
+         connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     }
 
     Mem_Widget::~Mem_Widget(){
@@ -40,6 +49,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
 
     void Mem_Widget::on_clear_clicked(){
+        sleeping();
+        to_effect_Click();
         cout <<clear_flag<<endl;
         if(clear_flag == true){
             ui->tableWidget->clearContents();
@@ -71,6 +82,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 }
 
     void Mem_Widget::on_spinBox_valueChanged(int arg1){
+        sleeping();
+        to_effect_Click();
         //set task number
         tasknumber = arg1;
         //change the table
@@ -122,6 +135,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
     }
 
     void Mem_Widget::on_simulate_clicked(){
+        sleeping();
+        to_effect_Click();
         if(init_flag == true && bd != nullptr ){
             if(bd->getsize() > 0){
             //set table content
@@ -145,7 +160,7 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
             if(success_flag == true){
                 //check whether allocate successfully
                 for(int i = 0;i<tasknumber;i++){
-                    if(!bd->allocate(*task_vector[i])){
+                    if(!bd->mem_allocation(*task_vector[i])){
                         success_flag = false;
                         }
                     }
@@ -175,7 +190,8 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
 
 
     void Mem_Widget::on_memorystorage_editingFinished()
-    {
+    {   sleeping();
+        to_effect_Click();
         int num = atoi(ui->memorystorage->text().toStdString().c_str());
         std::cout<<"storage is"<<atoi(ui->memorystorage->text().toStdString().c_str())<<"*******"<<std::endl;
         if(num > 0){
@@ -263,7 +279,7 @@ void Mem_Widget::closeEvent(QCloseEvent *event){
 
 void Mem_Widget::set_memory(Buddy *Memory){
     memory = Memory;
-    if (!memory->allocate(PID,memory_size)){
+    if (!memory->mem_allocation(PID,memory_size)){
         QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
         close();
     }else{
@@ -273,7 +289,8 @@ void Mem_Widget::set_memory(Buddy *Memory){
 
 void Mem_Widget::on_tableWidget_itemClicked(QTableWidgetItem *item)
 {
-    to_simple_Click();
+    sleeping();
+    to_effect_Click();
 }
 
 
