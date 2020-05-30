@@ -97,7 +97,7 @@ void Mem_Widget::on_spinBox_valueChanged(int arg1){
 }
 
 bool Mem_Widget::eventFilter(QObject *watched, QEvent *event){
-    if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==1 &&init_flag == true)
+    if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint )
        {
         if(flag ==1 &&init_flag == true){
             QPainter painter(ui->scrollAreaWidgetContents);
