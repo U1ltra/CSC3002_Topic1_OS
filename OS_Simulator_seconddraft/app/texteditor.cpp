@@ -63,6 +63,7 @@ void TextEditor::set_memory(Buddy *Memory){
         close();
     }else{
         created = true;
+        showNormal();
     }
 }
 
@@ -163,7 +164,6 @@ void TextEditor::on_action_SaveAs_triggered() {
  */
 
 void TextEditor::on_action_Exit_triggered() {
-    CPU->terminateP(PID);
     if (created){
         if (checkIfSaved()) {
             memory->deallocate(PID,memory_size);
@@ -172,6 +172,10 @@ void TextEditor::on_action_Exit_triggered() {
             }
             close();
         }
+    }
+    else {
+        CPU->terminateP(PID);
+        close();
     }
 }
 

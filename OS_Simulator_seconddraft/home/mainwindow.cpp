@@ -286,7 +286,6 @@ void MainWindow::closeEvent(QCloseEvent *event){
                                             QMessageBox::Yes |QMessageBox::No,QMessageBox::No);
         if (to_shutdown==QMessageBox::Yes){
             CPU->shutDown();
-            CPU->terminateP(PID);
             memory->deallocate(PID,memory_size);
             emit closing();
             while(!CPU->isFreeToClose(PID)){
@@ -298,6 +297,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
         }
     }else{
         CPU->terminateP(PID);
+        memory->deallocate(PID, memory_size);
         event->accept();
     }
 }

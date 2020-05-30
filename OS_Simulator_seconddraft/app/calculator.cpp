@@ -44,10 +44,10 @@ void Calculator::on_calc_btn_1_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+1;
+        number1=number1*10+1;
     }else
-        {
-       number2 = number2*10+1;
+    {
+        number2 = number2*10+1;
     }
 }
 
@@ -62,10 +62,10 @@ void Calculator::on_calc_btn_2_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+2;
+        number1=number1*10+2;
     }else
-        {
-       number2 = number2*10+2;
+    {
+        number2 = number2*10+2;
     }
 }
 
@@ -80,10 +80,10 @@ void Calculator::on_calc_btn_3_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+3;
+        number1=number1*10+3;
     }else
-        {
-       number2 = number2*10+3;
+    {
+        number2 = number2*10+3;
     }
 }
 
@@ -98,10 +98,10 @@ void Calculator::on_calc_btn_4_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+4;
+        number1=number1*10+4;
     }else
-        {
-       number2 = number2*10+4;
+    {
+        number2 = number2*10+4;
     }
 }
 
@@ -116,10 +116,10 @@ void Calculator::on_calc_btn_5_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+5;
+        number1=number1*10+5;
     }else
-        {
-       number2 = number2*10+5;
+    {
+        number2 = number2*10+5;
     }
 }
 
@@ -134,10 +134,10 @@ void Calculator::on_calc_btn_6_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+6;
+        number1=number1*10+6;
     }else
-        {
-       number2 = number2*10+6;
+    {
+        number2 = number2*10+6;
     }
 }
 
@@ -152,10 +152,10 @@ void Calculator::on_calc_btn_7_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+7;
+        number1=number1*10+7;
     }else
-        {
-       number2 = number2*10+7;
+    {
+        number2 = number2*10+7;
     }
 }
 
@@ -170,10 +170,10 @@ void Calculator::on_calc_btn_8_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+8;
+        number1=number1*10+8;
     }else
-        {
-       number2 = number2*10+8;
+    {
+        number2 = number2*10+8;
     }
 }
 
@@ -188,10 +188,10 @@ void Calculator::on_calc_btn_9_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10+9;
+        number1=number1*10+9;
     }else
-        {
-       number2 = number2*10+9;
+    {
+        number2 = number2*10+9;
     }
 }
 
@@ -206,10 +206,10 @@ void Calculator::on_calc_btn_0_clicked()
     ui->screen->setPlainText(S);
     calculating();
     if(last_number){
-     number1=number1*10;
+        number1=number1*10;
     }else
-        {
-       number2 = number2*10;
+    {
+        number2 = number2*10;
     }
 }
 
@@ -230,7 +230,7 @@ void Calculator::on_calc_btn_minus_clicked()
 {   to_effect_Click();
     sleeping();
     if (number2 != 0.0){
-    on_calc_btn_equal_clicked();
+        on_calc_btn_equal_clicked();
     }
     S+="-";
     sign='-';
@@ -272,16 +272,16 @@ void Calculator::on_calc_btn_equal_clicked()
     calculating();
     switch (sign) {
     case '+':
-       result = number1 + number2;
+        result = number1 + number2;
         break;
     case '-':
-       result = number1 - number2;
+        result = number1 - number2;
         break;
     case '*':
-       result = number1 * number2;
+        result = number1 * number2;
         break;
     case '/':
-       result = number1 / number2;
+        result = number1 / number2;
         break;
     default:
         result = number1;
@@ -360,12 +360,14 @@ void Calculator::sleeping(){
 }
 
 void Calculator::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
     if (created){
         memory->deallocate(PID,memory_size);
         while(!CPU->isFreeToClose(PID)){
             sleep(1);
         }
+    }
+    else {
+        CPU->terminateP(PID);
     }
     event->accept();
 }
