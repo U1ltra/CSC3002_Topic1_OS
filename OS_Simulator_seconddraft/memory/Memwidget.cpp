@@ -98,41 +98,57 @@ void Mem_Widget::on_spinBox_valueChanged(int arg1){
 
 bool Mem_Widget::eventFilter(QObject *watched, QEvent *event){
     if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==1 &&init_flag == true)
-    {
-        QPainter painter(ui->scrollAreaWidgetContents);
-        painter.setPen(Qt::yellow);
-        painter.setBrush(Qt::yellow);
-        int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
-        int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
-        painter.drawRect(0,0,my_width,my_height);
-        for (int i = 0; i <bd->arr.size() ; i++) {
-            vector<list<Pair>> temp = (*bd).arr;
-            for (list<Pair>::iterator it = temp[i].begin();it!=temp[i].end();it++){
-                painter.setPen(Qt::magenta);
-                painter.setBrush(QBrush(Qt::magenta));
-                painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub+1 - it->lb))/(bd->getsize())*my_height);
-                promptvec.push_back(new QString("Memory from " +QString::number(it->lb) +" to " + QString::number(it->ub) + " allocated"));
-                tused += it->ub+1 - it->lb;
-                ui->currentused->setText(QString::number(bd->getsize()-tused));
-                ui->currentused->displayText();
+       {
+        if(flag ==1 &&init_flag == true){
+            QPainter painter(ui->scrollAreaWidgetContents);
+            painter.setPen(Qt::yellow);
+            painter.setBrush(Qt::yellow);
+            int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
+            int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
+            painter.drawRect(0,0,my_width,my_height);
+            for (int i = 0; i <bd->arr.size() ; i++){
+                vector<list<Pair>> temp = (*bd).arr;
+                for (list<Pair>::iterator it = temp[i].begin();it!=temp[i].end();it++){
+                    painter.setPen(Qt::magenta);
+                    painter.setBrush(QBrush(Qt::magenta));
+                    painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub+1 - it->lb))/(bd->getsize())*my_height);
+                    promptvec.push_back(new QString("Memory from " +QString::number(it->lb) +" to " + QString::number(it->ub) + " allocated"));
+                    tused += it->ub+1 - it->lb;
+                    ui->currentused->setText(QString::number(bd->getsize()-tused));
+                    ui->currentused->displayText();
+                    }
+                }
+            tused = 0;
+            init_flag =false;
+            clear_flag = true;
+            refresh();
+            return true;
+            }else if(flag ==2){
+                QPainter painter(ui->scrollAreaWidgetContents);
+                painter.setPen(Qt::transparent);
+                painter.setBrush(Qt::transparent);
+                int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
+                int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
+                painter.drawRect(0,0,my_width,my_height);
+                clear_flag = true;
+                tused = 0;
+                init_flag =false;
+                clear_flag = true;
+                refresh();
+                return true;
+            }else{
+                tused = 0;
+                init_flag =false;
+                clear_flag = true;
+                return false;
             }
-        }
+  }else{
         tused = 0;
         init_flag =false;
         clear_flag = true;
+
+        return QWidget::eventFilter(watched,event);
     }
-    if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==2){
-        QPainter painter(ui->scrollAreaWidgetContents);
-        painter.setPen(Qt::transparent);
-        painter.setBrush(Qt::transparent);
-        int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
-        int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
-        painter.drawRect(0,0,my_width,my_height);
-        clear_flag = true;
-    }
-    ui->scrollArea->update();
-    ui->scrollAreaWidgetContents->update();
-    refresh();
 }
 
 void Mem_Widget::on_simulate_clicked(){

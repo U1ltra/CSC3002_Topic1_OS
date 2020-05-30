@@ -203,18 +203,31 @@ bool SchWidget::eventFilter(QObject *watched, QEvent *event)
         cout<<"exec length:"<<execQ.size()<<endl;
         for(int i = 0; i <execQ.size();i++){
             if(execQ[i]->pid!= -1){
-                QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
-                 cout<<"pid is"<<(execQ[i])->pid<<endl;
-                 painter.setBrush(*brush);
-                 painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
-                 graphlen += 5*(execQ[i]->timeRemain);
+                if(execQ[i-1]->pid == -1){
+                    painter.setPen(Qt::black);
+                    painter.setBrush(Qt::GlobalColor::transparent);
+                    painter.drawRect(graphlen,40,5*(execQ[i]->arrivaltime),100);
+                    graphlen += 5*(execQ[i]->arrivaltime);
+
+                    QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
+                     cout<<"pid is"<<(execQ[i])->pid<<endl;
+                     painter.setBrush(*brush);
+                     painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
+                     graphlen += 5*(execQ[i]->timeRemain);
+                }else{
+                    QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
+                     cout<<"pid is"<<(execQ[i])->pid<<endl;
+                     painter.setBrush(*brush);
+                     painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
+                     graphlen += 5*(execQ[i]->timeRemain);
+                }
             }
-            else{
-                painter.setPen(Qt::black);
-                painter.setBrush(Qt::GlobalColor::transparent);
-                painter.drawRect(graphlen,40,5,100);
-                graphlen += 5;
-            }
+//            else{
+//                painter.setPen(Qt::black);
+//                painter.setBrush(Qt::GlobalColor::transparent);
+//                painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
+//                graphlen += 5*(execQ[i]->timeRemain);
+//            }
             ui->timecounter->setText(QString::number(ptremained));
         }
         int temp = graphlenvec.size();
