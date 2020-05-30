@@ -20,17 +20,31 @@ public:
      void set_memory(Buddy* memory);
 
 private:
+     int PID=11;                         /* The pid for created text editor process.            */
      QTimer clock_timer;
-     QTimer *system_timer;
-     int PID=11;
-     cpuMon* CPU;
-     Buddy* memory;
-     bool created = false;
-     int memory_size=100;
+     QTimer *system_timer;            /* A timer to send signals to CPU to return to initial status.*/
+     cpuMon* CPU;                     /* Assigned CPU for text editor.                       */
+     Buddy* memory;                   /* Assigned memory for text editor.                    */
+     bool created = false;            /* Turn true when memory are allocated to text editor. */
+     int memory_size=100;             /* The memory size for text editor.                    */
 private slots:
-     void ontimeout();
+
+     /* Private Functions */
+
+     /*
+      * Slot Function: to_simple_Click, to effect_click,
+      *                to_moving_around, back_to_fluctuation
+      * ----------------------------------------------------
+      * Update usage when corressponding operations are performed.
+      */
 
      void back_to_fluctuation();
+     /*
+      * Slot Function: ontimeout
+      * ----------------------------------------------------
+      * Update Screen when clock_timer counts down.
+      */
+     void ontimeout();
 };
 
 #endif // DIGITALCLOCK_H
