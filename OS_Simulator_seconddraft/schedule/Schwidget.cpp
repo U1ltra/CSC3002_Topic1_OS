@@ -50,6 +50,11 @@ SchWidget::~SchWidget()
     s = nullptr;
 }
 
+/*
+ * Implementation notes: spinbox_Valuechange
+ * ------------------------------
+ */
+
 void SchWidget::on_spinBox_valueChanged(int arg1)
 {
     //set task number
@@ -76,7 +81,10 @@ void SchWidget::on_spinBox_valueChanged(int arg1)
     }
 }
 
-
+/*
+ * Implementation notes: simulate_clicked
+ * ------------------------------
+ */
 void SchWidget::on_simulate_clicked(){
     if(algo_sign == 4 && timeslice == -1){
         QMessageBox::warning(this, "Warning", "Please input timeslice",QMessageBox::Yes);
@@ -149,9 +157,9 @@ void SchWidget::on_simulate_clicked(){
 }
 
 /*
-*Function usage:when button "clear" is clicked
-*----------
-*/
+ *Function usage:clear_clicked
+ *-------------------------------
+ */
 
 void SchWidget::on_clear_clicked()
 {
@@ -187,14 +195,17 @@ void SchWidget::on_clear_clicked()
     initgraph();
 }
 /*
-*Function usage:return process number
-*----------
-*/
+ *Function usage:return process number
+ *-----------------------------------
+ */
 int SchWidget::returnprocessnum(){
     return number_of_process;
 }
 
-
+/*
+ * Implementation notes: to paint the graph
+ * ------------------------------
+ */
 bool SchWidget::eventFilter(QObject *watched, QEvent *event)
  {
     if(watched == ui->mygraph && event->type() == QEvent::Paint && flag == 1)
@@ -262,6 +273,10 @@ void SchWidget::on_comboBox_activated(const QString &arg1)
         }
 }
 
+/*
+ * Implementation notes: to print color map
+ * ------------------------------
+ */
 void SchWidget::printcolor_map(){
     map<string,QColor*>::iterator it = color_map.begin();
     for(it; it!= color_map.end(); it++){
@@ -269,6 +284,10 @@ void SchWidget::printcolor_map(){
     }
 }
 
+/*
+ * Implementation notes: to initialize color vector
+ * ------------------------------
+ */
 void SchWidget::initcolorvec(){
     for(int i = 0; i< number_of_process;i++){
         colorvec.push_back(new QColor(rand()%(255 - 0 +1),rand()%(255 - 0 +1),rand()%(255 - 0 +1)));
@@ -277,6 +296,10 @@ void SchWidget::initcolorvec(){
 
 }
 
+/*
+ * Implementation notes: to initialize table widget
+ * ------------------------------
+ */
 void SchWidget::inittable(){
     //initialize table
     for(int i =0;i<number_of_process;i++){
@@ -286,11 +309,19 @@ void SchWidget::inittable(){
     }
 }
 
+/*
+ * Implementation notes: to clear the graph
+ * ------------------------------
+ */
 void SchWidget::initgraph(){
     flag = 2;
     ui->mygraph->repaint();
 }
 
+/*
+ * Implementation notes: initialize clicked
+ * ------------------------------
+ */
 void SchWidget::on_initialize_clicked()
 {
     if(allow_to_init == true){
@@ -303,6 +334,10 @@ void SchWidget::on_initialize_clicked()
     }
 }
 
+/*
+ * Implementation notes: after timeslice edited
+ * ------------------------------
+ */
 void SchWidget::on_timeslice_textEdited(const QString &arg1)
 {
     timeslice = arg1.toInt();
@@ -311,7 +346,7 @@ void SchWidget::on_timeslice_textEdited(const QString &arg1)
 
 /*
 * CPU::Connection
-* -------------------------------------------
+* --------------------------------
 */
 
 void SchWidget::set_CPU(cpuMon * cpu){
