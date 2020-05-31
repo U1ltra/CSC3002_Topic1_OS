@@ -40,7 +40,7 @@ SchWidget::SchWidget(QWidget *parent) :
     system_timer = new QTimer(this);
     t = new QTimer(this);
     t->setInterval(1000);
-    connect(t, &QTimer::timeout,[=](){ui->mygraph->update();
+    connect(t, &QTimer::timeout,[=](){ui->mygraph->update(); ui->table_of_process->viewport()->update();
                                         ptremained++;});
     setMouseTracking(true);
 
@@ -143,6 +143,7 @@ void SchWidget::on_simulate_clicked(){
                                 ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s->pqueue[i]->cyclingT)));
                         }
                     }
+
                 //paint
                     flag = 1;
                     t->start();
