@@ -28,9 +28,11 @@ SchWidget::SchWidget(QWidget *parent) :
     //initialize timeslice
     timeslice = -1;
     ptremained = -1;
+    //flags
     init_flag = false;
     rept_flag = false;
     algo_sign = 0;
+    spin_flag = false;
     allow_to_init = true;//prevent double click simulate
 
     graphlenvec.push_back(0);
@@ -59,7 +61,8 @@ SchWidget::~SchWidget()
 void SchWidget::on_spinBox_valueChanged(int arg1)
 {
     //set task number
-    if(s != nullptr){
+
+    if(spin_flag){
         number_of_process = arg1;
         ui->table_of_process->setRowCount(number_of_process);
         s->Tprocess = number_of_process;
@@ -183,10 +186,11 @@ void SchWidget::on_clear_clicked()
 
     graphlenvec.clear();
     graphlenvec.push_back(0);
+    //flags
     init_flag =false;
     rept_flag = false;
+    spin_flag =false;
     ptremained = -1;
-    cout<<"iii"<<endl;
     delete s;
     s = nullptr;
     if(s == nullptr){
@@ -330,6 +334,7 @@ void SchWidget::on_initialize_clicked()
         init_flag = true;
         cout <<"initialized"<<endl;
         allow_to_init = false;
+        spin_flag = true;
     }else{
         QMessageBox::warning(this,"Warning","You cannot initialize for now. You should clear first.");
     }
