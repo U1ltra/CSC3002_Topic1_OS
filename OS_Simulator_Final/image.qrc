@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/image"/>
+    <qresource prefix="/">
+        <file>images/background.jpg</file>
+        <file>images/memory.png</file>
+        <file>images/schedule.png</file>
+        <file>images/Calculator.png</file>
+        <file>images/Calendar.png</file>
+        <file>images/FileSystem.png</file>
+        <file>images/TaskManager.png</file>
+        <file>images/TextEditor.png</file>
+    </qresource>
+</RCC>
