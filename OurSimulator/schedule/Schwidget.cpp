@@ -44,7 +44,8 @@ SchWidget::SchWidget(QWidget *parent) :
     system_timer = new QTimer(this);
     t = new QTimer(this);
     t->setInterval(1000);
-    connect(t, &QTimer::timeout,[=](){ui->mygraph->update(); ptremained++;});
+    connect(t, &QTimer::timeout,[=](){ui->mygraph->update();ui->table_of_process->viewport()->update();
+                                        ptremained++;});
     setMouseTracking(true);
 
 }
@@ -63,12 +64,6 @@ void SchWidget::on_spinBox_valueChanged(int arg1)
         ui->table_of_process->setRowCount(number_of_process);
         s->Tprocess = number_of_process;
         //set col and its name
-        QList<QString> list_of_label;
-        ui->table_of_process->setColumnCount(8);
-        list_of_label<<("pid")<<("time remain")<<("Arrive Time")<<("Priority")<<("Wait Time")<<("Response Time")<<("Cycling Time")<<("Color");
-        QStringList vertical_label(list_of_label);
-        ui->table_of_process->setHorizontalHeaderLabels(vertical_label);
-        ui->table_of_process->setStyleSheet("selection-background-color: pink");
         inittable();                                //init table
         //PID
         for(int i = 0; i<number_of_process;i++){
@@ -171,8 +166,9 @@ void SchWidget::on_clear_clicked()
     ptremained = -1;
     delete s;
     s = nullptr;
-
+    ui->timecounter->setText(QString::number(0));
     allow_to_init = true;
+    inittable();
     initgraph();
 }
 
@@ -183,7 +179,7 @@ bool SchWidget::eventFilter(QObject *watched, QEvent *event)
         int graphlen = graphlenvec[graphlenvec.size()-1];
         QPainter painter(ui->mygraph);
         painter.setPen(Qt::black);
-        for(int i = 0; i <execQ.size();i++){
+        for(size_t i = 0; i <execQ.size();i++){
             if(execQ[i]->pid!= -1){
                 if(execQ[i-1]->pid == -1){
                     painter.setPen(Qt::black);
@@ -247,6 +243,12 @@ void SchWidget::initcolorvec(){
 
 void SchWidget::inittable(){
     //initialize table
+    QList<QString> list_of_label;
+    ui->table_of_process->setColumnCount(8);
+    list_of_label<<("pid")<<("time remain")<<("Arrive Time")<<("Priority")<<("Wait Time")<<("Response Time")<<("Cycling Time")<<("Color");
+    QStringList vertical_label(list_of_label);
+    ui->table_of_process->setHorizontalHeaderLabels(vertical_label);
+    ui->table_of_process->setStyleSheet("selection-background-color: pink");
     for(int i =0;i<number_of_process;i++){
         for(int j =0;j<8;j++){
             ui->table_of_process->setItem(i,j,new QTableWidgetItem());
