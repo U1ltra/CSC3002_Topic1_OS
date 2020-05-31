@@ -173,11 +173,11 @@ void Mem_Widget::on_simulate_clicked(){
                     clear_flag = true;
                 }
 
-            }else{//Fail when allocating
-                QMessageBox::warning(this,"Warning","Fail to allocate memory");
-                ui->memorystorage->setText("");
-                clear_flag = true;
-                on_clear_clicked();
+                }else{//Fail when allocating
+                    QMessageBox::warning(this,"Warning","Fail to allocate memory");
+                    ui->memorystorage->setText("");
+                    clear_flag = true;
+                    on_clear_clicked();
             }
 
         }else{//memory is allocatable
@@ -194,9 +194,6 @@ void Mem_Widget::on_simulate_clicked(){
     }
 
 }
-
-
-
 
 void Mem_Widget::inittable(){
     QStringList header;
