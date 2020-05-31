@@ -56,6 +56,8 @@ void Calculator::on_calc_btn_1_clicked()
     {
         number2 = number2*10+1;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_2_clicked()
@@ -74,6 +76,8 @@ void Calculator::on_calc_btn_2_clicked()
     {
         number2 = number2*10+2;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_3_clicked()
@@ -92,6 +96,8 @@ void Calculator::on_calc_btn_3_clicked()
     {
         number2 = number2*10+3;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_4_clicked()
@@ -110,6 +116,8 @@ void Calculator::on_calc_btn_4_clicked()
     {
         number2 = number2*10+4;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_5_clicked()
@@ -128,6 +136,8 @@ void Calculator::on_calc_btn_5_clicked()
     {
         number2 = number2*10+5;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_6_clicked()
@@ -146,6 +156,8 @@ void Calculator::on_calc_btn_6_clicked()
     {
         number2 = number2*10+6;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_7_clicked()
@@ -164,6 +176,8 @@ void Calculator::on_calc_btn_7_clicked()
     {
         number2 = number2*10+7;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_8_clicked()
@@ -182,6 +196,8 @@ void Calculator::on_calc_btn_8_clicked()
     {
         number2 = number2*10+8;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_9_clicked()
@@ -200,6 +216,8 @@ void Calculator::on_calc_btn_9_clicked()
     {
         number2 = number2*10+9;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_0_clicked()
@@ -218,6 +236,8 @@ void Calculator::on_calc_btn_0_clicked()
     {
         number2 = number2*10;
     }
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_plus_clicked()
@@ -231,6 +251,8 @@ void Calculator::on_calc_btn_plus_clicked()
     last_number=false;
     after_equal = false;
     ui->screen->setPlainText(S);
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_minus_clicked()
@@ -244,6 +266,8 @@ void Calculator::on_calc_btn_minus_clicked()
     last_number=false;
     after_equal = false;
     ui->screen->setPlainText(S);
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_multipy_clicked()
@@ -257,6 +281,8 @@ void Calculator::on_calc_btn_multipy_clicked()
     last_number=false;
     after_equal = false;
     ui->screen->setPlainText(S);
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_division_clicked()
@@ -270,6 +296,8 @@ void Calculator::on_calc_btn_division_clicked()
     last_number=false;
     after_equal = false;
     ui->screen->setPlainText(S);
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_equal_clicked()
@@ -299,7 +327,8 @@ void Calculator::on_calc_btn_equal_clicked()
     after_equal = true;
     S+=QString::number(result, 10, 2);
     ui->screen->setPlainText(S);
-
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::on_calc_btn_clean_clicked()
@@ -313,6 +342,8 @@ void Calculator::on_calc_btn_clean_clicked()
     result = 0.0;
     sign=' ';
     after_equal = false;
+    this->resize(this->width()+1, this->height());
+    this->resize(this->width()-1, this->height());
 }
 
 void Calculator::set_CPU(cpuMon * cpu){

@@ -213,7 +213,7 @@ void MainWindow::mainwindow_layout() {
     //Set icon for applications
     ui->btn_FileSystem->setIconSize(QSize(64,64));
     ui->btn_FileSystem->setIcon(QIcon(":/images/FileSystem.png"));
-    ui->btn_FileSystem->setText(QString::fromLocal8Bit("File System"));
+    ui->btn_FileSystem->setText(QString::fromLocal8Bit("File Manager"));
     ui->btn_FileSystem->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     ui->btn_FileSystem->setStyleSheet("background-color:transparent");
 
@@ -231,7 +231,7 @@ void MainWindow::mainwindow_layout() {
 
     ui->btn_TaskManager->setIconSize(QSize(64,64));
     ui->btn_TaskManager->setIcon(QIcon(":/images/TaskManager.png"));
-    ui->btn_TaskManager->setText(QString::fromLocal8Bit("Task Manager"));
+    ui->btn_TaskManager->setText(QString::fromLocal8Bit("Activity Monitor"));
     ui->btn_TaskManager->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     ui->btn_TaskManager->setStyleSheet("background-color:transparent");
 

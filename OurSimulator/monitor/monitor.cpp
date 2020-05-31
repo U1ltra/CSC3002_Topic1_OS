@@ -160,8 +160,9 @@ void monitor::sleeping(){
 void monitor::closeEvent(QCloseEvent *event){
     if (created){
         memory->deallocate(PID,memory_size);
-    }else {
-        CPU->terminateP(PID);
-    }
+        while(!CPU->isFreeToClose(PID)){
+            sleep(1);
+        }
+    } else CPU->terminateP(PID);
     event->accept();
 }

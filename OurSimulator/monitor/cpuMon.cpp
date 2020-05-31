@@ -58,6 +58,7 @@ cpuMon::cpuMon(){
     TThread = 0;
     cputemp = 26.5;               // normal temperature
     operation = false;
+    shutOS = false;
     TcpuPercentage = 0;
     mostRecent = new int(3);
     for (int i=0; i<3; i++){

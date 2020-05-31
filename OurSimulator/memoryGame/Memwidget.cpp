@@ -222,6 +222,8 @@ void Mem_widget::onClearClicked(){
         tableModel->setRowCount(0);
         visualTable->update();
         this->resize(this->width()-1, this->height()-1);
+
+        AddrBot->setText("Address: 0x"+QString::number(0,16));
     }
 }
 
@@ -238,6 +240,15 @@ void Mem_widget::onStartClicked(){
     Process = processEdit->text().toInt();
     ROWN = processEdit->text().toInt();
     Memory = MemEdit->text().toInt();
+
+    int len = QString::number(Memory,16).size();
+    QString str = "Address: 0x";
+    for(int i = 0; i<len; i++){
+        str += "0";
+    }
+    AddrTop->setText(str);
+    AddrBot->setText("Address: 0x"+QString::number(Memory,16));
+
     bd = new Buddy(Memory);
     ground->setBD(bd);
 

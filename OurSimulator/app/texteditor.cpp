@@ -5,6 +5,7 @@
  * This file implements the texteditor.h interface.
  */
 
+#include <iostream>
 #include <QLayout>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -167,6 +168,7 @@ void TextEditor::on_action_Exit_triggered() {
         if (checkIfSaved()) {
             memory->deallocate(PID,memory_size);
             while(!CPU->isFreeToClose(PID)){
+                cout << " hreerr"  << endl;
                 sleep(1);
             }
             close();
