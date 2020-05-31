@@ -5,21 +5,19 @@
  * This file implements the memory game.
  */
 
-#include "memoryGame/Memwidget.h"
+#include "Memwidget.h"
 #include <random>
 #include <vector>
 #include <string>
 #include <math.h>
-#include <QCloseEvent>
 #include <QAbstractButton>
 #include <iostream>
 #include <QEvent>
 #include <QString>
 #include <QDebug>
 #include <QMessageBox>
-#include <unistd.h>
 
-const QVariant PIDT = QVariant("PID");
+const QVariant PID = QVariant("PID");
 const QVariant MEMS  = QVariant("Memory Size");
 const QVariant COLOR = QVariant("Color");
 const QString TITLE = QWidget::tr("Memory Allocator");
@@ -85,12 +83,6 @@ Mem_widget::Mem_widget(QWidget *parent) :
     initScroll();
     initLayout();
 
-    system_timer = new QTimer();  // To return to the fluctuation.
-    system_timer->setSingleShot(true);
-    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
-    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
-//    connect(tabW,SIGNAL(tabBarClicked()),this,SLOT(to_effect_Click()));
-
 }
 
 Mem_widget::~Mem_widget(){
@@ -105,7 +97,7 @@ Mem_widget::~Mem_widget(){
     delete visualTable;
     delete visualMem;
     delete scrollContent;
-    delete ground;
+    //delete ground;
 
     delete start;
     delete clear;
@@ -154,7 +146,7 @@ void Mem_widget::initButtons(){
 
 void Mem_widget::initTable(){
     attributes = new std::vector<const QVariant>;
-    attributes->push_back(PIDT);
+    attributes->push_back(PID);
     attributes->push_back(MEMS);
     attributes->push_back(COLOR);
 
@@ -208,19 +200,7 @@ void Mem_widget::initLayout(){
     this->setLayout(mainLayout);
 }
 
-void Mem_widget::initColor() {
-    srand(((int) time(NULL)));
-    for (int i=0; i<ROWN; i++) {
-        colors->push_back(rand()%255);
-        colors->push_back(rand()%255);
-        colors->push_back(rand()%255);
-    }
-    constructor->setColor(2, colors);
-    ground->setColors(colors);
-    ground->setUsedPrt(TUsed);
-    ground->switchStatus(true);
 
-}
 
 void Mem_widget::resizeEvent(QResizeEvent *event){
 
@@ -258,6 +238,16 @@ void Mem_widget::onStartClicked(){
     Process = processEdit->text().toInt();
     ROWN = processEdit->text().toInt();
     Memory = MemEdit->text().toInt();
+
+    int len = QString::number(Memory,16).size();
+    QString str = "Address: 0x";
+    for(int i = 0; i<len; i++){
+        str += "0";
+    }
+    AddrTop->setText(str);
+    AddrBot->setText("Address: 0x"+QString::number(Memory,16));
+
+    botAddr = Memory;
     bd = new Buddy(Memory);
     ground->setBD(bd);              // possibly bug
 
@@ -293,6 +283,34 @@ bool Mem_widget::tableFill(){
 
     return true;
 }
+
+void Mem_widget::initColor() {
+    srand(((int) time(NULL)));
+    for (int i=0; i<ROWN; i++) {
+        colors->push_back(rand()%255);
+        colors->push_back(rand()%255);
+        colors->push_back(rand()%255);
+    }
+    constructor->setColor(2, colors);
+    ground->setColors(colors);
+    ground->setUsedPrt(TUsed);
+    ground->switchStatus(true);
+
+}
+
+
+
+//// this overlode can only happen on "this" widget itself, therefore can only be used to draw on "this"
+//void Mem_widget::paintEvent(QPaintEvent *event){
+//    std::cout << "here1" << std::endl;
+//    painter = new QPainter(scrollContent);
+//    painter->setPen(Qt::black);
+//    painter->setBrush(Qt::blue);
+//    painter->drawLine(10,10,100,100);
+//    painter->drawRect(100,100,100,100);
+//    delete painter;
+//}
+
 
 bool Mem_widget::eventFilter(QObject *watched, QEvent *event){
 // method 1: filter the child event therefore i can draw on child (QPainter has to function in Paint event)
@@ -330,96 +348,4 @@ bool Mem_widget::eventFilter(QObject *watched, QEvent *event){
     }
 //    if ()
 }
-
-
-void Mem_widget::set_CPU(cpuMon * cpu){
-    CPU=cpu;
-    CPU->createP(PID,"Mem_Widget",user);
-}
-
-
-void Mem_widget::setPID(int pid){
-    PID=pid;
-}
-
-void Mem_widget::mousePressEvent(QMouseEvent *e){
-    to_simple_Click();
-}
-
-void Mem_widget::mouseMoveEvent(QMouseEvent *e)
-{
-    to_moving_around();
-}
-
-
-void Mem_widget::back_to_fluctuation(){
-    CPU->operationDet(PID,fluctuation);
-}
-
-
-void Mem_widget::to_effect_Click(){
-    CPU->operationDet(PID,effectClick);
-    system_timer->start(100);
-}
-
-void Mem_widget::to_simple_Click(){
-    CPU->operationDet(PID,simpleClick);
-    system_timer->start(100);
-}
-
-void Mem_widget::to_moving_around(){
-    CPU->operationDet(PID,movingAround);
-    system_timer->start(100);
-}
-
-void Mem_widget::refresh(){
-    CPU->operationDet(PID,refreshing);
-    system_timer->start(100);
-}
-
-void Mem_widget::sleeping(){
-    if (CPU->isBusy()){
-        sleep(1);
-    }
-}
-
-void Mem_widget::closeEvent(QCloseEvent *event){
-    if (created){
-        memory->deallocate(PID,memory_size);
-        while(!CPU->isFreeToClose(PID)){
-            sleep(1);
-        }
-    }
-    else {
-        CPU->terminateP(PID);
-    }
-    event->accept();
-}
-
-
-void Mem_widget::set_memory(Buddy *Memory){
-    memory = Memory;
-    if (!memory->mem_allocation(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else{
-        created = true;
-        showNormal();
-    }
-}
-
-
-//// this overlode can only happen on "this" widget itself, therefore can only be used to draw on "this"
-//void Mem_widget::paintEvent(QPaintEvent *event){
-//    std::cout << "here1" << std::endl;
-//    painter = new QPainter(scrollContent);
-//    painter->setPen(Qt::black);
-//    painter->setBrush(Qt::blue);
-//    painter->drawLine(10,10,100,100);
-//    painter->drawRect(100,100,100,100);
-//    delete painter;
-//}
-
-
-
 
