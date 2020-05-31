@@ -5,19 +5,15 @@
  * This file implements the memory game.
  */
 
-#include "memoryGame/Memwidget.h"
+#include <unistd.h>
 #include <random>
-#include <vector>
 #include <string>
 #include <math.h>
-#include <QCloseEvent>
-#include <QAbstractButton>
-#include <iostream>
 #include <QEvent>
 #include <QString>
-#include <QDebug>
 #include <QMessageBox>
-#include <unistd.h>
+#include <QCloseEvent>
+#include "memoryGame/Memwidget.h"
 
 const QVariant PIDT = QVariant("PID");
 const QVariant MEMS  = QVariant("Memory Size");
@@ -69,10 +65,6 @@ Mem_widget::Mem_widget(QWidget *parent) :
     dirty = false;
     colors = new vector<int>;
 
-//    inside = new QGridLayout;
-
-//    scrollContent->installEventFilter(this);
-//    visualMem->installEventFilter(this);
     start->installEventFilter(this);
     clear->installEventFilter(this);
     processEdit->installEventFilter(this);
@@ -85,12 +77,10 @@ Mem_widget::Mem_widget(QWidget *parent) :
     initScroll();
     initLayout();
 
-    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer = new QTimer();                                // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
-//    connect(tabW,SIGNAL(tabBarClicked()),this,SLOT(to_effect_Click()));
-
 }
 
 Mem_widget::~Mem_widget(){
@@ -129,14 +119,10 @@ void Mem_widget::initLabels(){
     AddrBot->setText(QString("%1 0x%2").arg(ADDRBOT).arg(QString::number(botAddr)));
     TUsed->setText(QString("%1 %2").arg(TUSED).arg(totUsed));
 
-//    processEdit->setValidator(new QIntValidator(0,15));             // set control on line edit input
-//    MemEdit->setValidator(new QIntValidator(0,pow(2, 36)));
     processN->setMaximumWidth(100);
     TMem->setMaximumWidth(100);
     processEdit->setMaximumWidth(100);
     MemEdit->setMaximumWidth(100);
-//    processEdit->setText(QString::number(0));
-//    MemEdit->setText(QString::number(0));
     processEdit->setPlaceholderText(QString::number(0));
     MemEdit->setPlaceholderText(QString::number(0));
 
@@ -168,11 +154,6 @@ void Mem_widget::initTable(){
 }
 
 void Mem_widget::initScroll(){
-
-//    scrollContent->resize(250,visualMem->height());
-//    visualMem->setWidget(scrollContent);
-
-
     visualMem->setWidget(ground);
     visualMem->setMaximumWidth(250);
     ground->resize(visualMem->size());
@@ -203,7 +184,6 @@ void Mem_widget::initLayout(){
     mainLayout->addWidget(title);
     mainLayout->addLayout(playground);
     mainLayout->setSpacing(20);
-//    mainLayout->setSpacing(20);
 
     this->setLayout(mainLayout);
 }
@@ -240,7 +220,7 @@ void Mem_widget::onClearClicked(){
         MemEdit->clear();
 
         tableModel->setRowCount(0);
-        visualTable->update();           // may not be effective
+        visualTable->update();
         this->resize(this->width()-1, this->height()-1);
     }
 }
@@ -259,7 +239,7 @@ void Mem_widget::onStartClicked(){
     ROWN = processEdit->text().toInt();
     Memory = MemEdit->text().toInt();
     bd = new Buddy(Memory);
-    ground->setBD(bd);              // possibly bug
+    ground->setBD(bd);
 
     if (!tableFill()){
         QMessageBox::warning(this, "Missing Input", "Please check your input");
@@ -292,20 +272,8 @@ bool Mem_widget::tableFill(){
 }
 
 bool Mem_widget::eventFilter(QObject *watched, QEvent *event){
-// method 1: filter the child event therefore i can draw on child (QPainter has to function in Paint event)
-//    if (watched == scrollContent && event->type() == QEvent::Paint){
-//        painter = new QPainter(scrollContent);
-//        painter->setPen(Qt::black);
-//        painter->setBrush(Qt::blue);
-//        painter->drawLine(10,10,100,100);
-//        painter->drawRect(100,100,100,100);
-//        delete  painter;
-//        std::cout << "here2" << std::endl;
-//        return false;
-//    }
     if (watched == ground ) {
-//        std::cout << event->type() << endl;
-//        std::cout << "ground" << std::endl;
+
     }
     else if (watched == start && event->type() == QEvent::MouseButtonPress){
         onStartClicked();
@@ -314,18 +282,15 @@ bool Mem_widget::eventFilter(QObject *watched, QEvent *event){
         onClearClicked();
     }
     else if (watched == processEdit && event->type() == QEvent::KeyRelease) {
-        std::cout << "event triggered" << std::endl;
-        qDebug() << processEdit->text();
         delete constructor;
         constructor = new stdTable();
         ROWN = processEdit->text().toInt();
         initTable();
         tableModel = constructor->getTable();
         visualTable->setModel(tableModel);
-//        visualTable->update();
-//        visualTable->reset();
+
     }
-//    if ()
+
 }
 
 
@@ -406,16 +371,6 @@ void Mem_widget::set_memory(Buddy *Memory){
 }
 
 
-//// this overlode can only happen on "this" widget itself, therefore can only be used to draw on "this"
-//void Mem_widget::paintEvent(QPaintEvent *event){
-//    std::cout << "here1" << std::endl;
-//    painter = new QPainter(scrollContent);
-//    painter->setPen(Qt::black);
-//    painter->setBrush(Qt::blue);
-//    painter->drawLine(10,10,100,100);
-//    painter->drawRect(100,100,100,100);
-//    delete painter;
-//}
 
 
 

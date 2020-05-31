@@ -7,10 +7,10 @@
 #ifndef TEXTEDITOR_H
 #define TEXTEDITOR_H
 
-#include <QMainWindow>
 #include <QString>
-#include <QLineEdit>
 #include <QTimer>
+#include <QMainWindow>
+#include <QLineEdit>
 #include <QButtonGroup>
 #include <QRadioButton>
 #include "app/saveaslist.h"
@@ -31,7 +31,7 @@ public:
 
     ~TextEditor();
 
-/*
+    /*
  * Function: setPID, set_CPU, set_memory
  * Usage: setPID(pid); set_CPU(couMon*); set_memory(Buddy* memory);
  * ----------------------------------------------------------------
@@ -44,7 +44,7 @@ public:
 
 private slots:
 
-/*
+    /*
  * Slot Function: on_action_NewFile_triggered
  * ------------------------------------------
  * Create a new file without path after processing the current file following
@@ -52,7 +52,7 @@ private slots:
  */
     void on_action_NewFile_triggered();
 
-/*
+    /*
  * Slot Function: on_action_OpenFile_triggered
  * -------------------------------------------
  * Open a file of the path the users select after processing the current file following
@@ -60,7 +60,7 @@ private slots:
  */
     void on_action_OpenFile_triggered();
 
-/*
+    /*
  * Slot Function: on_action_Save_triggered
  * ---------------------------------------
  * If current file exists and have a path, save the text to the file.
@@ -69,14 +69,14 @@ private slots:
  */
     void on_action_Save_triggered();
 
-/*
+    /*
  * Slot Function: on_action_SaveAs_triggered
  * -----------------------------------------
  * Create the file in local first and then save the text to it.
  */
     void on_action_SaveAs_triggered();
 
-/*
+    /*
  * Slot Function: on_action_Exit_triggered
  * ---------------------------------------
  * Quit the program after processing the current file following
@@ -84,7 +84,7 @@ private slots:
  */
     void on_action_Exit_triggered();
 
-/*
+    /*
  * Slot Function: on_action_Undo_triggered, on_action_Cut_triggered,
  *                on_action_Copy_triggered, on_action_Paste_triggered
  * ------------------------------------------------------------------
@@ -99,14 +99,14 @@ private slots:
 
     void on_action_Paste_triggered();
 
-/*
+    /*
  * Slot Function: on_action_Find_triggered
  * ---------------------------------------
  * Pop a dialog to interact with users to find targeting text.
  */
     void on_action_Find_triggered();
 
-/*
+    /*
  * Slot Function: closeEvent
  * -------------------------
  * Override close event. Quit the program after processing the current file
@@ -115,7 +115,7 @@ private slots:
  */
     void closeEvent(QCloseEvent *e);
 
-/*
+    /*
  * Slot Function: findText
  * -----------------------
  * Highlight the targeting text that users wish to find. Users can choose direction,
@@ -123,7 +123,7 @@ private slots:
  */
     void findText();
 
-/*
+    /*
  * Slot Function: to_simple_Click, to effect_click,
  *                to_moving_around, back_to_fluctuation
  * ----------------------------------------------------
@@ -141,38 +141,38 @@ private slots:
 
 private:
 
-/* Instance Vatiables */
+    /* Instance Vatiables */
 
     Ui::TextEditor *ui;
-    bool isSaved;                    /* if current file have been saved after modification. */
-    bool hasPath;                    /* if current file have been saved to local.           */
-    QString currFile;                /* The absolute path of current file.                  */
-    saveAsList newSaveAs;            /* A dialog to help users save files to local.         */
-    openFile newOpenFile;            /* A dialog to help users open local files.            */
-    QLineEdit *findLine;             /* A line edit that uesrs input texts to find in.      */
-    QDialog *findDlog;               /* A dialog to help users find targeting text.         */
-    QButtonGroup *findDirGroup;      /* A button group of radio buttons to indicate directions.*/
-    QRadioButton *forwardBtn;        /* A radio button that represents forward if checked.  */
-    QRadioButton *backwardBtn;       /* A radio button that represents backward if checked. */
+    bool isSaved;                           /* if current file have been saved after modification. */
+    bool hasPath;                           /* if current file have been saved to local.           */
+    QString currFile;                       /* The absolute path of current file.                  */
+    saveAsList newSaveAs;                   /* A dialog to help users save files to local.         */
+    openFile newOpenFile;                   /* A dialog to help users open local files.            */
+    QLineEdit *findLine;                    /* A line edit that uesrs input texts to find in.      */
+    QDialog *findDlog;                      /* A dialog to help users find targeting text.         */
+    QButtonGroup *findDirGroup;             /* A button group of radio buttons to indicate directions.*/
+    QRadioButton *forwardBtn;               /* A radio button that represents forward if checked.  */
+    QRadioButton *backwardBtn;              /* A radio button that represents backward if checked. */
 
-    int PID;                         /* The pid for created text editor process.            */
-    QTimer *system_timer;            /* A timer to send signals to CPU to return to initial status.*/
-    cpuMon* CPU;                     /* Assigned CPU for text editor.                       */
-    Buddy* memory;                   /* Assigned memory for text editor.                    */
-    bool created = false;            /* Turn true when memory are allocated to text editor. */
-    int memory_size=111;             /* The memory size for text editor.                    */
+    int PID;                                /* The pid for created text editor process.            */
+    QTimer *system_timer;                   /* A timer to send signals to CPU to return to initial status.*/
+    cpuMon* CPU;                            /* Assigned CPU for text editor.                       */
+    Buddy* memory;                          /* Assigned memory for text editor.                    */
+    bool created = false;                   /* Turn true when memory are allocated to text editor. */
+    int memory_size=111;                    /* The memory size for text editor.                    */
 
-/* Private Functions */
+    /* Private Functions */
 
-    void saveFile(QString filePath);     /* Helper function for saving file.               */
-    void saveAsFile();                   /* Helper function for saving file to local.      */
-    bool checkIfSaved();                 /* Check if the file content is modified and needs saved.*/
-    void setShortcut();                  /* Set short cut for the above 10 operations.     */
-    void sleeping();                     /* When the usage of CPU reachs 75%, the program shuts down.*/
+    void saveFile(QString filePath);        /* Helper function for saving file.               */
+    void saveAsFile();                      /* Helper function for saving file to local.      */
+    bool checkIfSaved();                    /* Check if the file content is modified and needs saved.*/
+    void setShortcut();                     /* Set short cut for the above 10 operations.     */
+    void sleeping();                        /* When the usage of CPU reachs 75%, the program shuts down.*/
 
 protected:
-    void mousePressEvent(QMouseEvent *e);     /* Dectect the oparation of simple(invalid) click.*/
-    void mouseMoveEvent(QMouseEvent *e);      /* Dectect the oparation of moving around.        */
+    void mousePressEvent(QMouseEvent *e);   /* Dectect the oparation of simple(invalid) click.*/
+    void mouseMoveEvent(QMouseEvent *e);    /* Dectect the oparation of moving around.        */
 };
 
 #endif // TEXTEDITOR_H

@@ -1,3 +1,4 @@
+
 /*
  * File: m_task.h
  * -------------
@@ -22,6 +23,7 @@ public:
      * task to be ID, and memory space of the task to be size.
      */
     m_task(int ID, int size);
+
     bool operator< (const m_task &t)const;
 };
 

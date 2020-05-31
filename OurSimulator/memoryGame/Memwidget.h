@@ -9,23 +9,24 @@
 #ifndef MEMWIDGET_H
 #define MEMWIDGET_H
 
+#include <QFont>
+#include <QEvent>
 #include <vector>
 #include <QTimer>
+#include <QLabel>
 #include <QWidget>
 #include <QLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QScrollArea>
-#include <QBoxLayout>
-#include <QEvent>
-#include <QFont>
 #include <QPainter>
 #include <QLineEdit>
+#include <QBoxLayout>
 #include <QTableView>
+#include <QPushButton>
+#include <QScrollArea>
+#include "monitor/cpuMon.h"
+#include "memoryGame/Buddy.h"
 #include "memoryGame/table_constr.h"
 #include "memoryGame/paintground.h"
-#include "memoryGame/Buddy.h"
-#include "monitor/cpuMon.h"
+
 class Mem_widget : public QWidget
 {
     Q_OBJECT
@@ -123,11 +124,17 @@ private:
     /* Private Functions: Updage usage of CPU for different oparetions.*/
 
     void to_simple_Click();
+
     void to_effect_Click();
+
     void to_moving_around();
+
     void refresh();
+
     void back_to_fluctuation();
+
     void set_up_memory();
+
     void sleeping();
 
     /*
@@ -153,16 +160,15 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent *e) override;      /* Dectect the oparation of simple(invalid) click.*/
+
     void mouseMoveEvent(QMouseEvent *e) override;       /* Dectect the oparation of moving around.        */
+
     void closeEvent(QCloseEvent*event) override;
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 signals:
     void closing();
-
-
-
 
 
 };

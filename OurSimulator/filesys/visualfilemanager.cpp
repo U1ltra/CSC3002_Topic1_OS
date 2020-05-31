@@ -1,10 +1,17 @@
-#include "filesys/visualfilemanager.h"
-#include "ui_visualfilemanager.h"
-#include <QMessageBox>
-#include <QDebug>
+
+/*
+ * File: visualfilemanager.cpp
+ * ---------------------------
+ * This file implements the file manager class with Qt creator
+ * libraries.
+ */
+
 #include <QTimer>
-//#include <windows.h>
+#include <QMessageBox>
 #include <unistd.h>
+#include "ui_visualfilemanager.h"
+#include "filesys/visualfilemanager.h"
+
 VisualFileManager::VisualFileManager(QMainWindow *parent):
     QMainWindow(parent),
     ui(new Ui::VisualFileManager)
@@ -26,7 +33,7 @@ VisualFileManager::VisualFileManager(QMainWindow *parent):
     setMouseTracking(true);
     this->centralWidget()->setMouseTracking(true);
 
-    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer = new QTimer();                // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
 }
@@ -38,14 +45,14 @@ VisualFileManager::~VisualFileManager()
 
 // This function is represent the new directory that the users choose
 void VisualFileManager::pathChange(QString path) {
-    dir.setPath(path); // Set the path to the current directory path
+    dir.setPath(path);                          // Set the path to the current directory path
     directoryPath = dir.absolutePath();
     ui->let_Menu->setText(directoryPath);
 }
 
 // This function is goiong to show all the file in  the widget
 void VisualFileManager::showFileInfoList(QDir dir) {
-    ui->lwt_File->clear(); // clear all the item in the QListWidget
+    ui->lwt_File->clear();                      // clear all the item in the QListWidget
     QFileInfoList list = dir.entryInfoList();
 
     // extract all the items in this directory and add it to the widget
@@ -83,10 +90,10 @@ void VisualFileManager::filePaste(QString oldFile, QString newFile) {
     if (!tempFile.isDir()) { // case that it is a file
         QFile::copy(oldFile, newFile);
     }
-    else { // case that it is a folder
+    else {                                          // case that it is a folder
         QDir oldDir, newDir;
         oldDir.setPath(oldFile);
-        newDir.mkdir(newFile); // a new folder
+        newDir.mkdir(newFile);                      // a new folder
         // copy all the files in the old folder into the new one
         QFileInfoList list = oldDir.entryInfoList();
         for (int i = 2; i < list.count(); i++){
@@ -232,7 +239,7 @@ void VisualFileManager::Create() {
 
 void VisualFileManager::Delete() {
     to_effect_Click();
-     sleeping();
+    sleeping();
     if (ui->lwt_File->selectedItems().count() == 0) {
         return;
     }
@@ -254,7 +261,7 @@ void VisualFileManager::Delete() {
 
 void VisualFileManager::Up() {
     to_effect_Click();
-     sleeping();
+    sleeping();
     dir.cd("..");
     pathChange(dir.path());
     showFileInfoList(dir);
@@ -262,7 +269,7 @@ void VisualFileManager::Up() {
 
 void VisualFileManager::Cd() {
     to_effect_Click();
-     sleeping();
+    sleeping();
     // if using the file selected in the file list
     if (ui->let_Menu->text() == directoryPath) {
         if (ui->lwt_File->selectedItems().count() <= 0)
@@ -301,13 +308,9 @@ void VisualFileManager::Cd() {
 
 void VisualFileManager::doubleClicked(QListWidgetItem*) {
     to_effect_Click();
-     sleeping();
+    sleeping();
     execute();
 }
-
-//void VisualFileManager::singleClicked(QListWidgetItem*) {
-
-//}
 
 void VisualFileManager::showError() {
     QMessageBox::warning(this, "Error", "File do not exist!");

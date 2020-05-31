@@ -6,13 +6,12 @@
  * QWidget using tab widget.
  */
 
-#include "monitor/monitor.h"
-#include <QString>
 #include <QLabel>
+#include <QString>
 #include <QMessageBox>
-#include <iostream>
-#include <unistd.h>
 #include <QCloseEvent>
+#include <unistd.h>
+#include "monitor/monitor.h"
 
 const QFont TITLE_FONT = QFont("Helvatica", 25);
 const QString TITLE = QWidget::tr("Activity Monitor");
@@ -24,7 +23,6 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
 {
     CPU = cpu;
     BD = bd;
-    std::cout << "memory process list in the first layer >>> " << BD->Bu_map.size() << endl;
 
     cpuM = new CPUmonitor(CPU);
     memM = new Memmonitor(BD, CPU);
@@ -41,20 +39,16 @@ monitor::monitor(cpuMon * cpu, Buddy * bd, QMainWindow *parent) :
     cpuM->installEventFilter(this);
     cpuM->visualTable->installEventFilter(this);
     memM->installEventFilter(this);
-//    tabW->installEventFilter(this);
     Title->installEventFilter(this);
-//    mainLayout->installEventFilter(this);
 
     mainLayout->addWidget(Title);
     mainLayout->addWidget(tabW);
     mainLayout->setSpacing(25);
     mainLayout->setContentsMargins(10,30,10,20);
-    mainLayout->setAlignment(Qt::AlignCenter);      // not really useful
+    mainLayout->setAlignment(Qt::AlignCenter);
     this->setLayout(mainLayout);
 
-
-//    setMouseTracking(true);
-    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer = new QTimer();                    // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
@@ -72,38 +66,26 @@ monitor::~monitor(){
 bool monitor::eventFilter(QObject *watched, QEvent *event){
     if (watched == cpuM) {
         if (event->type()==QEvent::LayoutRequest || event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
-//            CPU->operationDet(PID, movingAround);
-            cout << to_string(event->type()) << endl;
-            cout << "cpuM event detected" << endl;
+
         }
-//        cout << "cpuM event detected" << endl;
-//        cout << to_string(event->type()) << endl;
+
     }
     if (watched == cpuM->visualTable) {
         if (event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
-//            CPU->operationDet(PID, movingAround);
-            cout << to_string(event->type()) << endl;
-            cout << "visualtable event detected" << endl;
+            // CPU->operationDet(PID, movingAround);
+
         }
-//        cout << "visualtable event detected" << endl;
-//        cout << to_string(event->type()) << endl;
     }
     if (watched == memM) {
         if (event->type()==QEvent::LayoutRequest || event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
-//            CPU->operationDet(PID, movingAround);
-            cout << to_string(event->type()) << endl;
-            cout << "memM event detected" << endl;
+            // CPU->operationDet(PID, movingAround);
         }
-//        cout << "memM event detected" << endl;
     }
     if (watched == Title) {
         if (event->type()==QEvent::Leave||event->type()==QEvent::Enter){
-//            CPU->operationDet(PID, movingAround);
-            cout << to_string(event->type()) << endl;
-            cout << "title event detected" << endl;
+            // CPU->operationDet(PID, movingAround);
         }
-//        cout << "title event detected" << endl;
-//        cout << to_string(event->type()) << endl;
+
     }
 }
 
@@ -145,11 +127,9 @@ void monitor::mouseMoveEvent(QMouseEvent *e)
     to_moving_around();
 }
 
-
 void monitor::back_to_fluctuation(){
     CPU->operationDet(PID,fluctuation);
 }
-
 
 void monitor::to_effect_Click(){
     CPU->operationDet(PID,effectClick);

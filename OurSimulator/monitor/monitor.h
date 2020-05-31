@@ -1,11 +1,18 @@
 
+/*
+ * File: monitor.h
+ * ---------------
+ * This file exports a monitor class which assembles
+ * cpu monitor and memory monitor.
+ */
+
 #ifndef MONITOR_H
 #define MONITOR_H
 
-#include <QWidget>
 #include <QTimer>
-#include <QMainWindow>
+#include <QWidget>
 #include <QTabWidget>
+#include <QMainWindow>
 #include "memoryGame/Buddy.h"
 #include "monitor/cpuMon.h"
 #include "monitor/CPUmonitor.h"

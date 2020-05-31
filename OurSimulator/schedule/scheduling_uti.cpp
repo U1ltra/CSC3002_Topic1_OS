@@ -4,13 +4,10 @@
  * This file implements support functions of scheduling class.
  */
 
-#include "schedule/Schwidget.h"
+#include "schedule/scheduling.h"
 #include <iostream>
-#include <vector>
 
 using namespace std;
-
-
 
 task::task(){
     pid = PID_BLANK;
@@ -31,8 +28,8 @@ task::task(int p,int a, int arr){
 }
 
 scheduling::scheduling(){
-//    selectAlgo();
-//    getCondition();
+//    selectAlgo();             // if want to play console version game
+//    getCondition();           // use this two lines
     TCy = AverCy =  0;
     Twait = AverWait =  0;
     TResp = AverResp =  0;
@@ -94,9 +91,9 @@ void scheduling::calPriority(std::vector<task *>::iterator b, std::vector<task *
 void scheduling::enqueue(vector<task *> & Q, task * & a){
     int position = Q.size();
     Q.push_back(a);
-    if (position == 0) return;              // do nothing if the queue is empty
+    if (position == 0) return;                  // do nothing if the queue is empty
 
-    task* parent = Q[(position-1)/2];       // maintain the heap structure
+    task* parent = Q[(position-1)/2];           // maintain the heap structure
     while (comparision(a, parent)){
         task* buffer;
         buffer = parent;
@@ -111,8 +108,8 @@ void scheduling::enqueue(vector<task *> & Q, task * & a){
 bool scheduling::sortQueue(vector<task *> & Q){
     size_t position = 0;
     size_t newPosition = 0;
-    while (position*2+1 < Q.size()){         // keep the queue in a heap structure of BST
-        if (position*2+2 < Q.size()){        // always the highest priority task at the front
+    while (position*2+1 < Q.size()){            // keep the queue in a heap structure of BST
+        if (position*2+2 < Q.size()){           // always the highest priority task at the front
             newPosition = comparision(Q[position*2+1], Q[position*2+2]) ? position*2+1 : position*2+2;
             newPosition = comparision(Q[position], Q[newPosition]) ? position : newPosition;
         }else {
@@ -147,7 +144,6 @@ void scheduling::efficiency(){
     AverCy = TCy / Tprocess;
 
 }
-
 
 void scheduling::simulation(){
     if      (algorithm == _FCFS) FCFS();

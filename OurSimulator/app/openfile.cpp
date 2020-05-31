@@ -1,7 +1,14 @@
-#include "app/openfile.h"
-#include "ui_openfile.h"
+
+/*
+ * File: openfile.cpp
+ * ------------------
+ * This file implements the open file class;
+ */
+
 
 #include <QProcess>
+#include "ui_openfile.h"
+#include "app/openfile.h"
 
 openFile::openFile(QWidget *parent) :
     QDialog(parent),
@@ -24,13 +31,13 @@ openFile::~openFile()
 
 // This function is represent the new directory that the users choose
 void openFile::pathChange(QString path) {
-    dir.setPath(path); // Set the path to the current directory path
+    dir.setPath(path);                          // Set the path to the current directory path
     directoryPath = dir.absolutePath();
     ui->pathEdit->setText(directoryPath);
 }
 
 void openFile::showFileInfoList(QDir dir) {
-    ui->fileList->clear(); // clear all the item in the QListWidget
+    ui->fileList->clear();                      // clear all the item in the QListWidget
     QFileInfoList list = dir.entryInfoList();
 
     // extract all the items in this directory and add it to the widget

@@ -1,8 +1,15 @@
+
+/*
+ * File: saveaslist.h
+ * ------------------
+ * This file supports the text editor saving function.
+ */
+
 #ifndef SAVEASLIST_H
 #define SAVEASLIST_H
 
-#include <QDialog>
 #include <QDir>
+#include <QDialog>
 #include <QListWidget>
 
 namespace Ui {
@@ -37,7 +44,9 @@ private:
 
 protected slots:
     void Root();
+
     void setFileName();
+
     void doubleClicked(QListWidgetItem*);
 };
 

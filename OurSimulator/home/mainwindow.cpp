@@ -6,19 +6,11 @@
  */
 
 #include <QStatusBar>
-#include <QDebug>
 #include <QToolButton>
-#include <QMessageBox>
 #include <unistd.h>
-#include "home/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "app/calculator.h"
-#include "app/calendar.h"
-#include "app/digitalclock.h"
 #include "monitor/cpuMon.h"
-#include "monitor/CPUmonitor.h"
-#include "monitor/memMonitor.h"
-#include "monitor/monitor.h"
+#include "home/mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,19 +24,19 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Create main mainwindow process */
     CPU = new cpuMon();
     fluctuate(*CPU);
-    CPU->createP(PID,"MainWindow",root); //Default PID for mainwindow is 10.
+    CPU->createP(PID,"MainWindow",root);                                            // Default PID for mainwindow is 10.
     memory = new Buddy(1024);
     set_up_memory();
     setMouseTracking(true);
     this->centralWidget()->setMouseTracking(true);
     system_timer = new QTimer();
     system_timer->setSingleShot(true);
-    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation())); //Return to the fluctuation mode.
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));       // Return to the fluctuation mode.
 
 
     /* Display the digital clock */
     clock_display = new DigitalClock();
-    clock_display->setPID(11);           //Default PID for clock is 11.
+    clock_display->setPID(11);                                                      // Default PID for clock is 11.
     clock_display->set_CPU(CPU);
     clock_display->set_memory(memory);
     ui->clock_layout->addWidget(clock_display, Qt::AlignHCenter);
@@ -158,18 +150,10 @@ void MainWindow::on_actionShutdown_triggered()
     if (!loggedIn) return;
     to_effect_Click();
     sleeping();
-//    if (cal->isVisible()) cal->close();
-//    if (calendar->isVisible()) calendar->close();
-//    if (vfm->isVisible()) vfm->close();
-//    if (text_editor->isVisible()) text_editor->close();
-//    if (Monitor->isVisible()) Monitor->close();
-//    if (MemGame->isVisible()) MemGame->close();
-//    if (SchGame->isVisible()) SchGame->close();
-
 }
 
 void MainWindow::back_to_fluctuation(){
-    CPU->operationDet(PID,fluctuation);  // Update usage when turning back to initial status.
+    CPU->operationDet(PID,fluctuation);                                 // Update usage when turning back to initial status.
 }
 
 /* Private Functions */
@@ -311,7 +295,6 @@ void MainWindow::closeEvent(QCloseEvent *event){
                 emit closing();
                 while(!CPU->isFreeToClose(PID))
                 {
-                    cout << "mainwindow sleeping" << endl;
                     sleep(1);
                 }
                 event->accept();

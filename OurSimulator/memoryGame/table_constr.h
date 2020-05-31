@@ -13,7 +13,6 @@
 #include <monitor/cpuMon.h>
 #include <QStandardItemModel>
 
-
 /*
  * Class: stdTable
  * ---------------
@@ -92,9 +91,9 @@ public:
 
 private:
 
-    std::vector<std::vector<QStandardItem*>> * items;   // all items
-    QStandardItemModel * table;                         // the modle object of the table
-    cpuMon * CPU;                                     // if no need to support scheduling, i could add a cpuMon here
+    std::vector<std::vector<QStandardItem*>> * items;       // all items
+    QStandardItemModel * table;                             // the modle object of the table
+    cpuMon * CPU;                                           // if no need to support scheduling, i could add a cpuMon here
     int rows;
     int cols;
     bool initialized=false;

@@ -1,16 +1,13 @@
+
 /*
  * File: login_interface.cpp
  * -------------------------
  * This file implements the login_interface.h interface.
  */
 
-#include <QString>
-#include <QDebug>
 #include <QMessageBox>
-#include <QTimer>
-#include "home/login_interface.h"
-#include "home/mainwindow.h"
 #include "ui_login_interface.h"
+#include "home/login_interface.h"
 
 const QFont LabelF = QFont("Helvatica", 18);
 const QPalette LabelP = QPalette(QPalette::WindowText, Qt::white);
@@ -126,4 +123,5 @@ bool login_interface::eventFilter(QObject *watched, QEvent *event){
     if (watched == &mw && event->type() == QEvent::Close){
         this->close();
     }
+    return false;
 }

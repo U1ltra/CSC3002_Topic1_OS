@@ -1,9 +1,13 @@
-#include "app/digitalclock.h"
-#include <QLCDNumber>
-#include <QTimer>
-#include <QDateTime>
-#include <QDebug>
+
+/*
+ * File: digitalclock.cpp
+ * ----------------------
+ * This file creates a passing clock on the mainwindow.
+ */
+
 #include <QMessageBox>
+#include "app/digitalclock.h"
+
 DigitalClock::DigitalClock(QMainWindow *parent) :
     QLCDNumber(parent)
 {

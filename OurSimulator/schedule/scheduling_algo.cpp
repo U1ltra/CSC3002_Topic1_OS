@@ -5,13 +5,11 @@
  * scheduling class.
  */
 
-#include "schedule/Schwidget.h"
+#include "schedule/scheduling.h"
 #include <algorithm>
-#include <vector>
 #include <set>
 
 using namespace std;
-
 
 const int PID_BLANK = -1;
 
@@ -112,7 +110,6 @@ int scheduling::SJF(){
     bool operation = false;
     int pid, arrive;
     int clock = 0, startP = 0;
-
 
     while (finished.size()!=pqueue.size()){
         // process execution //
@@ -260,15 +257,11 @@ int scheduling::RR(){
             task * oneSlice = new task(pid, slice, arrive);
             exeQ.push_back(oneSlice);
         }
-
         pSlice++;
         clock++;
     }
     return 0;
 }
-
-
-
 
 
 

@@ -19,7 +19,6 @@
 #include <QVariant>
 
 
-
 /*
  * Type: permission
  * ----------------
@@ -55,7 +54,7 @@ struct process{
 
     process();
     process(QVariant, permission, int, int, int, double, double);
-//    ~process();
+    //    ~process();
 };
 
 /*

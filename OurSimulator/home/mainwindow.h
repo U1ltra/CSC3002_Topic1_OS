@@ -1,3 +1,4 @@
+
 /*
  * File: mainwindow.h
  * ------------------
@@ -15,12 +16,12 @@
 #include "app/calculator.h"
 #include "app/texteditor.h"
 #include "app/calendar.h"
-#include "filesys/visualfilemanager.h"
-#include "memoryGame/Memwidget.h"
-#include "schedule/Schwidget.h"
-#include "monitor/memMonitor.h"
 #include "monitor/monitor.h"
 #include "monitor/CPUmonitor.h"
+#include "schedule/Schwidget.h"
+#include "monitor/memMonitor.h"
+#include "memoryGame/Memwidget.h"
+#include "filesys/visualfilemanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -50,7 +51,7 @@ public:
 
 private slots:
 
-/*
+    /*
  * Slot Functions: on_btn_calc_clicked, on_btn_Calendar_clicked,
  *                 on_btn_FileSystem_clicked, on_btn_TaskManager_clicked,
  *                 on_btn_TextEditor_clicked, on_Memory_Simulator_triggered,
@@ -73,7 +74,7 @@ private slots:
 
     void on_btn_Schedule_Simulator_clicked();
 
-/*
+    /*
  * Slot Function: on_actionShutdown_triggered
  * ------------------------------------------
  * Terminate all process along with main window.

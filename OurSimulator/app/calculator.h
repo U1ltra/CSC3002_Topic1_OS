@@ -10,9 +10,9 @@
 
 #include <QWidget>
 #include <QMouseEvent>
-#include "monitor/cpuMon.h"
 #include <QCloseEvent>
 #include <QMainWindow>
+#include "monitor/cpuMon.h"
 #include "memoryGame/Buddy.h"
 
 namespace Ui {
@@ -59,9 +59,9 @@ private slots:
 
     void on_calc_btn_division_clicked();
 
-    void on_calc_btn_equal_clicked(); 
+    void on_calc_btn_equal_clicked();
 
-    void on_calc_btn_clean_clicked();  
+    void on_calc_btn_clean_clicked();
 
     void to_simple_Click();
 
@@ -74,13 +74,14 @@ private slots:
     void calculating();
 
 private:
+
     Ui::Calculator *ui;
     double number1,number2,result;
     QString S;
     char sign;
-    bool last_number;// if last_number == true, last input is integer, otherwise, it is sign.
-    bool after_equal; //if next_sign == true, next input would have to be a sign. If a number is clicked, next sign would be '+'.
-    bool first_equation;// if first_equation == true, if means that this equation is the first equation.
+    bool last_number;       // if last_number == true, last input is integer, otherwise, it is sign.
+    bool after_equal;       // if next_sign == true, next input would have to be a sign. If a number is clicked, next sign would be '+'.
+    bool first_equation;    // if first_equation == true, if means that this equation is the first equation.
     int PID;
     QTimer *system_timer;
     cpuMon* CPU;
@@ -91,7 +92,9 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent *e);
+
     void mouseMoveEvent(QMouseEvent *e);
+
     void closeEvent(QCloseEvent *event);
 };
 

@@ -1,27 +1,31 @@
-#include "schedule/Schwidget.h"
-#include "ui_Schwidget.h"
-#include <QString>
-#include <QList>
-#include <QStringList>
-#include <QScrollBar>
+
+/*
+ * File: Schwidget.cpp
+ * -------------------
+ * This file implements the scheduling game.
+ */
+
 #include <QPen>
+#include <QList>
 #include <QBrush>
-#include <QPainter>
 #include <QImage>
 #include <QTimer>
+#include <QString>
+#include <QPainter>
 #include <QTextEdit>
-#include <unistd.h>
+#include <QScrollBar>
 #include <QMessageBox>
-#include "monitor/cpuMon.h"
+#include <QStringList>
+#include <unistd.h>
+#include "ui_Schwidget.h"
+#include "schedule/Schwidget.h"
 
 SchWidget::SchWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SchWidget)
 {
-
     //create the ui
     ui->setupUi(this);
-
     ui->mygraph->installEventFilter(this);
 
     t = new QTimer(this);
@@ -33,15 +37,14 @@ SchWidget::SchWidget(QWidget *parent) :
     rept_flag = false;
     algo_sign = 0;
     spin_flag = false;
-    allow_to_init = true;//prevent double click simulate
+    allow_to_init = true;           //prevent double click simulate
 
     graphlenvec.push_back(0);
 
     system_timer = new QTimer(this);
     t = new QTimer(this);
     t->setInterval(1000);
-    connect(t, &QTimer::timeout,[=](){ui->mygraph->update();
-                                        ptremained++;});
+    connect(t, &QTimer::timeout,[=](){ui->mygraph->update(); ptremained++;});
     setMouseTracking(true);
 
 }
@@ -53,15 +56,8 @@ SchWidget::~SchWidget()
     s = nullptr;
 }
 
-/*
- * Implementation notes: spinbox_Valuechange
- * ------------------------------
- */
-
 void SchWidget::on_spinBox_valueChanged(int arg1)
 {
-    //set task number
-
     if(spin_flag){
         number_of_process = arg1;
         ui->table_of_process->setRowCount(number_of_process);
@@ -73,7 +69,7 @@ void SchWidget::on_spinBox_valueChanged(int arg1)
         QStringList vertical_label(list_of_label);
         ui->table_of_process->setHorizontalHeaderLabels(vertical_label);
         ui->table_of_process->setStyleSheet("selection-background-color: pink");
-        inittable();//init table
+        inittable();                                //init table
         //PID
         for(int i = 0; i<number_of_process;i++){
             QString s = QString::number(i+1);
@@ -85,40 +81,31 @@ void SchWidget::on_spinBox_valueChanged(int arg1)
     }
 }
 
-/*
- * Implementation notes: simulate_clicked
- * ------------------------------
- */
 void SchWidget::on_simulate_clicked(){
     if(algo_sign == 4 && timeslice == -1){
         QMessageBox::warning(this, "Warning", "Please input timeslice",QMessageBox::Yes);
     }
     else{
-        if(s != nullptr && init_flag == true&&number_of_process != 0){//able to simulate
-                flag = 1;
-                printcolor_map();
+        if(s != nullptr && init_flag == true&&number_of_process != 0){      //able to simulate
+            flag = 1;
 
-                //set table content
-
-                //retrieve the data from table
-
-                for(int i=0; i<number_of_process; i++){
-                        if(ui->table_of_process->item(i,1) != NULL&&ui->table_of_process->item(i,2) != NULL&&
-                                ui->table_of_process->item(i,3) != NULL
-                                && repetitiondetect(ui->table_of_process->item(i,2)->text().toInt(),aq)&&checkempyt(i,1,3)
-                                &&repetitiondetect(ui->table_of_process->item(i,3)->text().toInt(),aq)){
-                        bq.push_back(ui->table_of_process->item(i,1)->text().toInt());
-                        aq.push_back(ui->table_of_process->item(i,2)->text().toInt());
-                        pq.push_back(ui->table_of_process->item(i,3)->text().toInt());
-                        rept_flag = false;
-
-                     }
-                        else{
-                            rept_flag = true;
-                        }
+            for(int i=0; i<number_of_process; i++){
+                if(ui->table_of_process->item(i,1) != NULL&&ui->table_of_process->item(i,2) != NULL&&
+                        ui->table_of_process->item(i,3) != NULL
+                        && repetitiondetect(ui->table_of_process->item(i,2)->text().toInt(),aq)&&checkempyt(i,1,3)
+                        &&repetitiondetect(ui->table_of_process->item(i,3)->text().toInt(),aq))
+                {
+                    bq.push_back(ui->table_of_process->item(i,1)->text().toInt());
+                    aq.push_back(ui->table_of_process->item(i,2)->text().toInt());
+                    pq.push_back(ui->table_of_process->item(i,3)->text().toInt());
+                    rept_flag = false;
                 }
+                else{
+                    rept_flag = true;
+                }
+            }
 
-                if(rept_flag == false){
+            if(rept_flag == false){
                 //color
                 initcolorvec();
                 for(int i = 0; i< number_of_process;++i){
@@ -130,29 +117,26 @@ void SchWidget::on_simulate_clicked(){
                 s->efficiency();
                 s->check();
                 execQ = s->exeQ;
-                //print execq
-                for(int j = 0; j< execQ.size();j++){
-                    cout <<execQ[j]->pid<<endl;
-                }
                 //print table
-                for(int i=0; i<number_of_process; i++){ //output the data
-                        if(ui->table_of_process->item(i,4) != NULL&&ui->table_of_process->item(i,5) != NULL&&
-                                ui->table_of_process->item(i,6) != NULL){
-                                ui->table_of_process->setItem(i,4,new QTableWidgetItem(QString::number(s->pqueue[i]->waitT)));
-                                ui->table_of_process->setItem(i,5,new QTableWidgetItem(QString::number(s->pqueue[i]->responseT)));
-                                ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s->pqueue[i]->cyclingT)));
-                        }
+                for(int i=0; i<number_of_process; i++){     //output the data
+                    if(ui->table_of_process->item(i,4) != NULL&&ui->table_of_process->item(i,5) != NULL&&
+                            ui->table_of_process->item(i,6) != NULL)
+                    {
+                        ui->table_of_process->setItem(i,4,new QTableWidgetItem(QString::number(s->pqueue[i]->waitT)));
+                        ui->table_of_process->setItem(i,5,new QTableWidgetItem(QString::number(s->pqueue[i]->responseT)));
+                        ui->table_of_process->setItem(i,6,new QTableWidgetItem(QString::number(s->pqueue[i]->cyclingT)));
                     }
+                }
                 ui->table_of_process->viewport()->update();
                 //paint
-                    flag = 1;
-                    t->start();
-                    init_flag = false;
-                }else{//inable to print picture
-                        on_clear_clicked();
-                       QMessageBox::warning(this,"Warning","Please check your input",QMessageBox::Yes);
-                       rept_flag = false;
-                    }
+                flag = 1;
+                t->start();
+                init_flag = false;
+            }else{                                          //inable to print picture
+                on_clear_clicked();
+                QMessageBox::warning(this,"Warning","Please check your input",QMessageBox::Yes);
+                rept_flag = false;
+            }
         }else{//inable to simulate
             init_flag = false;
             on_clear_clicked();
@@ -160,11 +144,6 @@ void SchWidget::on_simulate_clicked(){
         }
     }
 }
-
-/*
- *Function usage:clear_clicked
- *-------------------------------
- */
 
 void SchWidget::on_clear_clicked()
 {
@@ -174,10 +153,8 @@ void SchWidget::on_clear_clicked()
             t->stop();
         }
     }
-
     ui->table_of_process->clear();
     ui->spinBox->setValue(0);
-
 
     bq.clear();
     pq.clear();
@@ -194,32 +171,18 @@ void SchWidget::on_clear_clicked()
     ptremained = -1;
     delete s;
     s = nullptr;
-    if(s == nullptr){
-        cout<<"empty null"<<endl;
-    }
+
     allow_to_init = true;
     initgraph();
 }
-/*
- *Function usage:return process number
- *-----------------------------------
- */
-int SchWidget::returnprocessnum(){
-    return number_of_process;
-}
 
-/*
- * Implementation notes: to paint the graph
- * ------------------------------
- */
 bool SchWidget::eventFilter(QObject *watched, QEvent *event)
- {
+{
     if(watched == ui->mygraph && event->type() == QEvent::Paint && flag == 1)
-       {
+    {
         int graphlen = graphlenvec[graphlenvec.size()-1];
         QPainter painter(ui->mygraph);
         painter.setPen(Qt::black);
-        cout<<"exec length:"<<execQ.size()<<endl;
         for(int i = 0; i <execQ.size();i++){
             if(execQ[i]->pid!= -1){
                 if(execQ[i-1]->pid == -1){
@@ -229,18 +192,16 @@ bool SchWidget::eventFilter(QObject *watched, QEvent *event)
                     graphlen += 5*(execQ[i]->arrivaltime);
 
                     QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
-                     cout<<"pid is"<<(execQ[i])->pid<<endl;
-                     painter.setBrush(*brush);
-                     painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
-                     graphlen += 5*(execQ[i]->timeRemain);
-                     delete brush;
+                    painter.setBrush(*brush);
+                    painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
+                    graphlen += 5*(execQ[i]->timeRemain);
+                    delete brush;
                 }else{
                     QBrush * brush = new QBrush(*colorvec[(execQ[i])->pid-1]);
-                     cout<<"pid is"<<(execQ[i])->pid<<endl;
-                     painter.setBrush(*brush);
-                     painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
-                     graphlen += 5*(execQ[i]->timeRemain);
-                     delete brush;
+                    painter.setBrush(*brush);
+                    painter.drawRect(graphlen,40,5*(execQ[i]->timeRemain),100);
+                    graphlen += 5*(execQ[i]->timeRemain);
+                    delete brush;
                 }
             }
 
@@ -256,56 +217,34 @@ bool SchWidget::eventFilter(QObject *watched, QEvent *event)
         p.drawRect(0,0,ui->mygraph->size().width(),ui->mygraph->size().height());
         ui->timecounter->setText(QString::number(ptremained));
     }
-       return QWidget::eventFilter(watched,event);
- }
+    return QWidget::eventFilter(watched,event);
+}
 
 void SchWidget::on_comboBox_activated(const QString &arg1)
 {
-
     if(arg1 =="First-Come First-Served"){
         algo_sign = 0;
-        }
+    }
     if(arg1 =="Shortest-Job First"){
         algo_sign = 1;
-        }
+    }
     if(arg1 =="Shortest-Remaining Time"){
         algo_sign = 2;
-        }
+    }
     if(arg1 =="Highest-Response Ratio Next"){
         algo_sign = 3;
-        }
+    }
     if(arg1 =="Round_Robin"){
         algo_sign = 4;
-        }
-}
-
-/*
- * Implementation notes: to print color map
- * ------------------------------
- */
-void SchWidget::printcolor_map(){
-    map<string,QColor*>::iterator it = color_map.begin();
-    for(it; it!= color_map.end(); it++){
-        std::cout<<(*it).first<<std::endl;
     }
 }
 
-/*
- * Implementation notes: to initialize color vector
- * ------------------------------
- */
 void SchWidget::initcolorvec(){
     for(int i = 0; i< number_of_process;i++){
         colorvec.push_back(new QColor(rand()%(255 - 0 +1),rand()%(255 - 0 +1),rand()%(255 - 0 +1)));
     }
-    cout<<"color vec size is"<< colorvec.size()<<endl;
-
 }
 
-/*
- * Implementation notes: to initialize table widget
- * ------------------------------
- */
 void SchWidget::inittable(){
     //initialize table
     for(int i =0;i<number_of_process;i++){
@@ -315,25 +254,16 @@ void SchWidget::inittable(){
     }
 }
 
-/*
- * Implementation notes: to clear the graph
- * ------------------------------
- */
 void SchWidget::initgraph(){
     flag = 2;
     ui->mygraph->repaint();
 }
 
-/*
- * Implementation notes: initialize clicked
- * ------------------------------
- */
 void SchWidget::on_initialize_clicked()
 {
     if(allow_to_init == true){
         s = new scheduling;
         init_flag = true;
-        cout <<"initialized"<<endl;
         allow_to_init = false;
         spin_flag = true;
     }else{
@@ -341,20 +271,10 @@ void SchWidget::on_initialize_clicked()
     }
 }
 
-/*
- * Implementation notes: after timeslice edited
- * ------------------------------
- */
 void SchWidget::on_timeslice_textEdited(const QString &arg1)
 {
     timeslice = arg1.toInt();
 }
-
-
-/*
-* CPU::Connection
-* --------------------------------
-*/
 
 void SchWidget::set_CPU(cpuMon * cpu){
     CPU=cpu;
@@ -411,11 +331,10 @@ void SchWidget::sleeping(){
 void SchWidget::closeEvent(QCloseEvent *event){
     CPU->terminateP(PID);
     if (created){
-    memory->deallocate(PID,memory_size);
+        memory->deallocate(PID,memory_size);
     }
     event->accept();
 }
-
 
 void SchWidget::set_memory(Buddy *Memory){
     memory = Memory;
@@ -458,6 +377,5 @@ bool SchWidget::checkempyt(int i, int j, int k){
         }
     }
     return true;
-
 }
 

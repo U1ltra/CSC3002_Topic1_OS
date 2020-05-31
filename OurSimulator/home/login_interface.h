@@ -1,3 +1,4 @@
+
 /*
  * File: login_interface.h
  * -----------------------
@@ -7,10 +8,11 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
-#include <QString>
+
 #include <QMap>
 #include <QTimer>
+#include <QWidget>
+#include <QString>
 #include "home/mainwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,7 +37,7 @@ private slots:
 
     void on_Password_returnPressed();
 
-/*
+    /*
  * Slot Function: closeWindow
  * --------------------------
  * Close the main window in child mode.
@@ -60,5 +62,6 @@ private:
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+
 };
 #endif // WIDGET_H

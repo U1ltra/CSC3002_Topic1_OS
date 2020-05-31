@@ -1,20 +1,19 @@
+
 /*
  * File: texteditor.cpp
  * --------------------
  * This file implements the texteditor.h interface.
  */
 
-#include "app/texteditor.h"
-#include "ui_texteditor.h"
-#include <QLabel>
-#include <QLineEdit>
+#include <QLayout>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QPushButton>
-#include <QLayout>
 #include <QMouseEvent>
 #include <QCloseEvent>
 #include <unistd.h>
+#include "ui_texteditor.h"
+#include "app/texteditor.h"
 
 TextEditor::TextEditor(QMainWindow *parent) :
     QMainWindow(parent),
@@ -33,11 +32,11 @@ TextEditor::TextEditor(QMainWindow *parent) :
 
     /* Update usage by detecting different oparetions.*/
     setMouseTracking(true);
-    this->centralWidget()->setMouseTracking(true);  
+    this->centralWidget()->setMouseTracking(true);
     system_timer = new QTimer();
     system_timer->setSingleShot(true);
-    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));  // To return to the fluctuation mode.
-    connect(ui->textEdit,SIGNAL(textChanged()), this, SLOT(texting())); //This program is activitied.
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));       // To return to the fluctuation mode.
+    connect(ui->textEdit,SIGNAL(textChanged()), this, SLOT(texting()));             //This program is activitied.
 }
 
 TextEditor::~TextEditor()
@@ -268,7 +267,7 @@ void TextEditor::findText() {
             }
         }
 
-        }
+    }
 }
 
 /*

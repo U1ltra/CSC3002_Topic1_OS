@@ -1,8 +1,15 @@
+
+/*
+ * File: openfile.h
+ * ----------------
+ * This file is used to open a fold path.
+ */
+
 #ifndef OPENFILE_H
 #define OPENFILE_H
 
-#include <QDialog>
 #include <QDir>
+#include <QDialog>
 #include <QListWidget>
 
 namespace Ui {
@@ -17,8 +24,8 @@ class openFile : public QDialog
 public:
     friend class TextEditor;
     QString directoryPath;
-    QDir dir;
     QString fileName;
+    QDir dir;
 
     explicit openFile(QWidget *parent = nullptr);
     ~openFile();
@@ -37,8 +44,11 @@ private:
 
 protected slots:
     void Root();
+
     void setFileName();
+
     void doubleClicked(QListWidgetItem*);
+
 };
 
 #endif // OPENFILE_H

@@ -5,23 +5,16 @@
  * This file implements the cpu monitor class.
  */
 
-#include "monitor/cpuMon.h"
 #include <cmath>
 #include <ctime>
 #include <chrono>
 #include <thread>
-#include <vector>
 #include <string>
-#include <cstdlib>
 #include <iomanip>
-#include <QDebug>
-#include <QVariant>
 #include <iostream>
-
-//#include <iomanip>
+#include "monitor/cpuMon.h"
 
 using namespace std;
-
 
 const int REFRESHING_SLICE = 2;
 const int kernel_pid = 0;
@@ -148,7 +141,7 @@ void cpuMon::shutDown(){
 }
 
 void shutInSequence(cpuMon & cpuM){
-//    static bool initial = true;
+    //    static bool initial = true;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     cpuM.shutOS = true;
     std::vector<process*>::iterator it;
@@ -156,25 +149,7 @@ void shutInSequence(cpuMon & cpuM){
     cpuM.processes.erase(cpuM.processes.end()-1);
     thread shutNext(ref(shutInSequence), ref(cpuM));
     shutNext.detach();
-//    initial = false;
-//    thread shut(ref(shutInSequence), ref(cpuM));
 }
-
-
-//void shutDown(cpuMon * cpuM){
-//    cpuM->shutOS = true;
-//    process * buffer;
-//    vector<process*>::iterator it;
-//    it = cpuM->processes.begin();
-//    while (it!=cpuM->processes.end()) {
-//        buffer = *(cpuM->processes.end()-1);
-//        cpuM->processes.erase(cpuM->processes.end()-1);
-//        this_thread::sleep_for(chrono::seconds(1));
-////        delete buffer;    // not necessary since the program is going to shut down
-////        this_thread::sleep_for(std::chrono::seconds(2));
-//        it++;
-//    }
-//}
 
 double cpuMon::TsysPer(){
     double total = 0;
@@ -262,12 +237,10 @@ void cpuMon::operationDet(int pid, opType op){  // whenever GUI detect a kind of
     launchd(op);
     window_server(op);
 
-    recentIn(*(it));                          // record the most recent processes
-    inactiveP(*(it));                         // update processes that is not currently updated
+    recentIn(*(it));                            // record the most recent processes
+    inactiveP(*(it));                           // update processes that is not currently updated
     Tstatistics();                              // calculate statistics
     CPUTem();                                   // update cpu temperature
-//    check();
-    cout << "op princt" << endl;
 }
 
 void cpuMon::kernel_task(opType op){
@@ -275,7 +248,6 @@ void cpuMon::kernel_task(opType op){
     static bool initial=true;
     double periodCPUT;
     if (initial){
-        cout << "init" << endl;
         processes[0]->cpuT = (100+rand()%150)/double(1000);             // 10%-12.5%
         processes[0]->cpuPer = processes[0]->cpuT/REFRESHING_SLICE;
         processes[0]->thread = 70;
@@ -336,7 +308,7 @@ void cpuMon::window_server(opType op){
     srand(((int) time(NULL))+TThread+TIDLE);
     static bool initial=true;
     if (initial){
-        processes[2]->cpuT = (150+rand()%200)/double(1000);                 // 7.5%-17.5%
+        processes[2]->cpuT = (150+rand()%200)/double(1000);             // 7.5%-17.5%
         processes[2]->cpuPer = processes[2]->cpuT/REFRESHING_SLICE;
         processes[2]->thread = 7+rand()%5;
         processes[2]->idle_wake = 30+rand()%20;
@@ -344,39 +316,39 @@ void cpuMon::window_server(opType op){
     } else {
         double periodCPUT;
         switch (op) {
-            case simpleClick: case calculation:
-            case textIn:      case fluctuation:
-                periodCPUT = (100+rand()%100)/double(1000);                 // around 5%-10%
-                processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
-                processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
-                processes[2]->thread = rand()%10+5;
-                processes[2]->idle_wake = rand()%15+10;
-                break;
+        case simpleClick: case calculation:
+        case textIn:      case fluctuation:
+            periodCPUT = (100+rand()%100)/double(1000);                 // around 5%-10%
+            processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
+            processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
+            processes[2]->thread = rand()%10+5;
+            processes[2]->idle_wake = rand()%15+10;
+            break;
 
-            case effectClick: case fileMan:                                 // most likely result in graphical changing
-                periodCPUT = (200+rand()%100)/double(1000);                 // around 10%-15%
-                processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
-                processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
-                processes[2]->thread = 7+rand()%5;
-                processes[2]->idle_wake = 15+rand()%20;
-                break;
+        case effectClick: case fileMan:                                 // most likely result in graphical changing
+            periodCPUT = (200+rand()%100)/double(1000);                 // around 10%-15%
+            processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
+            processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
+            processes[2]->thread = 7+rand()%5;
+            processes[2]->idle_wake = 15+rand()%20;
+            break;
 
-            case movingAround: case refreshing:                             // graph in game case or refreshing cursor
-                periodCPUT = (300+rand()%200)/double(1000);                 // around 20%-30%
-                processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
-                processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
-                processes[2]->thread = 10+rand()%10;
-                processes[2]->idle_wake = 30+rand()%40;
-                break;
+        case movingAround: case refreshing:                             // graph in game case or refreshing cursor
+            periodCPUT = (300+rand()%200)/double(1000);                 // around 20%-30%
+            processes[2]->cpuT = processes[2]->cpuT+periodCPUT;
+            processes[2]->cpuPer = periodCPUT/REFRESHING_SLICE;
+            processes[2]->thread = 10+rand()%10;
+            processes[2]->idle_wake = 30+rand()%40;
+            break;
         }
     }
 }
 
-void cpuMon::launchd(opType op){                                            // launchd is an important initial process
-    srand(((int) time(NULL))+TThread+TIDLE);                                // but usually has low cpu percentage
+void cpuMon::launchd(opType op){                                        // launchd is an important initial process
+    srand(((int) time(NULL))+TThread+TIDLE);                            // but usually has low cpu percentage
     static bool initial=true;
     if (initial){
-        processes[1]->cpuT = (100+rand()%100)/double(10000);                // 0.5%-1%
+        processes[1]->cpuT = (100+rand()%100)/double(10000);            // 0.5%-1%
         processes[1]->cpuPer = processes[1]->cpuT/REFRESHING_SLICE;
         processes[1]->thread = rand()%2+1;
         processes[1]->idle_wake = rand()%2;
@@ -384,87 +356,87 @@ void cpuMon::launchd(opType op){                                            // l
     } else{
         double periodCPUT;
         switch (op) {
-            case simpleClick: case movingAround:
-            case refreshing:  case calculation:
-            case textIn:      case fileMan:
-            case fluctuation:
-                periodCPUT = (10+rand()%100)/double(10000);                 // around 0-0.5%
-                processes[1]->cpuT = processes[1]->cpuT+periodCPUT;
-                processes[1]->cpuPer = periodCPUT/REFRESHING_SLICE;
-                processes[1]->thread = 1+rand()%10;
-                processes[1]->idle_wake = rand()%3;
-                if (processes[1]->thread<3) processes[1]->thread=3;
-                break;
+        case simpleClick: case movingAround:
+        case refreshing:  case calculation:
+        case textIn:      case fileMan:
+        case fluctuation:
+            periodCPUT = (10+rand()%100)/double(10000);                 // around 0-0.5%
+            processes[1]->cpuT = processes[1]->cpuT+periodCPUT;
+            processes[1]->cpuPer = periodCPUT/REFRESHING_SLICE;
+            processes[1]->thread = 1+rand()%10;
+            processes[1]->idle_wake = rand()%3;
+            if (processes[1]->thread<3) processes[1]->thread=3;
+            break;
 
-            case effectClick:
-                periodCPUT = (300+rand()%300)/double(10000);                // around 1.5%-3%
-                processes[1]->cpuT = processes[1]->cpuT+periodCPUT;
-                processes[1]->cpuPer = periodCPUT/REFRESHING_SLICE;
-                processes[1]->thread = processes[1]->thread+4;
-                processes[1]->idle_wake = rand()%3;
-                break;
+        case effectClick:
+            periodCPUT = (300+rand()%300)/double(10000);                // around 1.5%-3%
+            processes[1]->cpuT = processes[1]->cpuT+periodCPUT;
+            processes[1]->cpuPer = periodCPUT/REFRESHING_SLICE;
+            processes[1]->thread = processes[1]->thread+4;
+            processes[1]->idle_wake = rand()%3;
+            break;
         }
     }
 }
 
-void cpuMon::operationMon(process * & P, opType op){                    // this function serves all processes created other than kernel_task,
-    srand(((int) time(NULL))+TThread+TIDLE);                            // window_server, launchd. According to the operation enumeration passed
-    double periodCPUT;                                                  // in, reasonable updates are performed on statistics of the give process
+void cpuMon::operationMon(process * & P, opType op){                // this function serves all processes created other than kernel_task,
+    srand(((int) time(NULL))+TThread+TIDLE);                        // window_server, launchd. According to the operation enumeration passed
+    double periodCPUT;                                              // in, reasonable updates are performed on statistics of the give process
     switch (op) {
-        case simpleClick: case movingAround:                            // during the three type of condition, current process attributes is low
-            periodCPUT = (800+rand()%200)/double(10000);                // around 1%-2%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = rand()%7+1;
-            P->idle_wake = rand()%2;
-            P->pre_cpuT = periodCPUT;
-            break;
+    case simpleClick: case movingAround:                            // during the three type of condition, current process attributes is low
+        periodCPUT = (800+rand()%200)/double(10000);                // around 1%-2%
+        P->cpuT = P->cpuT+periodCPUT;
+        P->cpuPer = periodCPUT/REFRESHING_SLICE;
+        P->thread = rand()%7+1;
+        P->idle_wake = rand()%2;
+        P->pre_cpuT = periodCPUT;
+        break;
 
-        case effectClick:
-            periodCPUT = (200+rand()%200)/double(1000);                 // around 10%-20%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = 10+rand()%10;
-            P->idle_wake = rand()%5;
-            P->pre_cpuT = periodCPUT;
-            break;
+    case effectClick:
+        periodCPUT = (200+rand()%200)/double(1000);                 // around 10%-20%
+        P->cpuT = P->cpuT+periodCPUT;
+        P->cpuPer = periodCPUT/REFRESHING_SLICE;
+        P->thread = 10+rand()%10;
+        P->idle_wake = rand()%5;
+        P->pre_cpuT = periodCPUT;
+        break;
 
-        case refreshing:
-            periodCPUT = (150+rand()%150)/double(1000);                 // around 7.5%-15%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = 5+rand()%10;
-            P->idle_wake = rand()%10;
-            P->pre_cpuT = periodCPUT;
-            break;
+    case refreshing:
+        periodCPUT = (150+rand()%150)/double(1000);                 // around 7.5%-15%
+        P->cpuT = P->cpuT+periodCPUT;
+        P->cpuPer = periodCPUT/REFRESHING_SLICE;
+        P->thread = 5+rand()%10;
+        P->idle_wake = rand()%10;
+        P->pre_cpuT = periodCPUT;
+        break;
 
-        case calculation:
-            periodCPUT = (100+rand()%100)/double(1000);                 // around 5%-10%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = rand()%5+1;
-            P->idle_wake = rand()%3;
-            P->pre_cpuT = periodCPUT;
-            break;
+    case calculation:
+        periodCPUT = (100+rand()%100)/double(1000);                 // around 5%-10%
+        P->cpuT = P->cpuT+periodCPUT;
+        P->cpuPer = periodCPUT/REFRESHING_SLICE;
+        P->thread = rand()%5+1;
+        P->idle_wake = rand()%3;
+        P->pre_cpuT = periodCPUT;
+        break;
 
-        case textIn:
-            periodCPUT = (rand()%150)/double(1000);                     // around 0-7.5%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = rand()%3+1;
-            P->idle_wake = rand()%3;
-            P->pre_cpuT = periodCPUT;
-            break;
-        case fileMan:
-            periodCPUT = (100+rand()%300)/double(1000);                 // around 5%-20%
-            P->cpuT = P->cpuT+periodCPUT;
-            P->cpuPer = periodCPUT/REFRESHING_SLICE;
-            P->thread = rand()%10+1;
-            P->idle_wake = rand()%5;
-            P->pre_cpuT = periodCPUT;
-            break;
-        case fluctuation:                                               // left for <code>fluctuation to deal with
-            break;
+    case textIn:
+        periodCPUT = (rand()%150)/double(1000);                     // around 0-7.5%
+        P->cpuT = P->cpuT+periodCPUT;
+        P->cpuPer = periodCPUT/REFRESHING_SLICE;
+        P->thread = rand()%3+1;
+        P->idle_wake = rand()%3;
+        P->pre_cpuT = periodCPUT;
+        break;
+    case fileMan:
+        periodCPUT = (100+rand()%300)/double(1000);                 // around 5%-20%
+        P->cpuT = P->cpuT+periodCPUT;
+        P->cpuPer = periodCPUT/REFRESHING_SLICE;
+        P->thread = rand()%10+1;
+        P->idle_wake = rand()%5;
+        P->pre_cpuT = periodCPUT;
+        break;
+    case fluctuation:                                               // left for <code>fluctuation to deal with
+        break;
     }
 }
 
@@ -521,8 +493,6 @@ void fluctuate(cpuMon & monitor){                               // OS gradually 
 
     if (!monitor.operation){                                    // freshing does not equal to fluctuate
         monitor.leisure();
-//        monitor.check();
-        cout << "fl print" << endl;
     }
     this_thread::sleep_for(chrono::milliseconds(200));          // call oneself again after the sleep, making this function a parallel thread
     thread next(ref(fluctuate), ref(monitor));                  // detach to allow the resources of this function been collected
@@ -585,8 +555,6 @@ vector<const QVariant> cpuMon::getAttributesQ(QVariant attr){
     return vec;
 }
 
-
-
 void cpuMon::check(){
     vector<process*>::iterator it;
     it = processes.begin();
@@ -594,7 +562,6 @@ void cpuMon::check(){
     cout << "  ------------      --------      --------      ------      ------------      ----------" << endl;
     while (it!=processes.end()){
         cout << "                    " << left << fixed;
-        qDebug() << (*it)->name.toString() << ":     ";
         cout << setprecision(4);
         cout << setw(8) << (*it)->cpuT << "      ";
         cout << setw(7) << (*it)->cpuPer*100 << "%       ";

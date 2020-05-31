@@ -1,14 +1,20 @@
-#include "app/calendar.h"
-#include <QCalendarWidget>
-#include <QMessageBox>
+
+/*
+ * File: calender.cpp
+ * ------------------
+ * This implements a visualized calender widget.
+ */
+
 #include <unistd.h>
-#include <iostream>
+#include <QMessageBox>
+#include "app/calendar.h"
+
 Calendar::Calendar(QMainWindow *parent):
     QCalendarWidget(parent)
 {
     setMouseTracking(true);
 
-    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer = new QTimer();                                // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
     connect(this,SIGNAL(clicked()),this,SLOT(to_effect_Click()));
@@ -58,7 +64,6 @@ void Calendar::closeEvent(QCloseEvent *event){
     if (created){
         memory->deallocate(PID,memory_size);
         while(!CPU->isFreeToClose(PID)){
-            std::cout << "calendar closeevent" << endl;
             sleep(1);
         }
     } else CPU->terminateP(PID);

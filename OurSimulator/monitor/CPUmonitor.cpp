@@ -5,21 +5,15 @@
  * This file uses Qt libraries to implement the monitor widget.
  */
 
-#include <iostream>
-#include <QDebug>
 #include <QTimer>
-#include <QLabel>
-#include <QLayout>
-#include <QLineEdit>                // maybe used to find a specific process
+#include <QCloseEvent>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QAbstractButton>
 #include <chrono>
 #include <thread>
-#include "monitor/CPUmonitor.h"
-#include "memoryGame/table_constr.h"
 #include <unistd.h>
-#include <QCloseEvent>
-#include <QMessageBox>
+#include "monitor/CPUmonitor.h"
 
 const QFont NOM_FONT = QFont("Times New Roman", 16);
 const QFont TITLE_FONT = QFont("Helvatica", 25);
@@ -32,54 +26,32 @@ const QString PROCESST = QWidget::tr("Process: ");
 const QString CPUTEMPERATURE = QWidget::tr("CPU Temperature: ");
 const QString TITLE = QWidget::tr("Activity Monitor");
 
-
 CPUmonitor::CPUmonitor(cpuMon * cpu, QWidget *parent) :
     QWidget(parent)
 {
-//    Title = new QLabel;
-//    Title->setText(TITLE);
-//    Title->setFont(TITLE_FONT);
-
     tableConstructor = new stdTable;
     tableModel = new QStandardItemModel;
     visualTable = new QTableView;
 
     CPU = cpu;
-//    set_CPU(cpu);
+
     initTable();
-
-//    for (int i=0; i<tableConstructor->getColN(); i++){
-//        for (int j; j<tableConstructor->getRowN(); j++){
-//            tableModel->item(j,i)->setTextAlignment(Qt::AlignCenter);
-//        }
-//    }
-
     initBottom();
 
-
     mainLayout = new QVBoxLayout;
-//    mainLayout->addWidget(Title);
     mainLayout->addWidget(visualTable);
     mainLayout->addLayout(bottomStack);
     mainLayout->setSpacing(20);
-    mainLayout->setAlignment(Qt::AlignCenter);          // this line does not work, why?
-//    mainLayout->setContentsMargins(50,50,50,35);
-//    mainLayout->addStretch();
+    mainLayout->setAlignment(Qt::AlignCenter);
+
     this->setWindowTitle(TITLE);
     this->setLayout(mainLayout);
     refresh(this);
 
-//    QTimer * monitorRefreshT = new QTimer(this);
-//    connect(monitorRefreshT, SIGNAL(timeout()), this, SLOT(refreshing()));
-//    monitorRefreshT->setInterval(1000);
-//    monitorRefreshT->start();
-
-//    setMouseTracking(true);
-//    visualTable->viewport()->setMouseTracking(true);
-    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer = new QTimer();                        // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
-//    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
+
 
 }
 
@@ -106,7 +78,6 @@ void CPUmonitor::initTable(){
     tableConstructor->setTitle(CPU->getAttributesQ(ATTRIBUTES), CPU->getAttributesQ(ATTRIBUTES));
     tableConstructor->cpuMon2table(CPU);
     tableModel = tableConstructor->getTable();
-    cout << "crushed event !!!!!!!!1" <<endl;
     visualTable->setModel(tableModel);                                  // this is the table view to be display
     visualTable->setEditTriggers(QAbstractItemView::NoEditTriggers);    // no editing allowed
     visualTable->setFont(NOM_FONT);
@@ -120,8 +91,6 @@ void CPUmonitor::initTable(){
 }
 
 void CPUmonitor::initBottom(){
-//    QString sys = QString("%1   %2   %").arg(SYSTEMT).arg(QString::number(CPU->TsysPer()*100,'f', 2));
-//    QString
     SystemT = new QLabel(this);
     UserT = new QLabel(this);
     IdleT = new QLabel(this);
@@ -135,7 +104,6 @@ void CPUmonitor::initBottom(){
     ProcessT->setFont(NOM_FONT);
     CPUTem->setFont(NOM_FONT);
     fillBotStatistics();
-
 
     bottomLeft = new QVBoxLayout();
     bottomRight = new QVBoxLayout;
@@ -170,17 +138,14 @@ void CPUmonitor::fillBotStatistics(){
 }
 
 void refresh(CPUmonitor * mon){
-//    static bool initial = true;
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
     if (mon->tableConstructor->getRowN()!=mon->CPU->Tprocess()){
-        cout<<"inside constructor" << endl;
         delete mon->tableConstructor;
         mon->tableConstructor = new stdTable;
         mon->initTable();
     } else mon->tableConstructor->cpuMon2table(mon->CPU);
 
-//    mon->visualTable->setModel(mon->tableModel);
     mon->visualTable->reset();
     mon->visualTable->update();
 
@@ -191,12 +156,10 @@ void refresh(CPUmonitor * mon){
     mon->ThreadT->update();
     mon->ProcessT->update();
     mon->CPUTem->update();
-    cout << "MemMonitor refreshed !!!" << endl;
-//    initial = false;
+
     std::thread next(refresh, mon);
     next.detach();
 }
-
 
 void CPUmonitor::set_CPU(cpuMon * cpu){
     CPU=cpu;
@@ -247,7 +210,6 @@ void CPUmonitor::sleeping(){
         sleep(1);
     }
 }
-
 
 void CPUmonitor::set_memory(Buddy *Memory){
     memory = Memory;

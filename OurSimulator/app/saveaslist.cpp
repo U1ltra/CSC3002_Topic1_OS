@@ -1,6 +1,13 @@
-#include "app/saveaslist.h"
-#include "ui_saveaslist.h"
+
+/*
+ * File: saveaslist.cpp
+ * --------------------
+ * This file implements the saving function.
+ */
+
 #include <QProcess>
+#include "ui_saveaslist.h"
+#include "app/saveaslist.h"
 
 saveAsList::saveAsList(QWidget *parent) :
     QDialog(parent),
@@ -25,13 +32,13 @@ saveAsList::~saveAsList()
 
 // This function is represent the new directory that the users choose
 void saveAsList::pathChange(QString path) {
-    dir.setPath(path); // Set the path to the current directory path
+    dir.setPath(path);                          // Set the path to the current directory path
     directoryPath = dir.absolutePath();
     ui->pathEdit->setText(directoryPath);
 }
 
 void saveAsList::showFileInfoList(QDir dir) {
-    ui->fileList->clear(); // clear all the item in the QListWidget
+    ui->fileList->clear();                      // clear all the item in the QListWidget
     QFileInfoList list = dir.entryInfoList();
 
     // extract all the items in this directory and add it to the widget

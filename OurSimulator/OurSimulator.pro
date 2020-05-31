@@ -60,7 +60,8 @@ HEADERS += \
     monitor/cpuMon.h \
     monitor/memMonitor.h \
     monitor/monitor.h \
-    schedule/Schwidget.h
+    schedule/Schwidget.h \
+    schedule/scheduling.h
 
 FORMS += \
     app/calculator.ui \

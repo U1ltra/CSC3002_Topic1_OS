@@ -1,3 +1,4 @@
+
 /*
  * File: Buddy.h
  * -------------
@@ -9,11 +10,13 @@
 
 #ifndef BUDDY_H
 #define BUDDY_H
-#include "memoryGame/pair.h"
-#include <vector>
-#include <list>
+
 #include <map>
+#include <list>
+#include <vector>
+#include "memoryGame/pair.h"
 #include "memoryGame/m_task.h"
+
 using namespace std;
 
 class Buddy{

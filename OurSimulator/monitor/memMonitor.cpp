@@ -5,16 +5,14 @@
  * This file
  */
 
-#include <iostream>
 #include <thread>
-#include <vector>
 #include <QTimer>
 #include <QString>
 #include <unistd.h>
-#include "monitor/memMonitor.h"
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <unistd.h>
+#include "monitor/memMonitor.h"
 
 const QFont NOM_FONT = QFont("Times New Roman", 16);
 const QSize SIZE = QSize(500, 100);
@@ -35,38 +33,25 @@ Memmonitor::Memmonitor(Buddy * bd, cpuMon * cpu, QWidget *parent) :
     tableModel = new QStandardItemModel;
     tableConstructor = new stdTable;
 
-//    setPID(pid);
-//    set_memory(bd);                                 // need pid at once since mem page does not refresh
     initTable();
-//    setMouseTracking(true);
     bottomLayout = new QHBoxLayout;
     memConsumption = new QLabel;
     totalMem = new QLabel;
-//    bottomLayoutV1 = new QVBoxLayout;
-//    bottomLayoutV2 = new QVBoxLayout;
+
     initBottom();
-
-//    bottomLayoutV->addLayout(bottomLayout);
-
     mainLayout = new QVBoxLayout;
-//    mainLayout->addWidget(memConsumption);
     mainLayout->addWidget(visualTable);
     mainLayout->addLayout(bottomLayout);
     mainLayout->setSpacing(30);
     mainLayout->setAlignment(Qt::AlignCenter);
-//    mainLayout->setContentsMargins(0,0,0,20);
-//    mainLayout->setSpacing(20);
-//    mainLayout->setContentsMargins(50,50,50,35);
+
     this->setWindowTitle("Memory Monitor");
     this->setLayout(mainLayout);
     refresh(this);
 
-
     system_timer = new QTimer;
     system_timer->setSingleShot(true);
-//    visualTable->viewport()->setMouseTracking(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
-//    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 }
 
 Memmonitor::~Memmonitor()
@@ -79,7 +64,6 @@ Memmonitor::~Memmonitor()
     delete totalMem;
 
     delete bottomLayout;
-
     delete mainLayout;
 
     delete system_timer;
@@ -93,12 +77,9 @@ void Memmonitor::initTable(){
     tableConstructor->setTable(memory->Bu_map.size(), COLUMNS);
     tableConstructor->setTitle(attrNames, attrNames);
 
-
     vector<const QVariant> check = CPU->getAttributesQ(PNAME);
     vector<const QVariant> check2 = CPU->getAttributesQ(PIDT);
 
-//    Pnames = CPU->getAttributesQ(PNAME);
-//    cout << "heeeeeeeeeeeeeeeeeeeer" << endl;
     PIDS.clear();
     real.clear();
     total.clear();
@@ -106,7 +87,6 @@ void Memmonitor::initTable(){
     for (size_t i=0; i<check.size(); i++) {
         if (i>=3) {
             Pnames.push_back(check[i]);
-//            PIDS.push_back(check2[1]);
         }
     }
 
@@ -119,7 +99,6 @@ void Memmonitor::initTable(){
         memConsumePer = memConsumePer + it->second;
         it++;
     }
-
 
     tableConstructor->tableChange(0, Pnames);
     tableConstructor->tableChange(1, PIDS);
@@ -135,7 +114,6 @@ void Memmonitor::initTable(){
     visualTable->setColumnWidth(2, 200);
     visualTable->setColumnWidth(3, 200);
 
-//    visualTable->resize(500, 500);
 }
 
 void Memmonitor::initBottom() {
@@ -165,7 +143,7 @@ void refresh(Memmonitor * memM) {
     memM->totalMem->update();
     memM->visualTable->update();
     memM->visualTable->reset();
-    cout << "MemMonitor refreshed !!!" << endl;
+
     std::thread next = std::thread(refresh, memM);
     next.detach();
 }
@@ -187,11 +165,9 @@ void Memmonitor::mouseMoveEvent(QMouseEvent *e)
     to_moving_around();
 }
 
-
 void Memmonitor::back_to_fluctuation(){
     CPU->operationDet(PID,fluctuation);
 }
-
 
 void Memmonitor::to_effect_Click(){
     CPU->operationDet(PID,effectClick);
@@ -218,7 +194,6 @@ void Memmonitor::sleeping(){
         sleep(1);
     }
 }
-
 
 void Memmonitor::set_memory(Buddy *Memory){
     memory = Memory;

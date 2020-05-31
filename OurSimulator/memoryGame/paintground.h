@@ -8,19 +8,18 @@
 #ifndef PAINTGROUND_H
 #define PAINTGROUND_H
 
-#include "memoryGame/Buddy.h"
 #include <QLabel>
 #include <QWidget>
 #include <QPainter>
 #include <QScrollArea>
-
+#include "memoryGame/Buddy.h"
 
 class paintGround : public QWidget
 {
     Q_OBJECT
 
 public:
-//    explicit paintGround(QWidget *parent = nullptr);
+    //    explicit paintGround(QWidget *parent = nullptr);
     paintGround(QWidget * parent = nullptr);
     ~paintGround()=default;
 
@@ -50,21 +49,22 @@ public:
      */
     void switchStatus(bool status);
 
+    /*
+     * Rewrite paint event function to draw self defined
+     * function
+     */
     void paintEvent(QPaintEvent *event) override;
 
 private:
-
 
     QLabel * TUsed;
     QPainter * paint;
     Buddy * bd;
 
-    bool startPainting;
     int width;
     int height;
+    bool startPainting;
     std::vector<int> * colors;           // random colors
-
-//    QScrollArea * scroll;
 
 };
 

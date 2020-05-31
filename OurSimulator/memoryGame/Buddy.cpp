@@ -1,17 +1,13 @@
+
 /*
  * File: Buddy.cpp
  * ---------------
  * This file implements <code>Buddy</code> class.
  */
 
-#include "memoryGame/m_task.h"
+#include <math.h>
 #include "memoryGame/Buddy.h"
 #include "memoryGame/pair.h"
-#include <vector>
-#include <list>
-#include <iostream>
-#include <math.h>
-#include <map>
 
 using namespace std;
 
@@ -31,7 +27,6 @@ bool Buddy::mem_allocation(m_task &current){
         arr[num].pop_back();
         current.starting_Address = tem.lb;
         Bu_map[current] = tem.ub - tem.lb + 1;
-        cout << "memory from " << tem.lb << " to " << tem.ub << " " << "allocated." << endl;
         return true;
     }
     size_t i;
@@ -41,7 +36,6 @@ bool Buddy::mem_allocation(m_task &current){
     }
 
     if (i == arr.size()){
-        cout << "Fail to allocate memory" << endl;
         return false;
     }
     Pair tem = arr[i].back();
@@ -57,7 +51,6 @@ bool Buddy::mem_allocation(m_task &current){
     }
     current.starting_Address = tem.lb;
     Bu_map[current] = tem.ub - tem.lb + 1;
-    cout << "Memory from " << tem.lb << " to " << tem.ub << " allocated" << endl;
     return true;
 }
 
@@ -66,12 +59,10 @@ bool Buddy::mem_allocation(m_task &current){
 bool Buddy::deallocate(m_task &current){
     int index = current.starting_Address;
     if (!Bu_map.count(current)){
-        cout << "Sorry, invalid free request" << endl;
         return false;
     }
     int num = (int) ceil(log(Bu_map[current]) / log(2));
     arr[num].push_front(Pair(index, index + (int)pow(2,num) - 1));
-    cout << "Memory from " << index << " to " << index + (int)pow(2,num) - 1 << " freed." << endl;
     merge(num,index);
     Bu_map.erase(current);
     return true;
@@ -90,12 +81,8 @@ void Buddy::merge(int num, int index){
         if (it->lb == buddyAddress){
             if (buddyNum % 2 == 0){
                 arr[num+1].push_front(Pair(index, index + 2 * ((int)pow(2,num)) - 1));
-                cout << "Coalescing of blocks starting at " << index << " and " <<
-                        buddyAddress << " was done " << endl;
             }else {
                 arr[num+1].push_front(Pair(buddyAddress, buddyAddress + 2 * ((int)pow(2,num)) - 1));
-                cout << "Coalescing of blocks starting at " << buddyAddress <<" and " <<
-                        index << " was done " << endl;
             }
             arr[num].erase(it);
             arr[num].pop_front();

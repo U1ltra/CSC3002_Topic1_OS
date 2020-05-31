@@ -1,13 +1,22 @@
+
+/*
+ * File: visualfilemanager.h
+ * -------------------------
+ * This file declares a QWidget class which realizes file
+ * management function
+ */
+
 #ifndef VISUALFILEMANAGER_H
 #define VISUALFILEMANAGER_H
 
-#include <QMainWindow>
-#include <QProcess>
 #include <QDir>
+#include <QProcess>
+#include <QMainWindow>
 #include <QListWidget>
 #include <QMouseEvent>
 #include "monitor/cpuMon.h"
 #include "memoryGame/Buddy.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class VisualFileManager; }
 QT_END_NAMESPACE
@@ -149,7 +158,9 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent *e);
+
     void mouseMoveEvent(QMouseEvent *e);
+
     void closeEvent(QCloseEvent* event);
 
 protected slots:
@@ -227,7 +238,7 @@ protected slots:
      * the operating system.
      */
     void doubleClicked(QListWidgetItem*);
-//    void singleClicked(QListWidgetItem*);
+    //    void singleClicked(QListWidgetItem*);
 
     /*
      * Function: showError
@@ -248,7 +259,9 @@ protected slots:
     void back_to_fluctuation();
 
     void FileManaging();
+
 private slots:
     void on_let_Menu_returnPressed();
+
 };
 #endif // VISUALFILEMANAGER_H

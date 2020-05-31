@@ -5,17 +5,13 @@
  * This file implements the supportive class, <code>table_constr</code>.
  */
 
-#include <iostream>
-#include <QDebug>
 #include <QList>
 #include <exception>
-#include <QStandardItemModel>
 #include <memoryGame/table_constr.h>
 
 using namespace std;
 
-
-const QVariant ATTRIBUTES = "ATTR";             // consider changing this part to using <code>extern</code>
+const QVariant ATTRIBUTES = "ATTR";                                 // consider changing this part to using <code>extern</code>
 const QVariant PID = "PID";
 const QVariant USER = "User";
 const QVariant CPUPER = "CPU %";
@@ -28,20 +24,7 @@ stdTable::stdTable(){
     table = new QStandardItemModel;
 }
 
-//stdTable::~stdTable(){
-////    table->clear();
-//    delete  table;
-////    for (int i=0; i<cols; i++){
-////        for (int j=0; j<rows; j++){
-////            std::cout << "rowN: " << j << " colN: " << i << endl;
-////            delete (*items)[j][i];
-////        }
-////    }
-
-//    delete items;
-//}
-
-stdTable::stdTable(int rowN, int colN){         // create the table modle and a two dimensional array for items storing
+stdTable::stdTable(int rowN, int colN){                             // create the table modle and a two dimensional array for items storing
     table = new QStandardItemModel;
     table->setRowCount(rowN);
     table->setColumnCount(colN);
@@ -50,11 +33,11 @@ stdTable::stdTable(int rowN, int colN){         // create the table modle and a 
     for (int i=0; i<colN; i++){
         for (int j=0; j<rowN; j++){
             (*items)[j][i] = new QStandardItem;
-            table->setItem(j, i, (*items)[j][i]);   // fit the item objects into the table
+            table->setItem(j, i, (*items)[j][i]);                   // fit the item objects into the table
         }
     }
 
-    rows = rowN;                                    // record dimension info
+    rows = rowN;                                                    // record dimension info
     cols = colN;
     initialized=true;
 }
@@ -67,12 +50,12 @@ void stdTable::setTable(int rowN, int colN){
     for (int i=0; i<colN; i++){
         for (int j=0; j<rowN; j++){
             (*items)[j][i] = new QStandardItem;
-            table->setItem(j, i, (*items)[j][i]);   // fit the item objects into the table
+            table->setItem(j, i, (*items)[j][i]);                   // fit the item objects into the table
 
         }
     }
 
-    rows = rowN;                                    // record dimension info
+    rows = rowN;                                                    // record dimension info
     cols = colN;
     initialized=true;
 }
@@ -81,7 +64,7 @@ int stdTable::setTitle(vector<const QVariant> rowNames, vector<const QVariant> c
     if (!initialized) throw "object have not initialized";
 
     for (int i=0; i<rows; i++){
-        table->setHeaderData(i, Qt::Vertical, i);                 // process names is already one of the column
+        table->setHeaderData(i, Qt::Vertical, i);                   // process names is already one of the column
     }
     for (int i=0; i<cols; i++){
         table->setHeaderData(i, Qt::Horizontal, colNames[i]);
@@ -93,9 +76,9 @@ int stdTable::tableChange(int col, std::vector<const QVariant> values){
     if (!initialized) throw "object have not initialized";
 
     for (int i=0; i<rows; i++){                                     // set all rows of a given column a time
-//        std::cout << "am i here?: " << i << " " << col << endl;
+        //        std::cout << "am i here?: " << i << " " << col << endl;
         ((*items)[i][col])->setText(values[i].toString());          // QVariant to QString, text need to be QString
-//        if (i==rows-1) qDebug() << values[i].toString();
+        //        if (i==rows-1) qDebug() << values[i].toString();
     }
     return 0;
 }
