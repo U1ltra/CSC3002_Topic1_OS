@@ -9,5 +9,7 @@
         <file>images/FileSystem.png</file>
         <file>images/TaskManager.png</file>
         <file>images/TextEditor.png</file>
+        <file>images/File.jpg</file>
+        <file>images/Menu.jpg</file>
     </qresource>
 </RCC>

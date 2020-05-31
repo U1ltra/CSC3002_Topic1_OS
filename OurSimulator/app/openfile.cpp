@@ -47,14 +47,14 @@ void openFile::showFileInfoList(QDir dir) {
         if (tempFile.isDir()) {
             QIcon icon;
             QListWidgetItem *tempListWidgetItem = new QListWidgetItem (tempFile.fileName());
-            icon.addFile(QString::fromUtf8(":/image/Menu"), QSize(), QIcon::Normal, QIcon::Off);
+            icon.addFile(QString::fromUtf8(":/images/Menu"), QSize(), QIcon::Normal, QIcon::Off);
             tempListWidgetItem->setIcon(icon);
             ui->fileList->addItem(tempListWidgetItem);
         }
         else {
             QIcon icon;
             QListWidgetItem *tempListWidgetItem = new QListWidgetItem (tempFile.fileName());
-            icon.addFile(QString::fromUtf8(":/image/File"), QSize(), QIcon::Normal, QIcon::Off);
+            icon.addFile(QString::fromUtf8(":/images/File"), QSize(), QIcon::Normal, QIcon::Off);
             tempListWidgetItem->setIcon(icon);
             ui->fileList->addItem(tempListWidgetItem);
         }
