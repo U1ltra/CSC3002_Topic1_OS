@@ -30,6 +30,7 @@ SchWidget::SchWidget(QWidget *parent) :
     ptremained = -1;
     init_flag = false;
     rept_flag = false;
+    algo_sign = 0;
     allow_to_init = true;//prevent double click simulate
 
     graphlenvec.push_back(0);
@@ -184,7 +185,7 @@ void SchWidget::on_clear_clicked()
     graphlenvec.push_back(0);
     init_flag =false;
     rept_flag = false;
-    ptremained = 0;
+    ptremained = -1;
     cout<<"iii"<<endl;
     delete s;
     s = nullptr;
