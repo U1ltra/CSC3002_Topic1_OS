@@ -16,7 +16,7 @@
 #include <chrono>
 #include <thread>
 #include "monitor/CPUmonitor.h"
-#include "monitor/table_constr.h"
+#include "memoryGame/table_constr.h"
 #include <unistd.h>
 #include <QCloseEvent>
 #include <QMessageBox>
@@ -69,6 +69,7 @@ CPUmonitor::CPUmonitor(cpuMon * cpu, QWidget *parent) :
     this->setLayout(mainLayout);
     refresh(this);
     std::cout << "arrived ??? 7" << std::endl;
+
 //    QTimer * monitorRefreshT = new QTimer(this);
 //    connect(monitorRefreshT, SIGNAL(timeout()), this, SLOT(refreshing()));
 //    monitorRefreshT->setInterval(1000);
@@ -76,9 +77,9 @@ CPUmonitor::CPUmonitor(cpuMon * cpu, QWidget *parent) :
 
 //    setMouseTracking(true);
 //    visualTable->viewport()->setMouseTracking(true);
-//    system_timer = new QTimer();  // To return to the fluctuation.
-//    system_timer->setSingleShot(true);
-//    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    system_timer = new QTimer();  // To return to the fluctuation.
+    system_timer->setSingleShot(true);
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
 //    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 
 }

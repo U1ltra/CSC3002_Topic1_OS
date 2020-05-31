@@ -9,7 +9,6 @@ Calculator::Calculator(QMainWindow *parent) :
     QWidget(parent),
     ui(new Ui::Calculator)
 {
-    /* Set initial status for Calculator. */
     ui->setupUi(this);
     number1 = 0.0;
     number2 = 0.0;
@@ -21,8 +20,8 @@ Calculator::Calculator(QMainWindow *parent) :
     this->setWindowTitle("Calculator");
     connect(ui->calc_btn_clean,SIGNAL(clicked()),this,SLOT(on_calc_btn_clean_clicked()));
 
-    /* Update usage by detecting different oparetions.*/
     setMouseTracking(true);
+
     system_timer = new QTimer();  // To return to the fluctuation.
     system_timer->setSingleShot(true);
     connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
@@ -33,15 +32,6 @@ Calculator::~Calculator()
 {
     delete ui;
 }
-
-/* Private Slots */
-
-/*
- * Implementation notes: on_calc_btn_1_clicked
- * -------------------------------------------------
- * Activated when User click button "1", systme will get this signal and screen
- * will change correspondingly.
- */
 
 void Calculator::on_calc_btn_1_clicked()
 {   to_effect_Click();
@@ -61,14 +51,6 @@ void Calculator::on_calc_btn_1_clicked()
     }
 }
 
-/*
- * Implementation notes: on_calc_btn_2_clicked
- * -------------------------------------------------
- * Activated when User click button "2", systme will get this signal and screen
- * will change correspondingly.
- */
-
-
 void Calculator::on_calc_btn_2_clicked()
 {   to_effect_Click();
     sleeping();
@@ -86,14 +68,6 @@ void Calculator::on_calc_btn_2_clicked()
        number2 = number2*10+2;
     }
 }
-
-/*
- * Implementation notes: on_calc_btn_3_clicked
- * -------------------------------------------------
- * Activated when User click button "3", systme will get this signal and screen
- * will change correspondingly.
- */
-
 
 void Calculator::on_calc_btn_3_clicked()
 {   to_effect_Click();
@@ -113,14 +87,6 @@ void Calculator::on_calc_btn_3_clicked()
     }
 }
 
-/*
- * Implementation notes: on_calc_btn_4_clicked
- * -------------------------------------------------
- * Activated when User click button "4", systme will get this signal and screen
- * will change correspondingly.
- */
-
-
 void Calculator::on_calc_btn_4_clicked()
 {   to_effect_Click();
     sleeping();
@@ -138,14 +104,6 @@ void Calculator::on_calc_btn_4_clicked()
        number2 = number2*10+4;
     }
 }
-
-/*
- * Implementation notes: on_calc_btn_5_clicked
- * -------------------------------------------------
- * Activated when User click button "5", systme will get this signal and screen
- * will change correspondingly.
- */
-
 
 void Calculator::on_calc_btn_5_clicked()
 {   to_effect_Click();
@@ -165,14 +123,6 @@ void Calculator::on_calc_btn_5_clicked()
     }
 }
 
-/*
- * Implementation notes: on_calc_btn_6_clicked
- * -------------------------------------------------
- * Activated when User click button "6", systme will get this signal and screen
- * will change correspondingly.
- */
-
-
 void Calculator::on_calc_btn_6_clicked()
 {   to_effect_Click();
     sleeping();
@@ -190,14 +140,6 @@ void Calculator::on_calc_btn_6_clicked()
        number2 = number2*10+6;
     }
 }
-
-/*
- * Implementation notes: on_calc_btn_7_clicked
- * -------------------------------------------------
- * Activated when User click button "7", systme will get this signal and screen
- * will change correspondingly.
- */
-
 
 void Calculator::on_calc_btn_7_clicked()
 {   to_effect_Click();
@@ -217,14 +159,6 @@ void Calculator::on_calc_btn_7_clicked()
     }
 }
 
-/*
- * Implementation notes: on_calc_btn_8_clicked
- * -------------------------------------------------
- * Activated when User click button "8", systme will get this signal and screen
- * will change correspondingly.
- */
-
-
 void Calculator::on_calc_btn_8_clicked()
 {   to_effect_Click();
     sleeping();
@@ -242,14 +176,6 @@ void Calculator::on_calc_btn_8_clicked()
        number2 = number2*10+8;
     }
 }
-
-/*
- * Implementation notes: on_calc_btn_9_clicked
- * -------------------------------------------------
- * Activated when User click button "9", systme will get this signal and screen
- * will change correspondingly.
- */
-
 
 void Calculator::on_calc_btn_9_clicked()
 {   to_effect_Click();
@@ -269,14 +195,6 @@ void Calculator::on_calc_btn_9_clicked()
     }
 }
 
-/*
- * Implementation notes: on_calc_btn_0_clicked
- * -------------------------------------------------
- * Activated when User click button "0", systme will get this signal and screen
- * will change correspondingly.
- */
-
-
 void Calculator::on_calc_btn_0_clicked()
 {   to_effect_Click();
     sleeping();
@@ -295,14 +213,6 @@ void Calculator::on_calc_btn_0_clicked()
     }
 }
 
-/*
- * Implementation notes: on_calc_btn_plus_clicked
- * -------------------------------------------------
- * Activated when User click button "+", systme will get this signal and screen
- * will change correspondingly.
- */
-
-
 void Calculator::on_calc_btn_plus_clicked()
 {   to_effect_Click();
     sleeping();
@@ -316,13 +226,6 @@ void Calculator::on_calc_btn_plus_clicked()
     ui->screen->setPlainText(S);
 }
 
-/*
- * Implementation notes: on_calc_btn_minus_clicked
- * -------------------------------------------------
- * Activated when User click button "-", systme will get this signal and screen
- * will change correspondingly.
- */
-
 void Calculator::on_calc_btn_minus_clicked()
 {   to_effect_Click();
     sleeping();
@@ -335,12 +238,6 @@ void Calculator::on_calc_btn_minus_clicked()
     after_equal = false;
     ui->screen->setPlainText(S);
 }
-/*
- * Implementation notes: on_calc_btn_multipy_clicked
- * -------------------------------------------------
- * Activated when User click button "*", systme will get this signal and screen
- * will change correspondingly.
- */
 
 void Calculator::on_calc_btn_multipy_clicked()
 {   to_effect_Click();
@@ -354,12 +251,6 @@ void Calculator::on_calc_btn_multipy_clicked()
     after_equal = false;
     ui->screen->setPlainText(S);
 }
-/*
- * Implementation notes: on_calc_btn_division_clicked
- * -------------------------------------------------
- * Activated when User click button "/", systme will get this signal and screen
- * will change correspondingly.
- */
 
 void Calculator::on_calc_btn_division_clicked()
 {   to_effect_Click();
@@ -373,12 +264,6 @@ void Calculator::on_calc_btn_division_clicked()
     after_equal = false;
     ui->screen->setPlainText(S);
 }
-/*
- * Implementation notes: on_calc_btn_equal_clicked
- * -------------------------------------------------
- * Activated when User click button "=", systme will get this signal and screen
- * will change correspondingly.
- */
 
 void Calculator::on_calc_btn_equal_clicked()
 {   to_effect_Click();
@@ -409,12 +294,6 @@ void Calculator::on_calc_btn_equal_clicked()
     ui->screen->setPlainText(S);
 
 }
-/*
- * Implementation notes: on_calc_btn_clean_clicked
- * -------------------------------------------------
- * Activated when User click button "C", systme will get this signal and screen
- * will change correspondingly.
- */
 
 void Calculator::on_calc_btn_clean_clicked()
 {   to_effect_Click();
@@ -429,7 +308,15 @@ void Calculator::on_calc_btn_clean_clicked()
     after_equal = false;
 }
 
-/* Protected */
+void Calculator::set_CPU(cpuMon * cpu){
+    CPU=cpu;
+    CPU->createP(PID,"Calculator",user);
+}
+
+
+void Calculator::setPID(int pid){
+    PID=pid;
+}
 
 void Calculator::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
@@ -440,13 +327,7 @@ void Calculator::mouseMoveEvent(QMouseEvent *e)
     to_moving_around();
 }
 
-/*
- * Implementation notes: to_simple_Click, to_effect_Click, texting,
- *                       to_moving_around, back_to_fluctuation,calculating
- * ----------------------------------------------------------------
- * Update usage of CPU by calling function: operationDet. And start the timer,
- * after 100 milliseconds, notify the CPU to switch to initial status.
- */
+
 void Calculator::back_to_fluctuation(){
     CPU->operationDet(PID,fluctuation);
 }
@@ -478,24 +359,17 @@ void Calculator::sleeping(){
     }
 }
 
-/*
- * Implementation notes: closeEvent
- * -------------------------------------------------
- * Quit the program. At the same time,terminate the process
- * in CPU and deallocate free heap.
- */
 void Calculator::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
+
     if (created){
         memory->deallocate(PID,memory_size);
         while(!CPU->isFreeToClose(PID)){
             sleep(1);
         }
-    }
+    } else CPU->terminateP(PID);
     event->accept();
 }
 
-/* Setters */
 
 void Calculator::set_memory(Buddy *Memory){
     memory = Memory;
@@ -506,14 +380,4 @@ void Calculator::set_memory(Buddy *Memory){
         created = true;
         showNormal();
     }
-}
-
-void Calculator::set_CPU(cpuMon * cpu){
-    CPU=cpu;
-    CPU->createP(PID,"Calculator",user);
-}
-
-
-void Calculator::setPID(int pid){
-    PID=pid;
 }

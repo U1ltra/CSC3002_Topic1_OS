@@ -15,7 +15,7 @@
 #include <QRadioButton>
 #include "app/saveaslist.h"
 #include "app/openfile.h"
-#include "memory/Buddy.h"
+#include "memoryGame/Buddy.h"
 #include "monitor/cpuMon.h"
 
 namespace Ui {
@@ -160,7 +160,7 @@ private:
     cpuMon* CPU;                     /* Assigned CPU for text editor.                       */
     Buddy* memory;                   /* Assigned memory for text editor.                    */
     bool created = false;            /* Turn true when memory are allocated to text editor. */
-    int memory_size=100;             /* The memory size for text editor.                    */
+    int memory_size=111;             /* The memory size for text editor.                    */
 
 /* Private Functions */
 

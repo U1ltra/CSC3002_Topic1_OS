@@ -26,15 +26,17 @@ SOURCES += \
     home/login_interface.cpp \
     home/main.cpp \
     home/mainwindow.cpp \
-    memory/Buddy.cpp \
-    memory/Memwidget.cpp \
-    memory/Pair.cpp \
-    memory/m_task.cpp \
+    memoryGame/Buddy.cpp \
+    memoryGame/Memwidget.cpp \
+    memoryGame/Pair.cpp \
+    memoryGame/m_task.cpp \
+    memoryGame/paintground.cpp \
+    memoryGame/table_constr.cpp \
     monitor/CPUmonitor.cpp \
     monitor/cpuMon.cpp \
     monitor/memMonitor.cpp \
     monitor/monitor.cpp \
-    monitor/table_constr.cpp \
+#    monitor/table_constr.cpp \
     schedule/Schwidget.cpp \
     schedule/scheduling_algo.cpp \
     schedule/scheduling_uti.cpp
@@ -47,19 +49,20 @@ HEADERS += \
     app/openfile.h \
     app/saveaslist.h \
     app/texteditor.h \
-    app/ui_calculator.h \
     filesys/visualfilemanager.h \
     home/login_interface.h \
-    home/mainwindow.h \ \
-    memory/Buddy.h \
-    memory/Memwidget.h \
-    memory/m_task.h \
-    memory/pair.h \
+    home/mainwindow.h \
+    memoryGame/Buddy.h \
+    memoryGame/Memwidget.h \
+    memoryGame/m_task.h \
+    memoryGame/paintground.h \
+    memoryGame/pair.h \
+    memoryGame/table_constr.h \
     monitor/CPUmonitor.h \
     monitor/cpuMon.h \
     monitor/memMonitor.h \
     monitor/monitor.h \
-    monitor/table_constr.h \
+#    monitor/table_constr.h \
     schedule/Schwidget.h \
     schedule/scheduling.h
 
@@ -72,7 +75,6 @@ FORMS += \
     filesys/visualfilemanager.ui \
     home/login_interface.ui \
     home/mainwindow.ui \
-    memory/Memwidget.ui \
     schedule/Schwidget.ui
 
 
@@ -86,7 +88,7 @@ INCLUDEPATH += \
     filesys \
     home \
     monitor \
-    memory \
+    memoryGame \
     schedule
 
 DISTFILES += \

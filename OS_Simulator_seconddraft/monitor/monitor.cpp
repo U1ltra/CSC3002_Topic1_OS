@@ -69,33 +69,6 @@ monitor::~monitor(){
     delete mainLayout;
 }
 
-void monitor::setPID(int pid){
-    PID = pid;
-    cpuM->setPID(PID);
-    memM->setPID(PID);
-}
-
-void monitor::set_CPU(cpuMon * cpu){
-    CPU = cpu;
-    CPU->createP(PID, "Activity Monitor", user);
-    cpuM->set_CPU(cpu);
-    memM->set_CPU(cpu);
-}
-
-
-void monitor::set_memory(Buddy *Memory){
-    memory = Memory;
-    if (!memory->mem_allocation(PID,memory_size)){
-        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
-        close();
-    }else {
-        created = true;
-        cpuM->set_memory(memory);
-        memM->set_memory(memory);
-        showNormal();
-    }
-}
-
 bool monitor::eventFilter(QObject *watched, QEvent *event){
     if (watched == cpuM) {
         if (event->type()==QEvent::LayoutRequest || event->type()==QEvent::Wheel || event->type()==QEvent::NativeGesture){
@@ -133,6 +106,35 @@ bool monitor::eventFilter(QObject *watched, QEvent *event){
 //        cout << to_string(event->type()) << endl;
     }
 }
+
+
+void monitor::setPID(int pid){
+    PID = pid;
+    cpuM->setPID(PID);
+    memM->setPID(PID);
+}
+
+void monitor::set_CPU(cpuMon * cpu){
+    CPU = cpu;
+    CPU->createP(PID, "Activity Monitor", user);
+    cpuM->set_CPU(cpu);
+    memM->set_CPU(cpu);
+}
+
+
+void monitor::set_memory(Buddy *Memory){
+    memory = Memory;
+    if (!memory->mem_allocation(PID,memory_size)){
+        QMessageBox::critical(this,"Memory Shortage Warning","This computer does not have enough memory capacity.");
+        close();
+    }else {
+        created = true;
+        cpuM->set_memory(memory);
+        memM->set_memory(memory);
+        showNormal();
+    }
+}
+
 
 void monitor::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
@@ -178,11 +180,7 @@ void monitor::sleeping(){
 void monitor::closeEvent(QCloseEvent *event){
     if (created){
         memory->deallocate(PID,memory_size);
-        while(!CPU->isFreeToClose(PID)){
-            sleep(1);
-        }
-    }
-    else {
+    }else {
         CPU->terminateP(PID);
     }
     event->accept();

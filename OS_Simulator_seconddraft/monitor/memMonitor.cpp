@@ -62,10 +62,10 @@ Memmonitor::Memmonitor(Buddy * bd, cpuMon * cpu, QWidget *parent) :
     refresh(this);
 
 
-//    system_timer = new QTimer;
-//    system_timer->setSingleShot(true);
+    system_timer = new QTimer;
+    system_timer->setSingleShot(true);
 //    visualTable->viewport()->setMouseTracking(true);
-//    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
+    connect(system_timer,SIGNAL(timeout()),this,SLOT(back_to_fluctuation()));
 //    connect(this,SIGNAL(closeEvent()),this,SLOT(shutdown()));
 }
 

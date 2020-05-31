@@ -14,7 +14,7 @@
 #include <vector>
 #include <QThread>
 #include "monitor/cpuMon.h"
-#include "memory/Memwidget.h"
+#include "memoryGame/Memwidget.h"
 using namespace std;
 namespace Ui {
     class SchWidget;

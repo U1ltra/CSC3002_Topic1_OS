@@ -15,8 +15,8 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include "monitor/cpuMon.h"
-#include "monitor/table_constr.h"
-#include "memory/Buddy.h"
+#include "memoryGame/table_constr.h"
+#include "memoryGame/Buddy.h"
 
 
 class Memmonitor : public QWidget

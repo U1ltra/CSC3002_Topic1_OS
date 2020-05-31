@@ -16,7 +16,7 @@
 #include "app/texteditor.h"
 #include "app/calendar.h"
 #include "filesys/visualfilemanager.h"
-#include "memory/Memwidget.h"
+#include "memoryGame/Memwidget.h"
 #include "schedule/Schwidget.h"
 #include "monitor/memMonitor.h"
 #include "monitor/monitor.h"
@@ -79,7 +79,7 @@ private:
     VisualFileManager *vfm;
     Calendar *calendar;
     CPUmonitor *taskMonitor;
-    Mem_Widget *MemGame;
+    Mem_widget *MemGame;
     SchWidget *SchGame;
     Memmonitor *MemMonitor;
     monitor *Monitor;

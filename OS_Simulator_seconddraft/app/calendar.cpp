@@ -13,7 +13,6 @@ Calendar::Calendar(QMainWindow *parent):
     connect(this,SIGNAL(clicked()),this,SLOT(to_effect_Click()));
 }
 
-/* Setters */
 void Calendar::set_CPU(cpuMon * cpu){
     CPU=cpu;
     CPU->createP(PID,"Calendar",user);
@@ -23,7 +22,7 @@ void Calendar::set_CPU(cpuMon * cpu){
 void Calendar::setPID(int pid){
     PID=pid;
 }
-/* Protected */
+
 void Calendar::mousePressEvent(QMouseEvent *e){
     to_simple_Click();
 }
@@ -33,13 +32,7 @@ void Calendar::mouseMoveEvent(QMouseEvent *e)
     to_moving_around();
 }
 
-/*
- * Implementation notes: to_simple_Click, to_effect_Click, texting,
- *                       to_moving_around, back_to_fluctuation
- * ----------------------------------------------------------------
- * Update usage of CPU by calling function: operationDet. And start the timer,
- * after 100 milliseconds, notify the CPU to switch to initial status.
- */
+
 void Calendar::back_to_fluctuation(){
     CPU->operationDet(PID,fluctuation);
 }
@@ -61,13 +54,12 @@ void Calendar::to_moving_around(){
 }
 
 void Calendar::closeEvent(QCloseEvent *event){
-    CPU->terminateP(PID);
     if (created){
         memory->deallocate(PID,memory_size);
         while(!CPU->isFreeToClose(PID)){
             sleep(1);
         }
-    }
+    } else CPU->terminateP(PID);
     event->accept();
 }
 

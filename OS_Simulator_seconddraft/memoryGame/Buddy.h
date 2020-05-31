@@ -9,11 +9,11 @@
 
 #ifndef BUDDY_H
 #define BUDDY_H
-#include "memory/pair.h"
+#include "memoryGame/pair.h"
 #include <vector>
 #include <list>
 #include <map>
-#include "memory/m_task.h"
+#include "memoryGame/m_task.h"
 using namespace std;
 
 class Buddy{

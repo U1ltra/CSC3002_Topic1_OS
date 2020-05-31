@@ -7,7 +7,7 @@
 #include <QListWidget>
 #include <QMouseEvent>
 #include "monitor/cpuMon.h"
-#include "memory/Buddy.h"
+#include "memoryGame/Buddy.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class VisualFileManager; }
 QT_END_NAMESPACE

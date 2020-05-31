@@ -123,7 +123,7 @@ void MainWindow::on_btn_Memory_Simulator_clicked()
 {
     to_effect_Click();
     sleeping();
-    MemGame = new Mem_Widget();
+    MemGame = new Mem_widget();
     MemGame->setPID(memory_game_count*100000+600);
     MemGame->set_CPU(CPU);
     MemGame->showNormal();
@@ -284,18 +284,22 @@ void MainWindow::closeEvent(QCloseEvent *event){
     if (created){
         to_shutdown = QMessageBox::question(this,"System","Do you really want to shut down the system?",
                                             QMessageBox::Yes |QMessageBox::No,QMessageBox::No);
-        if (to_shutdown==QMessageBox::Yes){
+        if (to_shutdown==QMessageBox::Yes)
+        {
             CPU->shutDown();
             memory->deallocate(PID,memory_size);
             emit closing();
-            while(!CPU->isFreeToClose(PID)){
+            while(!CPU->isFreeToClose(PID))
+            {
                 sleep(1);
             }
             event->accept();
-        }else{
+        }else
+        {
             event->ignore();
         }
-    }else{
+    }else
+    {
         CPU->terminateP(PID);
         memory->deallocate(PID, memory_size);
         event->accept();

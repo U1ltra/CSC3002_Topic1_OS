@@ -4,7 +4,7 @@
  * This file implements the pair.h interface.
  */
 
-#include "memory/pair.h"
+#include "memoryGame/pair.h"
 #include <iostream>
 using namespace std;
 

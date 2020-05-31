@@ -4,9 +4,9 @@
  * This file implements <code>Buddy</code> class.
  */
 
-#include "memory/m_task.h"
-#include "memory/Buddy.h"
-#include "memory/pair.h"
+#include "memoryGame/m_task.h"
+#include "memoryGame/Buddy.h"
+#include "memoryGame/pair.h"
 #include <vector>
 #include <list>
 #include <iostream>
@@ -24,6 +24,7 @@ Buddy::Buddy(int s){
 
 bool Buddy::mem_allocation(m_task &current){
     int s = current.memory;
+    if (size<s) return false;
     int num = (int) ceil(log(s) / log(2));
     if (arr[num].size() > 0){
         Pair tem = arr[num].back();

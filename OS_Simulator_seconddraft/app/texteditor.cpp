@@ -63,7 +63,6 @@ void TextEditor::set_memory(Buddy *Memory){
         close();
     }else{
         created = true;
-        showNormal();
     }
 }
 
@@ -172,8 +171,7 @@ void TextEditor::on_action_Exit_triggered() {
             }
             close();
         }
-    }
-    else {
+    }else {
         CPU->terminateP(PID);
         close();
     }

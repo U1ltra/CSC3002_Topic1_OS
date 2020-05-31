@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QMainWindow>
 #include <QTabWidget>
-#include "memory/Buddy.h"
+#include "memoryGame/Buddy.h"
 #include "monitor/cpuMon.h"
 #include "monitor/CPUmonitor.h"
 #include "monitor/memMonitor.h"
