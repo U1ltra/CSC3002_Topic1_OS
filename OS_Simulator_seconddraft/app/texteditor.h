@@ -160,7 +160,7 @@ private:
     cpuMon* CPU;                     /* Assigned CPU for text editor.                       */
     Buddy* memory;                   /* Assigned memory for text editor.                    */
     bool created = false;            /* Turn true when memory are allocated to text editor. */
-    int memory_size=220;             /* The memory size for text editor.                    */
+    int memory_size=100;             /* The memory size for text editor.                    */
 
 /* Private Functions */
 

@@ -274,8 +274,8 @@ public:
         play->setText(QApplication::translate("SchWidget", "play", nullptr));
         label->setText(QApplication::translate("SchWidget", "Algorithms", nullptr));
         comboBox->setItemText(0, QApplication::translate("SchWidget", "First-Come First-Served", nullptr));
-        comboBox->setItemText(1, QApplication::translate("SchWidget", "Shortest-Job First", nullptr));
-        comboBox->setItemText(2, QApplication::translate("SchWidget", "Shortest-Remaining Time", nullptr));
+        comboBox->setItemText(1, QApplication::translate("SchWidget", "Shortest Remaining Time", nullptr));
+        comboBox->setItemText(2, QApplication::translate("SchWidget", "Shortest Job First", nullptr));
         comboBox->setItemText(3, QApplication::translate("SchWidget", "Highest-Response Ratio Next", nullptr));
         comboBox->setItemText(4, QApplication::translate("SchWidget", "Round_Robin", nullptr));
 

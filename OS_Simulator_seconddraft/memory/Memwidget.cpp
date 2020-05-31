@@ -18,12 +18,12 @@ Mem_Widget::Mem_Widget(QMainWindow *parent) :
     ui(new Ui::Mem_Widget)
 {
     ui->setupUi(this);
-    //        this->setFixedSize(600,500);
+
     ui->scrollAreaWidgetContents->installEventFilter(this);
-    //设置表格内容
+
     ui->tableWidget->setColumnCount(3);
 
-    //设置表头内容
+
     inittable();
 
     flag = 0;//event filter
@@ -97,42 +97,61 @@ void Mem_Widget::on_spinBox_valueChanged(int arg1){
 }
 
 bool Mem_Widget::eventFilter(QObject *watched, QEvent *event){
-    if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==1 &&init_flag == true)
-    {
-        QPainter painter(ui->scrollAreaWidgetContents);
-        painter.setPen(Qt::yellow);
-        painter.setBrush(Qt::yellow);
-        int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
-        int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
-        painter.drawRect(0,0,my_width,my_height);
-        for (int i = 0; i <bd->arr.size() ; i++) {
-            vector<list<Pair>> temp = (*bd).arr;
-            for (list<Pair>::iterator it = temp[i].begin();it!=temp[i].end();it++){
-                painter.setPen(Qt::magenta);
-                painter.setBrush(QBrush(Qt::magenta));
-                painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub+1 - it->lb))/(bd->getsize())*my_height);
-                promptvec.push_back(new QString("Memory from " +QString::number(it->lb) +" to " + QString::number(it->ub) + " allocated"));
-                tused += it->ub+1 - it->lb;
-                ui->currentused->setText(QString::number(bd->getsize()-tused));
-                ui->currentused->displayText();
+    if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint )
+       {
+        if(flag ==1 &&init_flag == true){
+            QPainter painter(ui->scrollAreaWidgetContents);
+            painter.setPen(Qt::yellow);
+            painter.setBrush(Qt::yellow);
+            int my_width = ui->scrollAreaWidgetContents->width();
+            int my_height = ui->scrollAreaWidgetContents->height();
+
+            painter.drawRect(0,0,my_width,my_height);
+            for (int i = 0; i < bd->arr.size() ; i++){
+                vector<list<Pair>> temp = (*bd).arr;
+                for (list<Pair>::iterator it = temp[i].begin();it!=temp[i].end();it++){
+                    painter.setPen(Qt::magenta);
+                    painter.setBrush(QBrush(Qt::magenta));
+                    painter.drawRect(0,double((it->lb))/(bd->getsize())*my_height,my_width,double((it->ub+1 - it->lb))/(bd->getsize())*my_height);
+                    promptvec.push_back(new QString("Memory from " +QString::number(it->lb) +" to " + QString::number(it->ub) + " allocated"));
+                    tused += it->ub+1 - it->lb;
+                    ui->currentused->setText(QString::number(bd->getsize()-tused));
+                    ui->currentused->displayText();
+                    }
+                }
+            tused = 0;
+            init_flag =false;
+            clear_flag = true;
+            cout << "paint event"<<endl;
+            refresh();
+            return true;
+            }else if(flag ==2){
+                QPainter painter(ui->scrollAreaWidgetContents);
+                painter.setPen(Qt::transparent);
+                painter.setBrush(Qt::transparent);
+                int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
+                int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
+                painter.drawRect(0,0,my_width,my_height);
+                clear_flag = true;
+                tused = 0;
+                init_flag =false;
+                clear_flag = true;
+
+                refresh();
+                cout << "paint clear event"<<endl;
+                return true;
+            }else{
+                tused = 0;
+                init_flag =false;
+                clear_flag = true;
+                return false;
             }
-        }
+  }else{
         tused = 0;
         init_flag =false;
         clear_flag = true;
+        return QWidget::eventFilter(watched,event);
     }
-    if(watched == ui->scrollAreaWidgetContents && event->type() == QEvent::Paint &&flag ==2){
-        QPainter painter(ui->scrollAreaWidgetContents);
-        painter.setPen(Qt::transparent);
-        painter.setBrush(Qt::transparent);
-        int my_width = ui->scrollAreaWidgetContents->frameGeometry().width();
-        int my_height = ui->scrollAreaWidgetContents->frameGeometry().height();
-        painter.drawRect(0,0,my_width,my_height);
-        clear_flag = true;
-    }
-    ui->scrollArea->update();
-    ui->scrollAreaWidgetContents->update();
-    refresh();
 }
 
 void Mem_Widget::on_simulate_clicked(){
@@ -152,15 +171,17 @@ void Mem_Widget::on_simulate_clicked(){
                                                      atoi(ui->tableWidget->item(i,2)->text().toStdString().c_str())));
                     std::cout<<"**Pid**"<<ui->tableWidget->item(i,1)->text().toInt()<<"*******"<<std::endl;
                     std::cout<<"**memory**"<<ui->tableWidget->item(i,2)->text().toInt()<<"*******"<<std::endl;
+                    cout << "simulate click one"<<endl;
                 }
                 else{
-                    success_flag = false;// 一级
+                    success_flag = false;// first level
                     break;
                 }
             }
 
             if(success_flag == true){//2nd filter
                 //check whether allocate successfully
+                cout << "simulate click two"<<endl;
                 for(int i = 0;i<tasknumber;i++){
                     if(!bd->mem_allocation(*task_vector[i])){
                         success_flag = false;
@@ -169,6 +190,7 @@ void Mem_Widget::on_simulate_clicked(){
                 }
                 if(success_flag == true){//3rd filter
                     flag = 1;
+                    cout << "simulate click two"<< "success flag"<< success_flag<<endl;
                     ui->scrollAreaWidgetContents->update();
                     clear_flag = true;
                 }
@@ -205,7 +227,6 @@ void Mem_Widget::inittable(){
     clear_flag = true;
 }
 
-
 void Mem_Widget::on_memorystorage_editingFinished()
 {   sleeping();
     to_effect_Click();
@@ -232,34 +253,29 @@ void Mem_Widget::on_memorystorage_editingFinished()
 
 }
 
-
-
-
-
 void Mem_Widget::set_CPU(cpuMon * cpu){
     CPU=cpu;
     CPU->createP(PID,"Mem_Widget",user);
 }
-
 
 void Mem_Widget::setPID(int pid){
     PID=pid;
 }
 
 void Mem_Widget::mousePressEvent(QMouseEvent *e){
+    cout << "mouse press click"<<endl;
     to_simple_Click();
 }
 
 void Mem_Widget::mouseMoveEvent(QMouseEvent *e)
 {
+    cout << "mouse move click"<<endl;
     to_moving_around();
 }
-
 
 void Mem_Widget::back_to_fluctuation(){
     CPU->operationDet(PID,fluctuation);
 }
-
 
 void Mem_Widget::to_effect_Click(){
     CPU->operationDet(PID,effectClick);
@@ -297,7 +313,6 @@ void Mem_Widget::closeEvent(QCloseEvent *event){
     }
     event->accept();
 }
-
 
 void Mem_Widget::set_memory(Buddy *Memory){
     memory = Memory;
