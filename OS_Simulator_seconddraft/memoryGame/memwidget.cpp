@@ -258,6 +258,16 @@ void Mem_widget::onStartClicked(){
     Process = processEdit->text().toInt();
     ROWN = processEdit->text().toInt();
     Memory = MemEdit->text().toInt();
+
+    int len = QString::number(Memory,16).size();
+    QString str = "Address: 0x";
+    for(int i = 0; i<len; i++){
+        str += "0";
+    }
+    AddrTop->setText(str);
+    AddrBot->setText("Address: 0x"+QString::number(Memory,16));
+
+    botAddr = Memory;
     bd = new Buddy(Memory);
     ground->setBD(bd);              // possibly bug
 
